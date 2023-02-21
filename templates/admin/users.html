@@ -1,0 +1,33 @@
+{% extends "admin/base.html" %}
+{% block title %} Users {% endblock %}
+{% block users_active %} active {% endblock %}
+{% block content %}
+<div class="container">
+    <section>
+      <div class="table-responsive">
+        <table
+          class="table table-striped table-hover table-borderless table-primary align-middle"
+        >
+          <thead class="table-light">
+            <tr>
+              <th>Username</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+            {% for user in users|sort(attribute='name') %}
+            <tr class="table-light">
+              <td>{{ user.username }}</td>
+              <td>
+                <a href="#"><i class="fa fa-edit"></i></a>
+                <a href="#"><i class="fa fa-trash"></i></a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+          <tfoot></tfoot>
+        </table>
+      </div>
+    </section>
+  </div>
+{% endblock %}

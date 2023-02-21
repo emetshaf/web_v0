@@ -104,8 +104,10 @@ def admin_languages():
 @ app.route('/admin/users', strict_slashes=False)
 def admin_users():
     if api_status()['status'] == 'OK':
+        users = list(storage.all('User').values())
         return render_template(
             'admin/users.html',
+            users=users,
             cache_id=uuid4(),
         )
     else:
@@ -154,6 +156,38 @@ def discover():
             authors=authors,
             books=books,
             languages=languages,
+            cache_id=uuid4(),
+        )
+    else:
+        return render_template(
+            '50x.html',
+            cache_id=uuid4(),
+        )
+
+
+@app.route('/library', strict_slashes=False)
+def library():
+    if api_status()['status'] == 'OK':
+        return render_template(
+            'library.html',
+            cache_id=uuid4(),
+        )
+    else:
+        return render_template(
+            '50x.html',
+            cache_id=uuid4(),
+        )
+
+
+@app.route('/author/<author_id>', strict_slashes=False)
+def author(author_id):
+    if api_status()['status'] == 'OK':
+        author = storage.get('Author', author_id)
+        books = list(storage.all('Book').values())
+        return render_template(
+            'author.html',
+            author=author,
+            books=books,
             cache_id=uuid4(),
         )
     else:
