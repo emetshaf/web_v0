@@ -1,24 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %} Home {% endblock %}
+{% block content %}
+<div class="container">
     {{ author.first_name }} {{ author.last_name}}
     <div class="container-fluid">
         <div class="row">
           {% for book in books %}
-          {% if book.authors[0].id == author.id %}
-          <div class="col">
-            <a href="/book/{{ book.id }}">{{ book.name }}<br /></a>
-            by {{ book.authors[0].first_name }} {{ book.authors[0].last_name }}
+          {% for book_author in book.authors %}
+          {% if book_author.id == author.id %}
+          <div class="col"></div>
+            <a href="/book/{{ book.id }}">{{ book.title }}<br /></a>
           </div>
-            {% endif %}
+          {% endif %}
+          {% endfor %}
           {% endfor %}
         </div>
       </div>
-</body>
-</html>
+      </div>
+{% endblock %}

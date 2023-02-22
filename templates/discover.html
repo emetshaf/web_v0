@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %} Discover {% endblock %}
-{% block discover_active %} link-dark {% endblock %}
+{% block discover_active %} link-info {% endblock %}
 {% block content %}
       <div class="container">
         <section>
@@ -61,12 +61,21 @@
         </section>
         <section class="books">
           <h1>Books</h1>
-          <div class="container-fluid">
+          <div class="container">
             <div class="row">
-              {% for book in books|sort(attribute='name') %}
-              <div class="col">
-                <a href="/book/{{ book.id }}">{{ book.name }}<br /></a>
-                by <a href="/author/{{ book.authors[0].id }}">{{ book.authors[0].first_name }} {{ book.authors[0].last_name }}</a>
+              {% for book in books|sort(attribute='title') %}
+              <div class="col m-1">
+                {% if book.cover == None %}
+                <div class="text-center" style="width: 130px; height: 160px; background-color: #CCCCCC;">
+                  <h6>{{ book.title }}</h6>
+                </div>
+                {% else %}
+                <img src="{{ url_for('static', filename='uploads/The_Hitchhikers_Guide_to_the_Galaxy_(594)/cover.jpg') }}?{{cache_id}}" alt="cover" width="130" height="160">
+                {% endif %}
+                <a class="nav-link link-info" href="/book/{{ book.id }}">{{ book.title }}<br /></a>
+                by {% for book_author in book.authors %}
+                <a class="nav-link link-info" href="/author/{{ book_author.id }}">{{ book_author.first_name }} {{ book_author.last_name }}</a>
+                {% endfor %}
               </div>
               {% endfor %}
             </div>

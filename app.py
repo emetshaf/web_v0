@@ -44,8 +44,16 @@ def home():
 @ app.route('/admin', strict_slashes=False)
 def admin_dashboard():
     if api_status()['status'] == 'OK':
+        authors = storage.count('Author')
+        books = storage.count('Book')
+        languages = storage.count('Language')
+        users = storage.count('User')
         return render_template(
             'admin/index.html',
+            authors=authors,
+            books=books,
+            languages=languages,
+            users=users,
             cache_id=uuid4(),
         )
     else:

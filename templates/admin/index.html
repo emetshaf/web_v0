@@ -1,5 +1,77 @@
 {% extends "admin/base.html" %}
 {% block title %} Dashboard {% endblock %}
-{% block home_active %} active {% endblock %}
+{% block home_active %} bg-info active {% endblock %}
+{% block languages_active %} link-info {% endblock %}
+{% block books_active %} link-info {% endblock %}
+{% block users_active %} link-info {% endblock %}
+{% block authors_active %} link-info {% endblock %}
 {% block content %}
+<div class="container mt-2">
+    <div class="row">
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title">Authors</h5>
+                        </div>
+                        <div class="col">
+                            <p class="card-text">
+                                {{ authors }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title">Books</h5>
+                        </div>
+                        <div class="col">
+                            <p class="card-text">
+                                {{ books }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title">Languages</h5>
+                        </div>
+                        <div class="col">
+                            <p class="card-text">
+                                {{ languages }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title">Users</h5>
+                        </div>
+                        <div class="col">
+                            <p class="card-text">
+                                {{ users }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
