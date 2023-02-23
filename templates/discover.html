@@ -1,9 +1,120 @@
-{% extends "base.html" %}
-{% block title %} Discover {% endblock %}
-{% block discover_active %} link-info {% endblock %}
+{% extends "layouts/base.html" %}
+
+{% block title %} Blog Author {% endblock %} 
+
+{% block body_class %} blog-author {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
 {% block content %}
+  {% include 'includes/navigation.html' %}
+
+  <header class="bg-gradient-dark">
+    <div class="page-header min-vh-75" style="background-image: url('/static/assets/img/bg9.jpg');">
+      <span class="mask bg-gradient-dark opacity-6"></span>
       <div class="container">
-        <section>
+        <div class="row justify-content-center">
+          <div class="col-lg-8 text-center mx-auto my-auto">
+            <h1 class="text-white">Discover</h1>
+            <div class="container">
+              <div class="row py-7 text-center">
+                <div>
+                  <button
+                    type="button"
+                    class="btn bg-gradient-primary"
+                    data-bs-container="body"
+                    title="Authors"
+                    data-bs-trigger="hover"
+                    data-bs-toggle="popover"
+                    data-bs-placement="bottom"
+                    data-bs-content='
+                    <ul>
+                      {% for language in languages|sort(attribute='name') %}
+                      <li>
+                        <input
+                          type="checkbox"
+                          data-type="language"
+                          data-id="{{ language.id }}"
+                          data-name="{{ language.name }}"
+                        />
+                        {{ language.name }}
+                      </li>
+                      {% endfor %}
+                    '
+                    >
+                    Authors
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="card card-body shadow-xl mx-3 mx-md-4 mt-n6">
+  <section>
+    <div class="page-header min-vh-100">
+      <div class="container">
+        <div class="row">
+          <div class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 start-0 text-center justify-content-center flex-column">
+            <div class="position-relative h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center" style="background-image: url('/static/assets/img/illustrations/illustration-signin.jpg'); background-size: cover;" loading="lazy"></div>
+          </div>
+          <div class="container">
+            <div class="row">
+              {% for book in books|sort(attribute='title') %}
+              <div class="col-lg-2 col-md-3 mt-md-0">
+                <a href="/book/{{ book.id }}">
+                  <div class="card shadow-lg move-on-hover min-height-200 min-height-200 max-height-200">
+                    {% if book.cover == None %}
+                    <img class="w-100 my-auto" src="{{ url_for('static', filename='assets/img/default-150x150.png') }}" alt="hero">
+                    {% else %}
+                    <img class="w-100 my-auto" src="{{ url_for('static', filename='uploads/The_Hitchhikers_Guide_to_the_Galaxy_(594)/cover.jpg') }}" alt="hero">
+                    {% endif %}
+                  </div>
+                  <div class="mt-2 ms-2">
+                    <h6 class="mb-0">{{ book.title }}</h6>
+                    {% for book_author in book.authors %}
+                    <p class="text-secondary text-sm">{{ book_author.first_name }} {{ book_author.last_name }}</p>
+                    {% endfor %}
+                  </div>
+                </a>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+          <!-- <section class="books">
+            <h1>Books</h1>
+            <div class="container">
+              <div class="row">
+                {% for book in books|sort(attribute='title') %}
+                <div class="col m-1">
+                  {% if book.cover == None %}
+                  <div class="text-center" style="width: 130px; height: 160px; background-color: #CCCCCC;">
+                    <h6>{{ book.title }}</h6>
+                  </div>
+                  {% else %}
+                  <img src="{{ url_for('static', filename='uploads/The_Hitchhikers_Guide_to_the_Galaxy_(594)/cover.jpg') }}?{{cache_id}}" alt="cover" width="130" height="160">
+                  {% endif %}
+                  <a class="nav-link link-info" href="/book/{{ book.id }}">{{ book.title }}<br /></a>
+                  by {% for book_author in book.authors %}
+                  <a class="nav-link link-info" href="/author/{{ book_author.id }}">{{ book_author.first_name }} {{ book_author.last_name }}</a>
+                  {% endfor %}
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+          </section> -->
+        </div>
+      </div>
+    </div>
+  </section>
+      
+            
+        <!-- <section>
         <div class="border border-info rounded p-2">
           <div class="container-fluid">
           <div class="row">
@@ -58,28 +169,17 @@
           </div>
           </div>
         </div>
-        </section>
-        <section class="books">
-          <h1>Books</h1>
-          <div class="container">
-            <div class="row">
-              {% for book in books|sort(attribute='title') %}
-              <div class="col m-1">
-                {% if book.cover == None %}
-                <div class="text-center" style="width: 130px; height: 160px; background-color: #CCCCCC;">
-                  <h6>{{ book.title }}</h6>
-                </div>
-                {% else %}
-                <img src="{{ url_for('static', filename='uploads/The_Hitchhikers_Guide_to_the_Galaxy_(594)/cover.jpg') }}?{{cache_id}}" alt="cover" width="130" height="160">
-                {% endif %}
-                <a class="nav-link link-info" href="/book/{{ book.id }}">{{ book.title }}<br /></a>
-                by {% for book_author in book.authors %}
-                <a class="nav-link link-info" href="/author/{{ book_author.id }}">{{ book_author.first_name }} {{ book_author.last_name }}</a>
-                {% endfor %}
-              </div>
-              {% endfor %}
-            </div>
-          </div>
-        </section>
+        </section> -->
       </div>
+      {% include 'includes/scripts.html' %}
 {% endblock %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script>
+  var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+  var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+    return new bootstrap.Popover(popoverTriggerEl)
+  })
+</script>
+{% endblock javascripts %}

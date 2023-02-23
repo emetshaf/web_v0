@@ -36,7 +36,35 @@ def home():
         )
     else:
         return render_template(
-            '50x.html',
+            '500.html',
+            cache_id=uuid4(),
+        )
+
+
+@app.route('/about', strict_slashes=False)
+def about():
+    if api_status()['status'] == 'OK':
+        return render_template(
+            'about.html',
+            cache_id=uuid4(),
+        )
+    else:
+        return render_template(
+            '500.html',
+            cache_id=uuid4(),
+        )
+
+
+@app.route('/contact', strict_slashes=False)
+def contact():
+    if api_status()['status'] == 'OK':
+        return render_template(
+            'contact.html',
+            cache_id=uuid4(),
+        )
+    else:
+        return render_template(
+            '500.html',
             cache_id=uuid4(),
         )
 
@@ -58,7 +86,21 @@ def admin_dashboard():
         )
     else:
         return render_template(
-            '50x.html',
+            '500.html',
+            cache_id=uuid4(),
+        )
+
+
+@app.route('/admin/signin', strict_slashes=False)
+def admin_signin():
+    if api_status()['status'] == 'OK':
+        return render_template(
+            'admin/signin.html',
+            cache_id=uuid4(),
+        )
+    else:
+        return render_template(
+            '500.html',
             cache_id=uuid4(),
         )
 
@@ -74,7 +116,7 @@ def admin_authors():
         )
     else:
         return render_template(
-            '50x.html',
+            '500.html',
             cache_id=uuid4(),
         )
 
@@ -104,7 +146,7 @@ def admin_languages():
         )
     else:
         return render_template(
-            '50x.html',
+            '500.html',
             cache_id=uuid4(),
         )
 
@@ -120,7 +162,7 @@ def admin_users():
         )
     else:
         return render_template(
-            '50x.html',
+            '500.html',
             cache_id=uuid4(),
         )
 
@@ -134,7 +176,7 @@ def signup():
         )
     else:
         return render_template(
-            '50x.html',
+            '500.html',
             cache_id=uuid4(),
         )
 
@@ -148,7 +190,7 @@ def signin():
         )
     else:
         return render_template(
-            '50x.html',
+            '500.html',
             cache_id=uuid4(),
         )
 
@@ -168,7 +210,7 @@ def discover():
         )
     else:
         return render_template(
-            '50x.html',
+            '500.html',
             cache_id=uuid4(),
         )
 
@@ -182,7 +224,7 @@ def library():
         )
     else:
         return render_template(
-            '50x.html',
+            '500.html',
             cache_id=uuid4(),
         )
 
@@ -200,7 +242,7 @@ def author(author_id):
         )
     else:
         return render_template(
-            '50x.html',
+            '500.html',
             cache_id=uuid4(),
         )
 
@@ -216,7 +258,7 @@ def book(book_id):
         )
     else:
         return render_template(
-            '50x.html',
+            '500.html',
             cache_id=uuid4(),
         )
 

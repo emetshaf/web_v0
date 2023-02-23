@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='assets/favicon.png') }}" type="image/x-icon">
+    <title>EMetshaf | {% block title %}{% endblock %}</title>
+    <!-- Specific Page CSS goes HERE -->
+    {% block stylesheets %} {% endblock stylesheets %}
+</head>
+<body class="hold-transition {% block body_class %} {% endblock body_class %}">
+    <div class="wrapper">
+        {% include 'admin/includes/navigation.html' %}
+        {% include 'admin/includes/sidebar.html' %}
+        {% block content %}{% endblock content %}
+        {% include 'admin/includes/footer.html' %}
+
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- Specific Page JS goes HERE  -->
+    {% block javascripts %}{% endblock javascripts %}
+</body>
+</html>
