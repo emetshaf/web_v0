@@ -20,31 +20,6 @@
             <div class="container">
               <div class="row py-7 text-center">
                 <div>
-                  <button
-                    type="button"
-                    class="btn bg-gradient-primary"
-                    data-bs-container="body"
-                    title="Authors"
-                    data-bs-trigger="hover"
-                    data-bs-toggle="popover"
-                    data-bs-placement="bottom"
-                    data-bs-content='
-                    <ul>
-                      {% for language in languages|sort(attribute='name') %}
-                      <li>
-                        <input
-                          type="checkbox"
-                          data-type="language"
-                          data-id="{{ language.id }}"
-                          data-name="{{ language.name }}"
-                        />
-                        {{ language.name }}
-                      </li>
-                      {% endfor %}
-                    '
-                    >
-                    Authors
-                  </button>
                 </div>
               </div>
             </div>
@@ -63,123 +38,51 @@
             <div class="position-relative h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center" style="background-image: url('/static/assets/img/illustrations/illustration-signin.jpg'); background-size: cover;" loading="lazy"></div>
           </div>
           <div class="container">
-            <div class="row">
-              {% for book in books|sort(attribute='title') %}
-              <div class="col-lg-2 col-md-3 mt-md-0">
-                <a href="/book/{{ book.id }}">
-                  <div class="card shadow-lg move-on-hover min-height-200 min-height-200 max-height-200">
-                    {% if book.cover == None %}
-                    <img class="w-100 my-auto" src="{{ url_for('static', filename='assets/img/default-150x150.png') }}" alt="hero">
-                    {% else %}
-                    <img class="w-100 my-auto" src="{{ url_for('static', filename='uploads/The_Hitchhikers_Guide_to_the_Galaxy_(594)/cover.jpg') }}" alt="hero">
-                    {% endif %}
-                  </div>
-                  <div class="mt-2 ms-2">
-                    <h6 class="mb-0">{{ book.title }}</h6>
-                    {% for book_author in book.authors %}
-                    <p class="text-secondary text-sm">{{ book_author.first_name }} {{ book_author.last_name }}</p>
-                    {% endfor %}
-                  </div>
-                </a>
-              </div>
-              {% endfor %}
+            <div class="row" id="books">
             </div>
           </div>
         </div>
-          <!-- <section class="books">
-            <h1>Books</h1>
-            <div class="container">
-              <div class="row">
-                {% for book in books|sort(attribute='title') %}
-                <div class="col m-1">
-                  {% if book.cover == None %}
-                  <div class="text-center" style="width: 130px; height: 160px; background-color: #CCCCCC;">
-                    <h6>{{ book.title }}</h6>
-                  </div>
-                  {% else %}
-                  <img src="{{ url_for('static', filename='uploads/The_Hitchhikers_Guide_to_the_Galaxy_(594)/cover.jpg') }}?{{cache_id}}" alt="cover" width="130" height="160">
-                  {% endif %}
-                  <a class="nav-link link-info" href="/book/{{ book.id }}">{{ book.title }}<br /></a>
-                  by {% for book_author in book.authors %}
-                  <a class="nav-link link-info" href="/author/{{ book_author.id }}">{{ book_author.first_name }} {{ book_author.last_name }}</a>
-                  {% endfor %}
-                </div>
-                {% endfor %}
-              </div>
-            </div>
-          </section> -->
         </div>
       </div>
     </div>
   </section>
-      
-            
-        <!-- <section>
-        <div class="border border-info rounded p-2">
-          <div class="container-fluid">
-          <div class="row">
-            <div class="authors col">
-              <h3 class="filter-title">Authors</h3>
-              <h4 class="filter-subtitle"></h4>
-              <div class="">
-                <ul class="popover">
-                  {% for author in authors|sort(attribute='first_name') %}
-                  <li>
-                    <input
-                      type="checkbox"
-                      data-type="author"
-                      data-id="{{ author.id }}"
-                      data-name="{{ author.first_name }} {{ author.last_name }}"
-                    />
-                    {{ author.first_name }} {{ author.last_name }}
-                  </li>
-                  {% endfor %}
-                </ul>
-              </div>
-            </div>
-            <div class="languages col" >
-              <h3 class="filter-title">Languages</h3>
-              <h4 class="filter-subtitle"></h4>
-              <div class="" style="">
-                <ul class="popover">
-                  {% for language in languages|sort(attribute='name') %}
-                  <li>
-                    <input
-                      type="checkbox"
-                      data-type="language"
-                      data-id="{{ language.id }}"
-                      data-name="{{ language.name }}"
-                    />
-                    {{ language.name }}
-                  </li>
-                  {% endfor %}
-                </ul>
-              </div>
-            </div>
-            <div class="search col">
-              <input
-                type="search"
-                class="form-control"
-                placeholder="Search..."
-                aria-label="Search"
-              />
-            </div>
-            <div class="col">
-            <button class="btn btn-info text-white">Search</button>
-          </div>
-          </div>
-        </div>
-        </section> -->
       </div>
-      {% include 'includes/scripts.html' %}
 {% endblock %}
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
+<!-- jQuery -->
+<script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+<!-- page script -->
 <script>
-  var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
-  var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-    return new bootstrap.Popover(popoverTriggerEl)
-  })
+  $('document').ready(() => {
+    books = $('#books');
+    fetchAuthors();
+  });
+  function fetchBooks () {
+    $.ajax({
+        url: 'http://localhost/api/v1/books/',
+        type: 'GET',
+        contentType: 'application/json',
+        dataType: 'json',
+        success: function (data) {
+            data.map((book) => {
+                places.append(`
+              <div class="col-lg-2 col-md-3 mt-md-0">
+                <a href="/book/${book.id}">
+                  <div class="card shadow-lg move-on-hover min-height-200 min-height-200 max-height-200">
+                    <img class="w-100 my-auto" src="{{ url_for('static', filename='uploads/The_Hitchhikers_Guide_to_the_Galaxy_(594)/cover.jpg') }}" alt="hero">
+                  </div>
+                  <div class="mt-2 ms-2">
+                    <h6 class="mb-0">${book.title}</h6>
+                    <p class="text-secondary text-sm">${book.authors[0].first_name}</p>
+                  </div>
+                </a>
+              </div>
+                `)
+            });
+        }
+    });
+}
 </script>
 {% endblock javascripts %}

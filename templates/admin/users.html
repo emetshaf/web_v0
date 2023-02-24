@@ -61,15 +61,6 @@
                   </tr>
                   </thead>
                   <tbody>
-                    {% for user in users %}
-                      <tr>
-                        <td>{{ user.username }}</td>
-                        <td>
-                          <a href="#" class="btn btn-primary">Edit</a>
-                          <a href="#" class="btn btn-danger">Delete</a>
-                        </td>
-                      </tr>
-                    {% endfor %}
                   </tbody>
                   <tfoot>
                   <tr>
@@ -116,6 +107,21 @@
       $("#example1").DataTable({
         "responsive": true,
         "autoWidth": false,
+        ajax: {
+          url: "http://localhost/api/v1/users",
+          type: "GET",
+          dataSrc: "",
+        },
+        columns: [
+          { data: "username" },
+          {
+            data: null,
+            render: function (data, type, row) {
+              return `<a href="#" class="btn btn-primary">Edit</a>
+                      <a href="#" class="btn btn-danger">Delete</a>`;
+            },
+          },
+        ],
       });
       $('#example2').DataTable({
         "paging": true,

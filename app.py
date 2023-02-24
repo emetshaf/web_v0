@@ -1,15 +1,9 @@
 from flask import Flask, redirect, render_template, request, url_for
-from models import storage
 import requests
 from uuid import uuid4
 
 app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
-
-
-@app.teardown_appcontext
-def close_db(error):
-    storage.close()
 
 
 @app.errorhandler(404)
@@ -72,16 +66,8 @@ def contact():
 @ app.route('/admin', strict_slashes=False)
 def admin_dashboard():
     if api_status()['status'] == 'OK':
-        authors = storage.count('Author')
-        books = storage.count('Book')
-        languages = storage.count('Language')
-        users = storage.count('User')
         return render_template(
             'admin/index.html',
-            authors=authors,
-            books=books,
-            languages=languages,
-            users=users,
             cache_id=uuid4(),
         )
     else:
@@ -108,10 +94,8 @@ def admin_signin():
 @ app.route('/admin/authors', strict_slashes=False)
 def admin_authors():
     if api_status()['status'] == 'OK':
-        authors = list(storage.all('Author').values())
         return render_template(
             'admin/authors.html',
-            authors=authors,
             cache_id=uuid4(),
         )
     else:
@@ -123,14 +107,8 @@ def admin_authors():
 
 @ app.route('/admin/books', strict_slashes=False)
 def admin_books():
-    authors = list(storage.all('Author').values())
-    languages = list(storage.all('Language').values())
-    books = list(storage.all('Book').values())
     return render_template(
         'admin/books.html',
-        authors=authors,
-        languages=languages,
-        books=books,
         cache_id=uuid4(),
     )
 
@@ -138,10 +116,8 @@ def admin_books():
 @ app.route('/admin/languages', strict_slashes=False)
 def admin_languages():
     if api_status()['status'] == 'OK':
-        languages = list(storage.all('Language').values())
         return render_template(
             'admin/languages.html',
-            languages=languages,
             cache_id=uuid4(),
         )
     else:
@@ -154,10 +130,8 @@ def admin_languages():
 @ app.route('/admin/users', strict_slashes=False)
 def admin_users():
     if api_status()['status'] == 'OK':
-        users = list(storage.all('User').values())
         return render_template(
             'admin/users.html',
-            users=users,
             cache_id=uuid4(),
         )
     else:
@@ -198,14 +172,8 @@ def signin():
 @app.route('/discover', strict_slashes=False)
 def discover():
     if api_status()['status'] == 'OK':
-        authors = list(storage.all('Author').values())
-        languages = list(storage.all('Language').values())
-        books = list(storage.all('Book').values())
         return render_template(
             'discover.html',
-            authors=authors,
-            books=books,
-            languages=languages,
             cache_id=uuid4(),
         )
     else:
@@ -229,38 +197,32 @@ def library():
         )
 
 
-@app.route('/author/<author_id>', strict_slashes=False)
-def author(author_id):
-    if api_status()['status'] == 'OK':
-        author = storage.get('Author', author_id)
-        books = list(storage.all('Book').values())
-        return render_template(
-            'author.html',
-            author=author,
-            books=books,
-            cache_id=uuid4(),
-        )
-    else:
-        return render_template(
-            '500.html',
-            cache_id=uuid4(),
-        )
+# @app.route('/author/<author_id>', strict_slashes=False)
+# def author(author_id):
+#     if api_status()['status'] == 'OK':
+#         return render_template(
+#             'author.html',
+#             cache_id=uuid4(),
+#         )
+#     else:
+#         return render_template(
+#             '500.html',
+#             cache_id=uuid4(),
+#         )
 
 
-@app.route('/book/<book_id>', strict_slashes=False)
-def book(book_id):
-    if api_status()['status'] == 'OK':
-        book = storage.get('Book', book_id)
-        return render_template(
-            'book.html',
-            book=book,
-            cache_id=uuid4(),
-        )
-    else:
-        return render_template(
-            '500.html',
-            cache_id=uuid4(),
-        )
+# @app.route('/book/<book_id>', strict_slashes=False)
+# def book(book_id):
+#     if api_status()['status'] == 'OK':
+#         return render_template(
+#             'book.html',
+#             cache_id=uuid4(),
+#         )
+#     else:
+#         return render_template(
+#             '500.html',
+#             cache_id=uuid4(),
+#       )
 
 
 if __name__ == '__main__':

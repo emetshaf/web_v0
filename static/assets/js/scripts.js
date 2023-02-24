@@ -40,6 +40,8 @@ $('document').ready(() => {
 });
 
 
+
+
 function signin(username, password) {
     $.ajax({
         url: 'http:///localhost/auth/signin',
@@ -71,14 +73,3 @@ function signup(username, password) {
         }
     });
 }
-
-// function fetchBooks() {
-//     $.ajax({
-//         url: 'http://0.0.0.0/api/v1/books/',
-//         type: 'GET',
-//         data: JSON.stringify({
-//             username: username,
-//             password: password,
-//         }),
-//     });
-// }
