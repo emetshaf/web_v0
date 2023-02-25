@@ -1,5 +1,5 @@
 {% extends "admin/layouts/base.html" %}
-{% block title %} Authors {% endblock %}
+{% block title %} Categories {% endblock %}
 
 <!-- Element injected in the BODY element -->
 {% block body_class %} {% endblock body_class %}
@@ -28,6 +28,8 @@
 />
 
 <link rel="stylesheet" href="/static/assets/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+<link rel="stylesheet" href="/static/assets/plugins/select2/css/select2.min.css">
+<link rel="stylesheet" href="/static/assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 <!-- Theme style -->
 <link rel="stylesheet" href="/static/assets/css/adminlte.min.css" />
 
@@ -42,14 +44,14 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Authors</h1>
+          <h1>Categories</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item">
               <a href="{{ url_for('admin_dashboard') }}">Home</a>
             </li>
-            <li class="breadcrumb-item active">Authors</li>
+            <li class="breadcrumb-item active">Catgories</li>
           </ol>
         </div>
       </div>
@@ -64,9 +66,12 @@
         <div class="col-12">
           <div class="card">
             <div class="card-header">
-              <!-- <h3 class="card-title">Authors List</h3> -->
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create-author">
-                Create Author
+              <!-- <h3 class="card-title">Categories List</h3> -->
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create-category">
+                Create Category
+              </button>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create-subcategory">
+                Create Sub Category
               </button>
             </div>
             <!-- /.card-header -->
@@ -74,9 +79,7 @@
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                   <tr>
-                    <th>First Name</th>
-                    <th>Middle Name</th>
-                    <th>Last Name</th>
+                    <th>Name</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -84,9 +87,7 @@
                 </tbody>
                 <tfoot>
                   <tr>
-                    <th>First Name</th>
-                    <th>Middle Name</th>
-                    <th>Last Name</th>
+                    <th>Name</th>
                     <th>Actions</th>
                   </tr>
                 </tfoot>
@@ -105,27 +106,19 @@
   <!-- /.content -->
 </div>
 
-<div class="modal fade" id="create-author">
+<div class="modal fade" id="create-category">
   <div class="modal-dialog">
     <form class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Create Author</h4>
+        <h4 class="modal-title">Create Category</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <div class="form-group">
-          <label for="first_name">First Name</label>
-          <input type="text" class="form-control" id="first_name" placeholder="Enter First Name" required>
-        </div>
-        <div class="form-group">
-          <label for="middle_name">Middle Name</label>
-          <input type="text" class="form-control" id="middle_name" placeholder="Enter Middle Name" required>
-        </div>
-        <div class="form-group">
-          <label for="last_name">Last Name</label>
-          <input type="text" class="form-control" id="last_name" placeholder="Enter Last Name" required>
+          <label for="name">Name</label>
+          <input type="text" class="form-control" id="name" placeholder="Enter Name" required>
         </div>
       </div>
       <div class="modal-footer justify-content-between">
@@ -136,27 +129,24 @@
   </div>
 </div>
 
-<!-- <div class="modal fade" id="edit-author">
+<div class="modal fade" id="create-subcategory">
   <div class="modal-dialog">
     <form class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Create Author</h4>
+        <h4 class="modal-title">Create Sub Category</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <div class="form-group">
-          <label for="edit_first_name">First Name</label>
-          <input type="text" class="form-control" id="edit_first_name" placeholder="Enter First Name" required>
+          <select class="form-control select2" name="" id="categories">
+            <option value="">Select Category</option>
+          </select>
         </div>
         <div class="form-group">
-          <label for="edit_middle_name">Middle Name</label>
-          <input type="text" class="form-control" id="edit_middle_name" placeholder="Enter Middle Name" required>
-        </div>
-        <div class="form-group">
-          <label for="edit_last_name">Last Name</label>
-          <input type="text" class="form-control" id="edit_last_name" placeholder="Enter Last Name" required>
+          <label for="subname">Name</label>
+          <input type="text" class="form-control" id="subname" placeholder="Enter Name" required>
         </div>
       </div>
       <div class="modal-footer justify-content-between">
@@ -165,7 +155,9 @@
       </div>
     </form>
   </div>
-</div> -->
+</div>
+
+
 
 {% endblock content %}
 
@@ -176,6 +168,7 @@
 <script src="/static/assets/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/static/assets/plugins/select2/js/select2.full.min.js"></script>
 <!-- DataTables -->
 <script src="/static/assets/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="/static/assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
@@ -193,19 +186,17 @@
       responsive: true,
       autoWidth: false,
       ajax: {
-        url: "http://localhost/api/v1/authors",
+        url: "http://localhost/api/v1/categories",
         type: "GET",
         dataSrc: "",
       },
       columns: [
-        { data: "first_name" },
-        { data: "middle_name" },
-        { data: "last_name" },
+        { data: "name" },
         {
           data: null,
           render: function (data, type, row) {
-            return `<a href="#" class="btn btn-primary" id="edit-author">Edit</a>
-                    <a href="#" class="btn btn-danger" id="delete-author">Delete</a>`;
+            return `<a href="#" class="btn btn-primary" id="edit-category">Edit</a>
+                    <a href="#" class="btn btn-danger" id="delete-category">Delete</a>`;
           },
         },
       ],
@@ -227,51 +218,16 @@
       timer: 3000
     });
 
-    $("#example1").on("click", "#edit-author", function () {
-      var data = $("#example1").DataTable().row($(this).parents("tr")).data();
-      $("#first_name").val(data.first_name);
-      $("#middle_name").val(data.middle_name);
-      $("#last_name").val(data.last_name);
-      $("#create-author").modal("show");
-      $("#create-author").on("submit", function (e) {
-        e.preventDefault();
-        var first_name = $("#first_name").val();
-        var middle_name = $("#middle_name").val();
-        var last_name = $("#last_name").val();
-        $.ajax({
-          url: "http://localhost/api/v1/authors/" + data.id,
-          type: "PUT",
-          data: {
-            first_name: first_name,
-            middle_name: middle_name,
-            last_name: last_name,
-          },
-          success: function (data) {
-            console.log(data);
-            Toast.fire({
-              icon: 'success',
-              title: 'Successfully updated an Author.'
-            })
-            $("#example1").DataTable().ajax.reload();
-            $("#edit-author").modal("hide");
-          },
-          error: function (error) {
-            console.log(error);
-          },
-        });
-      });
-    });
-
-    $("#example1").on("click", "#delete-author", function () {
+    $("#example1").on("click", "#delete-category", function () {
       var data = $("#example1").DataTable().row($(this).parents("tr")).data();
       $.ajax({
-        url: "http://localhost/api/v1/authors/" + data.id,
+        url: "http://localhost/api/v1/categories/" + data.id,
         type: "DELETE",
         success: function (data) {
           console.log(data);
           Toast.fire({
             icon: 'success',
-            title: 'Successfully deleted an Author.'
+            title: 'Successfully deleted a Category.'
           })
           $("#example1").DataTable().ajax.reload();
         },
@@ -281,26 +237,65 @@
       });
     });
 
-    $("#create-author").on("submit", function (e) {
+    $("#create-category").on("submit", function (e) {
       e.preventDefault();
-      var first_name = $("#first_name").val();
-      var middle_name = $("#middle_name").val();
-      var last_name = $("#last_name").val();
+      var name = $("#name").val();
       $.ajax({
-        url: "http://localhost/api/v1/authors",
+        url: "http://localhost/api/v1/categories",
         type: "POST",
         data: JSON.stringify({
-          first_name: first_name,
-          middle_name: middle_name,
-          last_name: last_name,
+          name: name,
         }),
         contentType: "application/json",
         success: function (data) {
           console.log(data);
-          $("#create-author").modal("hide");
+          $("#create-category").modal("hide");
           Toast.fire({
             icon: 'success',
-            title: 'Successfully create an Author.'
+            title: 'Successfully create a Category.'
+          })
+          $("#example1").DataTable().ajax.reload();
+        },
+        error: function (error) {
+          console.log(error);
+        },
+      });
+    });
+
+    $.ajax({
+      url: "http://localhost/api/v1/categories",
+      type: "GET",
+      success: function (data) {
+        console.log(data);
+        data.forEach((category) => {
+          $("#categories").append(
+            `<option value="${category.id}">${category.name}</option>`
+          );
+        });
+      },
+      error: function (error) {
+        console.log(error);
+      },
+    });
+
+    $("#create-subcategory").on("submit", function (e) {
+      e.preventDefault();
+      var name = $("#subname").val();
+      var category_id = $("#categories").val();
+      $.ajax({
+        url: "http://localhost/api/v1/subcategories",
+        type: "POST",
+        data: JSON.stringify({
+          name: name,
+          category_id: category_id,
+        }),
+        contentType: "application/json",
+        success: function (data) {
+          console.log(data);
+          $("#create-subcategory").modal("hide");
+          Toast.fire({
+            icon: 'success',
+            title: 'Successfully create a Sub Category.'
           })
           $("#example1").DataTable().ajax.reload();
         },

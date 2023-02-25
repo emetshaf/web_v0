@@ -105,6 +105,20 @@ def admin_authors():
         )
 
 
+@ app.route('/admin/categories', strict_slashes=False)
+def admin_categories():
+    if api_status()['status'] == 'OK':
+        return render_template(
+            'admin/categories.html',
+            cache_id=uuid4(),
+        )
+    else:
+        return render_template(
+            '500.html',
+            cache_id=uuid4(),
+        )
+
+
 @ app.route('/admin/books', strict_slashes=False)
 def admin_books():
     return render_template(

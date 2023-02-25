@@ -16,7 +16,7 @@
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-8 text-center mx-auto my-auto">
-            <h1 class="text-white">Discover</h1>
+            <h1 class="text-white aa">Discover</h1>
             <div class="container">
               <div class="row py-7 text-center">
                 <div>
@@ -38,7 +38,7 @@
             <div class="position-relative h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center" style="background-image: url('/static/assets/img/illustrations/illustration-signin.jpg'); background-size: cover;" loading="lazy"></div>
           </div>
           <div class="container">
-            <div class="row" id="books">
+            <div class="row books">
             </div>
           </div>
         </div>
@@ -51,38 +51,33 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-<!-- jQuery -->
-<script src="/static/assets/plugins/jquery/jquery.min.js"></script>
-<!-- page script -->
 <script>
-  $('document').ready(() => {
-    books = $('#books');
-    fetchAuthors();
-  });
-  function fetchBooks () {
+  $(function () {
     $.ajax({
-        url: 'http://localhost/api/v1/books/',
-        type: 'GET',
-        contentType: 'application/json',
-        dataType: 'json',
-        success: function (data) {
-            data.map((book) => {
-                places.append(`
-              <div class="col-lg-2 col-md-3 mt-md-0">
-                <a href="/book/${book.id}">
-                  <div class="card shadow-lg move-on-hover min-height-200 min-height-200 max-height-200">
-                    <img class="w-100 my-auto" src="{{ url_for('static', filename='uploads/The_Hitchhikers_Guide_to_the_Galaxy_(594)/cover.jpg') }}" alt="hero">
-                  </div>
-                  <div class="mt-2 ms-2">
-                    <h6 class="mb-0">${book.title}</h6>
-                    <p class="text-secondary text-sm">${book.authors[0].first_name}</p>
-                  </div>
-                </a>
+      url: 'http://localhost/api/v1/books',
+      type: 'GET',
+      dataType: 'json',
+      success: function (data) {
+        data.map((book) => {
+          $('.books').append(`
+          <div class="col-lg-2 col-md-3 mt-md-0">
+            <a href="/book/${book.id}">
+              <div class="card shadow-lg move-on-hover min-height-200 min-height-200 max-height-200">
+                <img class="w-100 my-auto" src="{{ url_for('static', filename='uploads/The_Hitchhikers_Guide_to_the_Galaxy_(594)/cover.jpg') }}" alt="hero">
               </div>
-                `)
-            });
-        }
-    });
-}
+              <div class="mt-2 ms-2">
+                <h6 class="mb-0">${book.title}</h6>
+              </div>
+            </a>
+            <a href="/author/">
+              <div class="mt-2 ms-2">
+                <p class="text-secondary text-sm"></p>
+              </div>
+            </a>
+          </div>`)
+        })
+      },
+    })
+  })
 </script>
 {% endblock javascripts %}
