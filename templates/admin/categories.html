@@ -255,6 +255,7 @@
             title: 'Successfully create a Category.'
           })
           $("#example1").DataTable().ajax.reload();
+          $("#name").val("");
         },
         error: function (error) {
           console.log(error);
