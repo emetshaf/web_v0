@@ -1,8 +1,8 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} Blog Author {% endblock %} 
+{% block title %} Dsicover {% endblock %} 
 
-{% block body_class %} blog-author {% endblock %}
+{% block body_class %} discover {% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}{% endblock stylesheets %}
@@ -11,7 +11,7 @@
   {% include 'includes/navigation.html' %}
 
   <header class="bg-gradient-dark">
-    <div class="page-header min-vh-75" style="background-image: url('/static/assets/img/bg9.jpg');">
+    <div class="page-header min-vh-75" style="background-image: url('/static/assets/img/bg10.jpg');">
       <span class="mask bg-gradient-dark opacity-6"></span>
       <div class="container">
         <div class="row justify-content-center">
@@ -34,11 +34,29 @@
     <div class="page-header min-vh-100">
       <div class="container">
         <div class="row">
-          <div class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 start-0 text-center justify-content-center flex-column">
-            <div class="position-relative h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center" style="background-image: url('/static/assets/img/illustrations/illustration-signin.jpg'); background-size: cover;" loading="lazy"></div>
-          </div>
           <div class="container">
             <div class="row books">
+              {% for book in books %}
+        
+              <div class="col-lg-2 col-md-3 mt-md-0">
+                <a href="/book/{{ book.id }}">
+                  <div class="card shadow-lg move-on-hover min-height-200 min-height-200 max-height-200">
+                    <img class="w-100 my-auto" src="{{ book.cover }}" alt="hero">
+                  </div>
+                  <div class="mt-2 ms-2">
+                    <h6 class="mb-0">{{ book.title }}</h6>
+                    by {% for book_author in book.authors %}
+                        <a class="nav-link link-info" href="/author/{{ book_author.id }}">{{ book_author.first_name }} {{ book_author.middle_name }} {{ book_author.last_name }}</a>
+                    {% endfor %}
+                  </div>
+                </a>
+                <a href="/author/">
+                  <div class="mt-2 ms-2">
+                    <p class="text-secondary text-sm"></p>
+                  </div>
+                </a>
+              </div>
+              {% endfor %}
             </div>
           </div>
         </div>
@@ -51,7 +69,7 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-<script>
+<!-- <script>
   $(function () {
     $.ajax({
       url: 'http://localhost/api/v1/books',
@@ -79,5 +97,5 @@
       },
     })
   })
-</script>
+</script> -->
 {% endblock javascripts %}

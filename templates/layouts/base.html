@@ -31,5 +31,21 @@
 
     <!-- Specific Page JS goes HERE -->
     {% block javascripts %}{% endblock javascripts %}
+    <script>
+        $(document).ready(function() {
+            $("#signout").on("click", function() {
+                $.ajax({
+                    url: "http://localhost/auth/signout",
+                    type: "POST",
+                    success: function(data) {
+                        window.location.href = "/signin";
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

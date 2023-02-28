@@ -1,8 +1,8 @@
 {% extends "admin/layouts/base.html" %}
-{% block title %} Authors {% endblock %}
+{% block title %} Narrators {% endblock %}
 
 <!-- Element injected in the BODY element -->
-{% block body_class %} authors {% endblock body_class %}
+{% block body_class %} narrators {% endblock body_class %}
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
@@ -34,7 +34,6 @@
 {% endblock stylesheets %}
 
 {% block content %}
-
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
@@ -42,14 +41,14 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Authors</h1>
+          <h1>Narrators</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item">
               <a href="{{ url_for('admin_dashboard') }}">Home</a>
             </li>
-            <li class="breadcrumb-item active">Authors</li>
+            <li class="breadcrumb-item active">Narrators</li>
           </ol>
         </div>
       </div>
@@ -64,9 +63,9 @@
         <div class="col-12">
           <div class="card">
             <div class="card-header">
-              <!-- <h3 class="card-title">Authors List</h3> -->
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create-author">
-                Create Author
+              <!-- <h3 class="card-title">Narrators List</h3> -->
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create-narrator">
+                Create Narrator
               </button>
             </div>
             <!-- /.card-header -->
@@ -81,14 +80,14 @@
                   </tr>
                 </thead>
                 <tbody>
-                  {% for author in authors %}
+                  {% for narrator in narrators %}
                     <tr>
-                      <td>{{ author.first_name }}</td>
-                      <td>{{ author.middle_name }}</td>
-                      <td>{{ author.last_name }}</td>
+                      <td>{{ narrator.first_name }}</td>
+                      <td>{{ narrator.middle_name }}</td>
+                      <td>{{ narrator.last_name }}</td>
                       <td>
-                        <a href="#" class="btn btn-primary" id="edit-author">Edit</a>
-                        <a href="#" class="btn btn-danger" id="delete-author">Delete</a>
+                        <a href="#" class="btn btn-primary" id="edit-narrator">Edit</a>
+                        <a href="#" class="btn btn-danger" id="delete-narrator">Delete</a>
                       </td>
                     </tr>
                   {% endfor %}
@@ -115,38 +114,6 @@
   </section>
   <!-- /.content -->
 </div>
-
-<div class="modal fade" id="create-author">
-  <div class="modal-dialog">
-    <form class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Create Author</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label for="first_name">First Name</label>
-          <input type="text" class="form-control" id="first_name" placeholder="Enter First Name" required>
-        </div>
-        <div class="form-group">
-          <label for="middle_name">Middle Name</label>
-          <input type="text" class="form-control" id="middle_name" placeholder="Enter Middle Name" required>
-        </div>
-        <div class="form-group">
-          <label for="last_name">Last Name</label>
-          <input type="text" class="form-control" id="last_name" placeholder="Enter Last Name" required>
-        </div>
-      </div>
-      <div class="modal-footer justify-content-between">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </div>
-    </form>
-  </div>
-</div>
-
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
@@ -172,70 +139,6 @@
     $("#example1").DataTable({
       responsive: true,
       autoWidth: false,
-    });
-    $("#example2").DataTable({
-      paging: true,
-      lengthChange: false,
-      searching: false,
-      ordering: true,
-      info: true,
-      autoWidth: false,
-      responsive: true,
-    });
-
-    var Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000
-    });
-
-    $("#example1").on("click", "#delete-author", function () {
-      var data = $("#example1").DataTable().row($(this).parents("tr")).data();
-      $.ajax({
-        url: "http://localhost/api/v1/authors/" + data.id,
-        type: "DELETE",
-        success: function (data) {
-          console.log(data);
-          Toast.fire({
-            icon: 'success',
-            title: 'Successfully deleted an Author.'
-          })
-          $("#example1").DataTable().ajax.reload();
-        },
-        error: function (error) {
-          console.log(error);
-        },
-      });
-    });
-
-    $("#create-author").on("submit", function (e) {
-      e.preventDefault();
-      var first_name = $("#first_name").val();
-      var middle_name = $("#middle_name").val();
-      var last_name = $("#last_name").val();
-      $.ajax({
-        url: "http://localhost/api/v1/authors",
-        type: "POST",
-        data: JSON.stringify({
-          first_name: first_name,
-          middle_name: middle_name,
-          last_name: last_name,
-        }),
-        contentType: "application/json",
-        success: function (data) {
-          console.log(data);
-          $("#create-author").modal("hide");
-          Toast.fire({
-            icon: 'success',
-            title: 'Successfully create an Author.'
-          })
-          $("#example1").DataTable().ajax.reload();
-        },
-        error: function (error) {
-          console.log(error);
-        },
-      });
     });
   });
 </script>

@@ -39,10 +39,10 @@
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-6">
+          <div class="col-6">
             <h1 class="m-0 text-dark">Dashboard</h1>
           </div><!-- /.col -->
-          <div class="col-sm-6">
+          <div class="col-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{ url_for('admin_dashboard') }}">Home</a></li>
               <li class="breadcrumb-item active">Dashboard</li>
@@ -58,61 +58,137 @@
       <div class="container-fluid">
         <!-- Small boxes (Stat box) -->
         <div class="row">
-          <div class="col-lg-3 col-6">
+          <!-- ./col -->
+          <div class="col-lg-3 col-md-4 col-6">
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <h3 class="authors"></h3>
+                <h3 class="">{{ audiobooks }}</h3>
+
+                <p>AudioBooks</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-file-audio"></i>
+              </div>
+              <a href="{{ url_for('admin_audiobooks') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-md-4 col-6">
+            <!-- small box -->
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h3 class="authors">{{ authors }}</h3>
 
                 <p>Authors</p>
               </div>
               <div class="icon">
-                <i class="ion ion-bag"></i>
+                <i class="fas fa-users"></i>
               </div>
               <a href="{{ url_for('admin_authors') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
-          <div class="col-lg-3 col-6">
+          <div class="col-lg-3 col-md-4 col-6">
             <!-- small box -->
-            <div class="small-box bg-success">
+            <div class="small-box bg-warning">
               <div class="inner">
-                <h3 class="books"></h3>
+                <h3 class="books">{{ books }}</h3>
 
                 <p>Books</p>
               </div>
               <div class="icon">
-                <i class="ion ion-stats-bars"></i>
+                <i class="fas fa-book"></i>
               </div>
               <a href="{{ url_for('admin_books') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
-          <div class="col-lg-3 col-6">
+          <div class="col-lg-3 col-md-4 col-6">
             <!-- small box -->
-            <div class="small-box bg-warning">
+            <div class="small-box bg-danger">
               <div class="inner">
-                <h3 class="languages"></h3>
+                <h3 class="categories">{{ categories }}</h3>
+
+                <p>Categories</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-tags"></i>
+              </div>
+              <a href="{{ url_for('admin_categories') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-md-4 col-6">
+            <!-- small box -->
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h3 class="feedbacks">{{ feedbacks }}</h3>
+
+                <p>Feedbacks</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-comment-alt"></i>
+              </div>
+              <a href="{{ url_for('admin_feedbacks') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-md-4 col-6">
+            <!-- small box -->
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h3 class="languages">{{ languages }}</h3>
 
                 <p>Languages</p>
               </div>
               <div class="icon">
-                <i class="ion ion-person-add"></i>
+                <i class="fas fa-language"></i>
               </div>
               <a href="{{ url_for('admin_languages') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
-          <div class="col-lg-3 col-6">
+          <div class="col-lg-3 col-md-4 col-6">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3 class="narrators">{{ narrators }}</h3>
+
+                <p>Narrators</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-users"></i>
+              </div>
+              <a href="{{ url_for('admin_narrators') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-md-4 col-6">
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3 class="users"></h3>
+                <h3 class="reviews">{{ reviews }}</h3>
+
+                <p>Reviews</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-comments"></i>
+              </div>
+              <a href="{{ url_for('admin_reviews') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-md-4 col-6">
+            <!-- small box -->
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h3 class="users">{{ users }}</h3>
 
                 <p>Users</p>
               </div>
               <div class="icon">
-                <i class="ion ion-pie-graph"></i>
+                <i class="fas fa-users"></i>
               </div>
               <a href="{{ url_for('admin_users') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
@@ -165,21 +241,4 @@
   <script src="/static/assets/js/pages/dashboard.js"></script>
   <!-- AdminLTE for demo purposes -->
   <script src="/static/assets/js/demo.js"></script>
-
-  <script>
-    $(function () {
-      $.ajax({
-        url: 'http://localhost/api/v1/stats',
-        type: 'GET',
-        dataType: 'json',
-        success: function (data) {
-          $('.authors').html(data.authors)
-          $('.books').html(data.books)
-          $('.languages').html(data.languages)
-          $('.users').html(data.users)
-        },
-      })
-    })
-  </script>
-
 {% endblock javascripts %}

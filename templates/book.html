@@ -1,14 +1,13 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} Home {% endblock %} 
+{% block title %} Book {% endblock %}
 
-{% block body_class %} home {% endblock %}
+{% block body_class %} book {% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
-
   {% include 'includes/navigation.html' %}
 
   <header>
@@ -17,15 +16,31 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-7 text-center mx-auto">
-            <h1 class="text-white pt-3 mt-n5">EMetshaf</h1>
-            <p class="lead text-white mt-3">Easily Access Books</p>
+            <h1 class="text-white pt-3 mt-n5">{{ book.title }}</h1>
           </div>
         </div>
       </div>
     </div>
   </header>
 
-{% endblock content %}
+  <div class="card card-body shadow-xl mx-3 mx-md-4 mt-n6">
+  <section>
+    <div class="page-header min-vh-100">
+      <div class="container">
+        <div class="row">
+          <div class="container">
+            <div class="row books">
+            
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </section>
+      </div>
+{% endblock %}
 
 <!-- Specific Page JS goes HERE  -->
-{% block javascripts %}{% endblock javascripts %}
+{% block javascripts %}
+{% endblock javascripts %}

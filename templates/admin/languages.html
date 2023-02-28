@@ -65,6 +65,15 @@
                   </tr>
                   </thead>
                   <tbody>
+                    {% for language in languages %}
+                    <tr>
+                      <td>{{ language.name }}</td>
+                      <td>
+                        <a href="#" class="btn btn-primary" id="edit-language">Edit</a>
+                        <a href="#" class="btn btn-danger" id="delete-language">Delete</a>
+                      </td>
+                    </tr>
+                  {% endfor %}
                   </tbody>
                   <tfoot>
                   <tr>
@@ -136,21 +145,6 @@
       $("#example1").DataTable({
         "responsive": true,
         "autoWidth": false,
-        ajax: {
-          url: "http://localhost/api/v1/languages",
-          type: "GET",
-          dataSrc: "",
-        },
-        columns: [
-          { data: "name" },
-          {
-            data: null,
-            render: function (data, type, row) {
-              return `<a href="#" class="btn btn-primary">Edit</a>
-                      <a href="#" class="btn btn-danger" id="delete-language">Delete</a>`;
-            },
-          },
-        ],
       });
       $('#example2').DataTable({
         "paging": true,

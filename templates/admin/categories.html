@@ -2,7 +2,7 @@
 {% block title %} Categories {% endblock %}
 
 <!-- Element injected in the BODY element -->
-{% block body_class %} {% endblock body_class %}
+{% block body_class %} categories {% endblock body_class %}
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
@@ -51,7 +51,7 @@
             <li class="breadcrumb-item">
               <a href="{{ url_for('admin_dashboard') }}">Home</a>
             </li>
-            <li class="breadcrumb-item active">Catgories</li>
+            <li class="breadcrumb-item active">Categories</li>
           </ol>
         </div>
       </div>
@@ -84,6 +84,15 @@
                   </tr>
                 </thead>
                 <tbody>
+                  {% for category in categories %}
+                    <tr>
+                      <td>{{ category.name }}</td>
+                      <td>
+                        <a href="#" class="btn btn-primary" id="edit-category">Edit</a>
+                        <a href="#" class="btn btn-danger" id="delete-category">Delete</a>
+                      </td>
+                    </tr>
+                  {% endfor %}
                 </tbody>
                 <tfoot>
                   <tr>
@@ -140,6 +149,7 @@
       </div>
       <div class="modal-body">
         <div class="form-group">
+          <label>Category</label>
           <select class="form-control select2" name="" id="categories">
             <option value="">Select Category</option>
           </select>
@@ -185,21 +195,6 @@
     $("#example1").DataTable({
       responsive: true,
       autoWidth: false,
-      ajax: {
-        url: "http://localhost/api/v1/categories",
-        type: "GET",
-        dataSrc: "",
-      },
-      columns: [
-        { data: "name" },
-        {
-          data: null,
-          render: function (data, type, row) {
-            return `<a href="#" class="btn btn-primary" id="edit-category">Edit</a>
-                    <a href="#" class="btn btn-danger" id="delete-category">Delete</a>`;
-          },
-        },
-      ],
     });
     $("#example2").DataTable({
       paging: true,

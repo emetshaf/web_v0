@@ -27,37 +27,62 @@
                with font-awesome or any other icon font library -->
           <li class="nav-item">
             <a href="{{ url_for('admin_dashboard') }}" class="nav-link">
-              <i class="nav-icon far fa-circle text-info"></i>
+              <i class="nav-icon fas fa-tachometer-alt text-info"></i>
               <p>Home</p>
             </a>
           </li>
           <li class="nav-item">
+            <a href="{{ url_for('admin_audiobooks') }}" class="nav-link">
+              <!-- <i class="nav-icon faf fa-file-audio text-info"></i> -->
+              <i class="nav-icon fas fa-file-audio text-info"></i>
+              <p>AudioBooks</p>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="{{ url_for('admin_authors') }}" class="nav-link">
-              <i class="nav-icon far fa-circle text-info"></i>
+              <i class="nav-icon fas fa-users text-info"></i>
               <p>Authors</p>
             </a>
           </li>
           <li class="nav-item">
             <a href="{{ url_for('admin_books') }}" class="nav-link">
-              <i class="nav-icon far fa-circle text-info"></i>
+              <i class="nav-icon fas fa-book text-info"></i>
               <p>Books</p>
             </a>
           </li>
           <li class="nav-item">
             <a href="{{ url_for('admin_categories') }}" class="nav-link">
-              <i class="nav-icon far fa-circle text-info"></i>
+              <i class="nav-icon fas fa-tags text-info"></i>
               <p>Categories</p>
             </a>
           </li>
           <li class="nav-item">
+            <a href="{{ url_for('admin_feedbacks') }}" class="nav-link">
+              <i class="nav-icon fas fa-comment-alt text-info"></i>
+              <p>Feedbacks</p>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="{{ url_for('admin_languages') }}" class="nav-link">
-              <i class="nav-icon far fa-circle text-info"></i>
+              <i class="nav-icon fas fa-language text-info"></i>
               <p>Languages</p>
             </a>
           </li>
           <li class="nav-item">
+            <a href="{{ url_for('admin_narrators') }}" class="nav-link">
+              <i class="nav-icon fas fa-users text-info"></i>
+              <p>Narrators</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ url_for('admin_reviews') }}" class="nav-link">
+              <i class="nav-icon fas fa-comments text-info"></i>
+              <p>Reviews</p>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="{{ url_for('admin_users') }}" class="nav-link">
-              <i class="nav-icon far fa-circle text-info"></i>
+              <i class="nav-icon fas fa-users text-info"></i>
               <p>Users</p>
             </a>
           </li>
