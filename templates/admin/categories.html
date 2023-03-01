@@ -70,9 +70,6 @@
               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create-category">
                 Create Category
               </button>
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create-subcategory">
-                Create Sub Category
-              </button>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -80,6 +77,8 @@
                 <thead>
                   <tr>
                     <th>Name</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -87,9 +86,11 @@
                   {% for category in categories %}
                     <tr>
                       <td>{{ category.name }}</td>
+                      <td>{{ category.created_at}}</td>
+                      <td>{{ category.updated_at}}</td>
                       <td>
                         <a href="#" class="btn btn-primary" id="edit-category">Edit</a>
-                        <a href="#" class="btn btn-danger" id="delete-category">Delete</a>
+                        <a href="/admin/delete_category/{{ category.id }}" class="btn btn-danger" id="delete-category">Delete</a>
                       </td>
                     </tr>
                   {% endfor %}
@@ -97,6 +98,8 @@
                 <tfoot>
                   <tr>
                     <th>Name</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>
                     <th>Actions</th>
                   </tr>
                 </tfoot>
@@ -117,7 +120,7 @@
 
 <div class="modal fade" id="create-category">
   <div class="modal-dialog">
-    <form class="modal-content">
+    <form class="modal-content" action="/admin/create_category" method="post">
       <div class="modal-header">
         <h4 class="modal-title">Create Category</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -127,36 +130,7 @@
       <div class="modal-body">
         <div class="form-group">
           <label for="name">Name</label>
-          <input type="text" class="form-control" id="name" placeholder="Enter Name" required>
-        </div>
-      </div>
-      <div class="modal-footer justify-content-between">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-<div class="modal fade" id="create-subcategory">
-  <div class="modal-dialog">
-    <form class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Create Sub Category</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label>Category</label>
-          <select class="form-control select2" name="" id="categories">
-            <option value="">Select Category</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="subname">Name</label>
-          <input type="text" class="form-control" id="subname" placeholder="Enter Name" required>
+          <input type="text" class="form-control" name="name" id="name" placeholder="Enter Name" required>
         </div>
       </div>
       <div class="modal-footer justify-content-between">
@@ -195,110 +169,6 @@
     $("#example1").DataTable({
       responsive: true,
       autoWidth: false,
-    });
-    $("#example2").DataTable({
-      paging: true,
-      lengthChange: false,
-      searching: false,
-      ordering: true,
-      info: true,
-      autoWidth: false,
-      responsive: true,
-    });
-
-    var Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000
-    });
-
-    $("#example1").on("click", "#delete-category", function () {
-      var data = $("#example1").DataTable().row($(this).parents("tr")).data();
-      $.ajax({
-        url: "http://localhost/api/v1/categories/" + data.id,
-        type: "DELETE",
-        success: function (data) {
-          console.log(data);
-          Toast.fire({
-            icon: 'success',
-            title: 'Successfully deleted a Category.'
-          })
-          $("#example1").DataTable().ajax.reload();
-        },
-        error: function (error) {
-          console.log(error);
-        },
-      });
-    });
-
-    $("#create-category").on("submit", function (e) {
-      e.preventDefault();
-      var name = $("#name").val();
-      $.ajax({
-        url: "http://localhost/api/v1/categories",
-        type: "POST",
-        data: JSON.stringify({
-          name: name,
-        }),
-        contentType: "application/json",
-        success: function (data) {
-          console.log(data);
-          $("#create-category").modal("hide");
-          Toast.fire({
-            icon: 'success',
-            title: 'Successfully create a Category.'
-          })
-          $("#example1").DataTable().ajax.reload();
-          $("#name").val("");
-        },
-        error: function (error) {
-          console.log(error);
-        },
-      });
-    });
-
-    $.ajax({
-      url: "http://localhost/api/v1/categories",
-      type: "GET",
-      success: function (data) {
-        console.log(data);
-        data.forEach((category) => {
-          $("#categories").append(
-            `<option value="${category.id}">${category.name}</option>`
-          );
-        });
-      },
-      error: function (error) {
-        console.log(error);
-      },
-    });
-
-    $("#create-subcategory").on("submit", function (e) {
-      e.preventDefault();
-      var name = $("#subname").val();
-      var category_id = $("#categories").val();
-      $.ajax({
-        url: "http://localhost/api/v1/subcategories",
-        type: "POST",
-        data: JSON.stringify({
-          name: name,
-          category_id: category_id,
-        }),
-        contentType: "application/json",
-        success: function (data) {
-          console.log(data);
-          $("#create-subcategory").modal("hide");
-          Toast.fire({
-            icon: 'success',
-            title: 'Successfully create a Sub Category.'
-          })
-          $("#example1").DataTable().ajax.reload();
-        },
-        error: function (error) {
-          console.log(error);
-        },
-      });
     });
   });
 </script>

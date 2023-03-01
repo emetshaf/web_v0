@@ -27,32 +27,32 @@
                   For further questions, including partnership opportunities, please email hello@creative-tim.com
                   or contact using our contact form.
                 </p>
-                <form id="contact-form" method="post">
+                <form action="/create_feedback" method="post">
                   <div class="card-body p-0 my-3">
                     <div class="row">
                       <div class="col-md-6">
-                        <div class="input-group input-group-static mb-4">
+                        <div class="nput-group input-group-static mb-4">
                           <label for="full_name">Full Name</label>
-                          <input id="full_name" name="full_name" type="text" class="form-control" placeholder="Full Name">
+                          <input type="text" class="form-control" name="full_name" id="full_name" placeholder="Enter Full Name" required>
                         </div>
                       </div>
-                      <div class="col-md-6 ps-md-2">
-                        <div class="input-group input-group-static mb-4">
+                      <div class="col-md-6">
+                        <div class="nput-group input-group-static mb-4">
                           <label for="email">Email</label>
-                          <input type="email" id="email" name="email" class="form-control" placeholder="hello@creative-tim.com">
+                          <input type="email" class="form-control" name="email" id="email" placeholder="Enter Full Name" required>
                         </div>
                       </div>
                     </div>
                     <div class="form-group mb-0 mt-md-0 mt-4">
                       <div class="input-group input-group-static mb-4">
-                        <label for="message">How can we help you?</label>
-                        <textarea name="message" class="form-control" id="message" rows="6" placeholder="Describe your problem in at least 250 characters"></textarea>
+                      <label for="message">How can we help you?</label>
+                        <textarea class="form-control" placeholder="Describe your problem in at least 250 characters" name="message" id="message" rows="6"></textarea>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-md-12 text-center">
-                        <button type="submit" name="send" id="send" class="btn bg-gradient-info mt-3 mb-0">Send Message</button>
-                      </div>
+                      <button type="submit" class="btn bg-gradient-info mt-3 mb-0">Submit</button>
+                    </div>
                     </div>
                   </div>
                 </form>

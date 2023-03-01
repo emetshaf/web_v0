@@ -76,6 +76,8 @@
                     <th>Full Name</th>
                     <th>Email</th>
                     <th>Message</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -85,9 +87,11 @@
                       <td>{{ feedback.full_name }}</td>
                       <td>{{ feedback.email }}</td>
                       <td>{{ feedback.message }}</td>
+                      <td>{{ feedback.created_at }}</td>
+                      <td>{{ feedback.updated_at }}</td>
                       <td>
                         <a href="#" class="btn btn-primary" id="edit-feedback">Edit</a>
-                        <a href="#" class="btn btn-danger" id="delete-feedback">Delete</a>
+                        <a href="/admin/delete_feedback/{{ feedback.id }}" class="btn btn-danger" id="delete-feedback">Delete</a>
                       </td>
                     </tr>
                   {% endfor %}
@@ -97,6 +101,8 @@
                     <th>Full Name</th>
                     <th>Email</th>
                     <th>Message</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>
                     <th>Actions</th>
                   </tr>
                 </tfoot>
@@ -113,6 +119,37 @@
     <!-- /.container-fluid -->
   </section>
   <!-- /.content -->
+</div>
+
+<div class="modal fade" id="create-feedback">
+  <div class="modal-dialog">
+    <form class="modal-content" action="/admin/create_feedback" method="post">
+      <div class="modal-header">
+        <h4 class="modal-title">Create Feedback</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="full_name">Full Name</label>
+          <input type="text" class="form-control" name="full_name" id="full_name" placeholder="Enter Full Name" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" name="email" id="email" placeholder="Enter Full Name" required>
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea class="form-control" placeholder="Enter Message" name="message" id="message" cols="30" rows="10"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+  </div>
 </div>
 {% endblock content %}
 

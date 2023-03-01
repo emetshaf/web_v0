@@ -70,12 +70,14 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-              <table id="example1" class="table table-bordered table-striped">
+              <table id="narrators" class="table table-bordered table-striped">
                 <thead>
                   <tr>
                     <th>First Name</th>
                     <th>Middle Name</th>
                     <th>Last Name</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -85,9 +87,11 @@
                       <td>{{ narrator.first_name }}</td>
                       <td>{{ narrator.middle_name }}</td>
                       <td>{{ narrator.last_name }}</td>
+                      <td>{{ narrator.created_at }}</td>
+                      <td>{{ narrator.updated_at }}</td>
                       <td>
                         <a href="#" class="btn btn-primary" id="edit-narrator">Edit</a>
-                        <a href="#" class="btn btn-danger" id="delete-narrator">Delete</a>
+                        <a href="/admin/delete_narrator/{{ narrator.id }}" class="btn btn-danger" id="delete-narrator">Delete</a>
                       </td>
                     </tr>
                   {% endfor %}
@@ -97,6 +101,8 @@
                     <th>First Name</th>
                     <th>Middle Name</th>
                     <th>Last Name</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>
                     <th>Actions</th>
                   </tr>
                 </tfoot>
@@ -113,6 +119,38 @@
     <!-- /.container-fluid -->
   </section>
   <!-- /.content -->
+</div>
+
+
+<div class="modal fade" id="create-narrator">
+  <div class="modal-dialog">
+    <form class="modal-content" action="/admin/create_narrator" method="post">
+      <div class="modal-header">
+        <h4 class="modal-title">Create Narrator</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="first_name">First Name</label>
+          <input type="text" class="form-control" name="first_name" id="first_name" placeholder="Enter First Name" required>
+        </div>
+        <div class="form-group">
+          <label for="middle_name">Middle Name</label>
+          <input type="text" class="form-control" name="middle_name" id="middle_name" placeholder="Enter Middle Name">
+        </div>
+        <div class="form-group">
+          <label for="last_name">Last Name</label>
+          <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Enter Last Name" required>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+  </div>
 </div>
 {% endblock content %}
 
@@ -136,9 +174,7 @@
 <!-- page script -->
 <script>
   $(function () {
-    $("#example1").DataTable({
-      responsive: true,
-      autoWidth: false,
+    $("#narrators").DataTable({
     });
   });
 </script>
