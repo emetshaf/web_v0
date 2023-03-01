@@ -4,8 +4,8 @@ import requests
 from uuid import uuid4
 import logging
 
-logging.basicConfig(level=logging.DEBUG, filename='web.log',
-                    filemode='w', format='%(name)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.DEBUG, filename='web.log', filemode='w',
+                    format='%(name)s - %(levelname)s - %(message)s')
 
 app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
@@ -144,8 +144,11 @@ def admin_signin():
             auth_token = r_data.get('auth_token')
             if auth_token is None:
                 return redirect('/admin/signin')
+            headers = {'Authorization': 'access_token {}'.format(
+                auth_token)}
             res = requests.get(
-                "http://localhost/auth/status", headers={'Authorization': 'access_token {}'.format(auth_token)})
+                "http://localhost/auth/status",
+                headers=headers)
             res_data = res.json()
             data = res_data.get('data')
             username = data['username']
