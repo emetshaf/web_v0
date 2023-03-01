@@ -5,7 +5,7 @@
         <div class="col-md-3 mb-4 ms-auto">
           <div>
             <a href="/">
-              <img src="/static/assets/img/EMetshafLogo.png" class="mb-3 footer-logo" alt="main_logo">
+              <img src="{{ url_for('static', filename='assets/img/EMetshafLogo.png') }}?{{ cache_id }}" class="mb-3 footer-logo" alt="main_logo">
             </a>
             <h6 class="font-weight-bolder mb-4">EMetshaf</h6>
           </div>

@@ -27,7 +27,7 @@
                   For further questions, including partnership opportunities, please email hello@creative-tim.com
                   or contact using our contact form.
                 </p>
-                <form action="/create_feedback" method="post">
+                <form action="{{ url_for('create_ffeedback') }}?{{ cache_id }}" method="post">
                   <div class="card-body p-0 my-3">
                     <div class="row">
                       <div class="col-md-6">
