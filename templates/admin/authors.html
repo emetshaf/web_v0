@@ -74,6 +74,7 @@
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                   <tr>
+                    <th>Image</th>
                     <th>First Name</th>
                     <th>Middle Name</th>
                     <th>Last Name</th>
@@ -85,6 +86,9 @@
                 <tbody>
                   {% for author in authors %}
                     <tr>
+                      <td>
+                        <img src="/static/uploads/authors/{{ author.image }}" width="60" height="80" alt="">
+                      </td>
                       <td>{{ author.first_name }}</td>
                       <td>{{ author.middle_name }}</td>
                       <td>{{ author.last_name }}</td>
@@ -99,6 +103,7 @@
                 </tbody>
                 <tfoot>
                   <tr>
+                    <th>Image</th>
                     <th>First Name</th>
                     <th>Middle Name</th>
                     <th>Last Name</th>
@@ -124,7 +129,7 @@
 
 <div class="modal fade" id="create-author">
   <div class="modal-dialog">
-    <form class="modal-content" action="{{ url_for('create_author') }}?{{ cache_id }}" method="post">
+    <form class="modal-content" enctype="multipart/form-data" action="{{ url_for('create_author') }}" method="post">
       <div class="modal-header">
         <h4 class="modal-title">Create Author</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -132,6 +137,10 @@
         </button>
       </div>
       <div class="modal-body">
+        <div class="form-group">
+          <label for="file">Image</label>
+          <input class="form-control" type="file" name="file" id="image">
+        </div>
         <div class="form-group">
           <label for="first_name">First Name</label>
           <input type="text" class="form-control" name="first_name" id="first_name" placeholder="Enter First Name" required>

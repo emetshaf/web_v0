@@ -16,6 +16,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-7 text-center mx-auto">
+            <img src="/static/uploads/authors/{{ author.image }}" width="200" height="300" alt="">
             <h1 class="text-white pt-3 mt-n5">{{ author.first_name }} {{ author.middle_name }} {{ author.last_name }}</h1>
           </div>
         </div>
@@ -37,7 +38,7 @@
               <div class="col-lg-2 col-md-3 mt-md-0">
                 <a href="/book/{{ book.id }}">
                   <div class="card shadow-lg move-on-hover min-height-200 min-height-200 max-height-200">
-                    <img class="w-100 my-auto" src="{{ book.cover }}" alt="hero">
+                    <img class="w-100 my-auto" src="/static/uploads/books/{{ book.cover }}" alt="hero">
                   </div>
                   <div class="mt-2 ms-2">
                     <h6 class="mb-0">{{ book.title }}</h6>

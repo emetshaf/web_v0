@@ -73,9 +73,11 @@
               <table id="books" class="table table-bordered table-striped">
                 <thead>
                   <tr>
+                    <th>Cover Image</th>
                     <th>Title</th>
                     <th>Author</th>
                     <th>Language</th>
+                    <th>File</th>
                     <th>Created At</th>
                     <th>Updated At</th>
                     <th>Actions</th>
@@ -84,6 +86,9 @@
                 <tbody>
                   {% for book in books %}
                     <tr>
+                      <td>
+                        <img src="/static/uploads/books/{{ book.cover }}" width="60" height="80" alt="">
+                      </td>
                       <td>{{ book.title }}</td>
                       <td>
                         {% for author in book.authors %}
@@ -97,6 +102,9 @@
                           {% endif %}
                         {% endfor %}
                       </td>
+                      <td>
+                        <a href="/static/uploads/books/{{ book.file }}">File</a>
+                      </td>
                       <td>{{ book.created_at }}</td>
                       <td>{{ book.updated_at }}</td>
                       <td>
@@ -108,9 +116,11 @@
                 </tbody>
                 <tfoot>
                   <tr>
+                    <th>Cover Image</th>
                     <th>Title</th>
                     <th>Author</th>
                     <th>Language</th>
+                    <th>File</th>
                     <th>Created At</th>
                     <th>Updated At</th>
                     <th>Actions</th>
@@ -133,7 +143,7 @@
 
 <div class="modal fade" id="create-book">
   <div class="modal-dialog">
-    <form class="modal-content" action="{{ url_for('create_book') }}?{{ cache_id }}" method="post">
+    <form class="modal-content" enctype="multipart/form-data" action="{{ url_for('create_book') }}?{{ cache_id }}" method="post">
       <div class="modal-header">
         <h4 class="modal-title">Create Book</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -141,6 +151,14 @@
         </button>
       </div>
       <div class="modal-body">
+        <div class="form-group">
+          <label for="cover">Cover Image</label>
+          <div class="input-group">
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" name="cover" id="cover">
+              <label class="custom-file-label" for="cover">Choose image</label>
+            </div>
+          </div>
         <div class="form-group">
           <label for="title">Title</label>
           <input class="form-control" type="text" name="title" id="title">
@@ -157,6 +175,15 @@
         <div class="form-group">
           <label for="description">Description</label>
           <textarea class="form-control" placeholder="Enter description" name="description" id="description" cols="30" rows="10"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="file">File</label>
+          <div class="input-group">
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" name="file" id="file">
+              <label class="custom-file-label" for="file">Choose file</label>
+            </div>
+          </div>
         </div>
       </div>
       <div class="modal-footer justify-content-between">
@@ -202,6 +229,7 @@
     $('#description').summernote()
 
     $("#books").DataTable({
+      "ordering": true
     });
   });
 </script>

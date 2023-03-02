@@ -1,14 +1,29 @@
-from flask import Flask, redirect, render_template, request, url_for
+"""Flask Web App
+"""
+from flask import Flask, flash, redirect, render_template, request, url_for
 import json
+import os
 import requests
 from uuid import uuid4
 import logging
+from werkzeug.utils import secure_filename
 
 logging.basicConfig(level=logging.DEBUG, filename='web.log', filemode='w',
                     format='%(name)s - %(levelname)s - %(message)s')
 
+# WEB APP ROOT DIRECTORY
+APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+#  UPLAOD DIRECTORY
+UPLOAD_FOLDER = APP_ROOT + '/static/uploads'
+
+# ALLOWED FILES
+ALLOWED_EXTENSIONS = set(
+    ['txt', 'webp', 'epub', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'mp3', 'mp4'])
+
 app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 @ app.errorhandler(404)
@@ -18,6 +33,11 @@ def page_not_found(e):
 
 
 def api_status():
+    """Checks status of api
+
+    Returns:
+        json: Ok / FAIL
+    """
     url = 'http://0.0.0.0/api/v1/status'
     try:
         r = requests.get(url)
@@ -28,6 +48,8 @@ def api_status():
 
 @ app.route('/', strict_slashes=False)
 def home():
+    """Home Page
+    """
     if api_status()['status'] == 'OK':
         cache_id = uuid4()
         return render_template(
@@ -43,6 +65,8 @@ def home():
 
 @ app.route('/about', strict_slashes=False)
 def about():
+    """About Page
+    """
     if api_status()['status'] == 'OK':
         cache_id = uuid4()
         return render_template(
@@ -58,6 +82,8 @@ def about():
 
 @ app.route('/contact', strict_slashes=False)
 def contact():
+    """Contact Page
+    """
     if api_status()['status'] == 'OK':
         cache_id = uuid4()
         return render_template(
@@ -73,6 +99,8 @@ def contact():
 
 @ app.route('/create_feedback', methods=['POST'], strict_slashes=False)
 def create_ffeedback():
+    """create a feedback
+    """
     if request.method == 'POST':
         url = "http://localhost/api/v1/feedbacks/"
         full_name = request.form['full_name']
@@ -89,6 +117,8 @@ def create_ffeedback():
 
 @ app.route('/admin', strict_slashes=False)
 def admin_dashboard():
+    """Admin Dashboard Page
+    """
     if api_status()['status'] == 'OK':
         url = 'http://localhost/api/v1/stats'
         response = requests.get(url).json()
@@ -124,6 +154,8 @@ def admin_dashboard():
 
 @ app.route('/admin/signin', methods=['GET', 'POST'], strict_slashes=False)
 def admin_signin():
+    """Admin Signin Page
+    """
     if api_status()['status'] == 'OK':
         url = "http://localhost/auth/signin"
         if request.method == 'POST':
@@ -191,6 +223,8 @@ def admin_signin():
 
 @ app.route('/admin/audiobooks', strict_slashes=False)
 def admin_audiobooks():
+    """Admin AudioBooks Management Page
+    """
     if api_status()['status'] == 'OK':
         url = "http://localhost/api/v1/audiobooks"
         audiobooks = requests.get(url).json()
@@ -226,6 +260,8 @@ def delete_audiobook(audiobook_id):
 
 @ app.route('/admin/authors', strict_slashes=False)
 def admin_authors():
+    """Admin Authors Management Page
+    """
     if api_status()['status'] == 'OK':
         url = "http://localhost/api/v1/authors"
         authors = requests.get(url).json()
@@ -242,14 +278,28 @@ def admin_authors():
         )
 
 
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit(
+        '.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
 @ app.route('/admin/create_author', methods=['POST'], strict_slashes=False)
 def create_author():
     if request.method == 'POST':
         url = "http://localhost/api/v1/authors/"
+        filename = ''
+        if 'file' in request.files:
+            file = request.files['file']
+            if file and allowed_file(file.filename):
+                extension = os.path.splitext(file.filename)[1]
+                filename = str(uuid4()) + extension
+                file.save(os.path.join(
+                    app.config['UPLOAD_FOLDER'] + '/authors', filename))
         first_name = request.form['first_name']
         middle_name = request.form['middle_name']
         last_name = request.form['last_name']
         payload = {
+            'image': filename,
             'first_name': first_name,
             'middle_name': middle_name,
             'last_name': last_name
@@ -267,6 +317,8 @@ def delete_author(author_id):
 
 @ app.route('/admin/books', strict_slashes=False)
 def admin_books():
+    """Admin Books Management Page
+    """
     if api_status()['status'] == 'OK':
         url = "http://localhost/api/v1/books"
         books = requests.get(url).json()
@@ -290,12 +342,36 @@ def create_book():
     if request.method == 'POST':
         url = "http://localhost/api/v1/books/"
         title = request.form['title']
+        fold = title.replace(" ", "_")
+        folder = os.path.join(app.config['UPLOAD_FOLDER'] +
+                              '/books/' + fold + '/')
+        if not os.path.exists(folder):
+            os.mkdir(folder)
+        filename = ''
+        covername = ''
+        if 'cover' in request.files:
+            cover = request.files['cover']
+            if cover and allowed_file(cover.filename):
+                extension = os.path.splitext(cover.filename)[1]
+                covername = 'cover' + extension
+                cover.save(os.path.join(
+                    folder + covername))
+
+        if 'file' in request.files:
+            file = request.files['file']
+            if file and allowed_file(file.filename):
+                extension = os.path.splitext(file.filename)[1]
+                filename = 'file' + extension
+                file.save(os.path.join(
+                    folder + filename))
         description = request.form['description']
         language_id = request.form['language']
         payload = {
+            'cover': fold + '/' + covername,
             'title': title,
             'description': description,
-            'language_id': language_id
+            'language_id': language_id,
+            'file': fold + '/' + filename,
         }
         requests.post(url, json=payload)
         return redirect('/admin/books')
@@ -310,6 +386,8 @@ def delete_book(book_id):
 
 @ app.route('/admin/categories', strict_slashes=False)
 def admin_categories():
+    """Admin Categories Management Page
+    """
     if api_status()['status'] == 'OK':
         url = "http://localhost/api/v1/categories"
         categories = requests.get(url).json()
@@ -347,6 +425,8 @@ def delete_category(category_id):
 
 @ app.route('/admin/feedbacks', strict_slashes=False)
 def admin_feedbacks():
+    """Admin Feedback Management Page
+    """
     if api_status()['status'] == 'OK':
         url = "http://localhost/api/v1/feedbacks"
         feedbacks = requests.get(url).json()
@@ -388,6 +468,8 @@ def delete_feedback(feedback_id):
 
 @ app.route('/admin/languages', strict_slashes=False)
 def admin_languages():
+    """Admin Languages Management Page
+    """
     if api_status()['status'] == 'OK':
         url = "http://localhost/api/v1/languages"
         languages = requests.get(url).json()
@@ -425,6 +507,8 @@ def delete_language(language_id):
 
 @ app.route('/admin/narrators', strict_slashes=False)
 def admin_narrators():
+    """Admin Narrators Management Page
+    """
     if api_status()['status'] == 'OK':
         url = "http://localhost/api/v1/narrators"
         narrators = requests.get(url).json()
@@ -445,10 +529,19 @@ def admin_narrators():
 def create_narrator():
     if request.method == 'POST':
         url = "http://localhost/api/v1/narrators/"
+        filename = ''
+        if 'file' in request.files:
+            file = request.files['file']
+            if file and allowed_file(file.filename):
+                extension = os.path.splitext(file.filename)[1]
+                filename = str(uuid4()) + extension
+                file.save(os.path.join(
+                    app.config['UPLOAD_FOLDER'] + '/narrators', filename))
         first_name = request.form['first_name']
         middle_name = request.form['middle_name']
         last_name = request.form['last_name']
         payload = {
+            'image': filename,
             'first_name': first_name,
             'middle_name': middle_name,
             'last_name': last_name
@@ -466,6 +559,8 @@ def delete_narrator(narrator_id):
 
 @ app.route('/admin/reviews', strict_slashes=False)
 def admin_reviews():
+    """Admin Reviews Management Page
+    """
     if api_status()['status'] == 'OK':
         url = "http://localhost/api/v1/reviews"
         reviews = requests.get(url).json()
@@ -511,6 +606,8 @@ def delete_review(review_id):
 
 @ app.route('/admin/users', strict_slashes=False)
 def admin_users():
+    """Admin Users Management Page
+    """
     if api_status()['status'] == 'OK':
         url = "http://localhost/api/v1/users"
         users = requests.get(url).json()
@@ -550,6 +647,8 @@ def delete_user(user_id):
 
 @ app.route('/signin', strict_slashes=False)
 def signin():
+    """Signin Page
+    """
     if api_status()['status'] == 'OK':
         url = "http://localhost/auth/signin"
         cache_id = uuid4()
@@ -566,6 +665,8 @@ def signin():
 
 @ app.route('/signup', strict_slashes=False)
 def signup():
+    """Signup Page
+    """
     if api_status()['status'] == 'OK':
         url = "http://localhost/auth/signup"
         cache_id = uuid4()
@@ -582,6 +683,8 @@ def signup():
 
 @ app.route('/discover', strict_slashes=False)
 def discover():
+    """Discover Page
+    """
     if api_status()['status'] == 'OK':
         cache_id = uuid4()
         url = "http://localhost/api/v1/books"
@@ -600,6 +703,8 @@ def discover():
 
 @ app.route('/library', strict_slashes=False)
 def library():
+    """Library Page
+    """
     if api_status()['status'] == 'OK':
         cache_id = uuid4()
         return render_template(
@@ -615,6 +720,8 @@ def library():
 
 @ app.route('/author', strict_slashes=False)
 def author():
+    """Author Page
+    """
     if api_status()['status'] == 'OK':
         cache_id = uuid4()
         return redirect(url_for('discover'))
@@ -627,6 +734,8 @@ def author():
 
 @ app.route('/author/<author_id>', strict_slashes=False)
 def get_author(author_id):
+    """Author Page
+    """
     if api_status()['status'] == 'OK':
         cache_id = uuid4()
         url = "http://localhost/api/v1/authors/" + author_id
@@ -647,6 +756,8 @@ def get_author(author_id):
 
 @ app.route('/book', strict_slashes=False)
 def book():
+    """Book Page
+    """
     if api_status()['status'] == 'OK':
         cache_id = uuid4()
         return redirect(url_for('discover'))
@@ -659,6 +770,8 @@ def book():
 
 @ app.route('/book/<book_id>', strict_slashes=False)
 def get_book(book_id):
+    """Book Page
+    """
     if api_status()['status'] == 'OK':
         cache_id = uuid4()
         url = "http://localhost/api/v1/books/" + book_id
@@ -678,4 +791,4 @@ def get_book(book_id):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001, debug=True)
+    app.run(host='0.0.0.0', port=5006, debug=True)

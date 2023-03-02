@@ -41,20 +41,19 @@
               <div class="col-lg-2 col-md-3 mt-md-0">
                 <a href="/book/{{ book.id }}">
                   <div class="card shadow-lg move-on-hover min-height-200 min-height-200 max-height-200">
-                    <img class="w-100 my-auto" src="{{ book.cover }}" alt="hero">
+                    <img class="w-100 my-auto" src="/static/uploads/books/{{ book.cover }}" alt="hero">
                   </div>
                   <div class="mt-2 ms-2">
                     <h6 class="mb-0">{{ book.title }}</h6>
-                    by {% for book_author in book.authors %}
-                        <a class="nav-link link-info" href="/author/{{ book_author.id }}">{{ book_author.first_name }} {{ book_author.middle_name }} {{ book_author.last_name }}</a>
-                    {% endfor %}
                   </div>
                 </a>
-                <a href="/author/">
-                  <div class="mt-2 ms-2">
-                    <p class="text-secondary text-sm"></p>
-                  </div>
-                </a>
+                {% for book_author in book.authors %}
+                  <a href="/author/{{ book_author.id }}">
+                    <div class="mt-2 ms-2">
+                      <p class="text-secondary text-sm">by {{ book_author.first_name }} {{ book_author.middle_name }} {{ book_author.last_name }}</p>
+                    </div>
+                  </a>
+                {% endfor %}
               </div>
               {% endfor %}
             </div>
