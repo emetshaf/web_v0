@@ -95,7 +95,7 @@
                     <td>{{ audiobook.created_at }}</td>
                     <td>{{ audiobook.updated_at }}</td>
                     <td>
-                      <a href="#" class="btn btn-primary" id="edit-audiobook"
+                      <a href="/admin/edit_audiobook/{{ audiobook.id }}" class="btn btn-primary" id="edit-audiobook"
                         >Edit</a
                       >
                       <a href="#" class="btn btn-danger" id="delete-audiobook"
@@ -132,7 +132,7 @@
   <div class="modal-dialog">
     <form
       class="modal-content"
-      action="{{ url_for('create_audiobook') }}?{{ cache_id }}"
+      action="{{ url_for('create_audiobook') }}"
       method="post"
     >
       <div class="modal-header">
@@ -152,7 +152,6 @@
           <input
             type="text"
             class="form-control"
-            value="{{ request.form['file'] }}"
             name="file"
             id="name"
             placeholder="Enter file"
