@@ -1,5 +1,5 @@
-{% extends "admin/layouts/base.html" %}
-{% block title %} Categories {% endblock %}
+{% extends "admin/layouts/base.html" %} {% block title %} Categories {% endblock
+%}
 
 <!-- Element injected in the BODY element -->
 {% block body_class %} categories {% endblock body_class %}
@@ -27,15 +27,25 @@
   href="{{ url_for('static', filename='assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}?{{ cache_id }}"
 />
 
-<link rel="stylesheet" href="{{ url_for('static', filename='assets/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}?{{ cache_id }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='assets/plugins/select2/css/select2.min.css') }}?{{ cache_id }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}?{{ cache_id }}">
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='assets/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}?{{ cache_id }}"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='assets/plugins/select2/css/select2.min.css') }}?{{ cache_id }}"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}?{{ cache_id }}"
+/>
 <!-- Theme style -->
-<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/adminlte.min.css') }}?{{ cache_id }}" />
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='assets/css/adminlte.min.css') }}?{{ cache_id }}"
+/>
 
-{% endblock stylesheets %}
-
-{% block content %}
+{% endblock stylesheets %} {% block content %}
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -67,13 +77,18 @@
           <div class="card">
             <div class="card-header">
               <!-- <h3 class="card-title">Categories List</h3> -->
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create-category">
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-toggle="modal"
+                data-target="#create-category"
+              >
                 Create Category
               </button>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-              <table id="example1" class="table table-bordered table-striped">
+              <table id="categories" class="table table-bordered table-striped">
                 <thead>
                   <tr>
                     <th>Name</th>
@@ -84,15 +99,22 @@
                 </thead>
                 <tbody>
                   {% for category in categories %}
-                    <tr>
-                      <td>{{ category.name }}</td>
-                      <td>{{ category.created_at}}</td>
-                      <td>{{ category.updated_at}}</td>
-                      <td>
-                        <a href="#" class="btn btn-primary" id="edit-category">Edit</a>
-                        <a href="/admin/delete_category/{{ category.id }}" class="btn btn-danger" id="delete-category">Delete</a>
-                      </td>
-                    </tr>
+                  <tr>
+                    <td>{{ category.name }}</td>
+                    <td>{{ category.created_at}}</td>
+                    <td>{{ category.updated_at}}</td>
+                    <td>
+                      <a href="#" class="btn btn-primary" id="edit-category"
+                        >Edit</a
+                      >
+                      <a
+                        href="/admin/delete_category/{{ category.id }}"
+                        class="btn btn-danger"
+                        id="delete-category"
+                        >Delete</a
+                      >
+                    </td>
+                  </tr>
                   {% endfor %}
                 </tbody>
                 <tfoot>
@@ -120,28 +142,44 @@
 
 <div class="modal fade" id="create-category">
   <div class="modal-dialog">
-    <form class="modal-content" action="{{ url_for('create_category') }}?{{ cache_id }}" method="post">
+    <form
+      class="modal-content"
+      action="{{ url_for('create_category') }}?{{ cache_id }}"
+      method="post"
+    >
       <div class="modal-header">
         <h4 class="modal-title">Create Category</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <div class="form-group">
           <label for="name">Name</label>
-          <input type="text" class="form-control" name="name" id="name" placeholder="Enter Name" required>
+          <input
+            type="text"
+            class="form-control"
+            name="name"
+            id="name"
+            placeholder="Enter Name"
+            required
+          />
         </div>
       </div>
       <div class="modal-footer justify-content-between">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+          Close
+        </button>
         <button type="submit" class="btn btn-primary">Submit</button>
       </div>
     </form>
   </div>
 </div>
-
-
 
 {% endblock content %}
 
@@ -166,7 +204,7 @@
 <!-- page script -->
 <script>
   $(function () {
-    $("#example1").DataTable({
+    $("#categories").DataTable({
       responsive: true,
       autoWidth: false,
     });

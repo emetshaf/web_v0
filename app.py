@@ -19,11 +19,12 @@ UPLOAD_FOLDER = APP_ROOT + '/static/uploads'
 
 # ALLOWED FILES
 ALLOWED_EXTENSIONS = set(
-    ['txt', 'webp', 'epub', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'mp3', 'mp4'])
+    ['txt', 'webp', 'epub', 'png', 'jpg', 'jpeg', 'gif', 'mp3', 'mp4', 'oog', 'wma'])
 
 app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024
 
 
 @ app.errorhandler(404)
@@ -305,7 +306,7 @@ def create_author():
             'last_name': last_name
         }
         requests.post(url, json=payload)
-        return redirect('/admin/authors')
+        return redirect(url_for('admin_authors'))
 
 
 @ app.route('/admin/delete_author/<author_id>', strict_slashes=False)
@@ -781,6 +782,29 @@ def get_book(book_id):
             'book.html',
             book=book,
             authors=authors,
+            cache_id=cache_id,
+        )
+    else:
+        return render_template(
+            '500.html',
+            cache_id=cache_id,
+        )
+
+
+@app.route('/read/<book_id>', strict_slashes=False)
+def read(book_id):
+    """Read Page
+    """
+    if api_status()['status'] == 'OK':
+        cache_id = uuid4()
+        url = "http://localhost/api/v1/books/" + book_id
+        book = requests.get(url).json()
+        filename = book.get('file')
+        extension = filename.split('.')[-1]
+        return render_template(
+            'read.html',
+            book=book,
+            extension=extension,
             cache_id=cache_id,
         )
     else:

@@ -37,11 +37,11 @@
         
               <div class="col-lg-2 col-md-3 mt-md-0">
                 <a href="/book/{{ book.id }}">
-                  <div class="card shadow-lg move-on-hover min-height-200 min-height-200 max-height-200">
+                  <div class="card shadow-lg move-on-hover min-height-100 min-height-100">
                     <img class="w-100 my-auto" src="/static/uploads/books/{{ book.cover }}" alt="hero">
                   </div>
                   <div class="mt-2 ms-2">
-                    <h6 class="mb-0">{{ book.title }}</h6>
+                    <h6 class="mb-0">{{ book.title|safe }}</h6>
                   </div>
                 </a>
                 <a href="/author/">

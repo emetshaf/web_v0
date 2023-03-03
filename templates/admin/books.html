@@ -89,7 +89,7 @@
                       <td>
                         <img src="/static/uploads/books/{{ book.cover }}" width="60" height="80" alt="">
                       </td>
-                      <td>{{ book.title }}</td>
+                      <td>{{ book.title|safe }}</td>
                       <td>
                         {% for author in book.authors %}
                           {{ author.first_name }} {{ author.middle_name }} {{ author.last_name }}
@@ -143,7 +143,7 @@
 
 <div class="modal fade" id="create-book">
   <div class="modal-dialog">
-    <form class="modal-content" enctype="multipart/form-data" action="{{ url_for('create_book') }}?{{ cache_id }}" method="post">
+    <form class="modal-content" enctype="multipart/form-data" action="{{ url_for('create_book') }}" method="post">
       <div class="modal-header">
         <h4 class="modal-title">Create Book</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -155,17 +155,17 @@
           <label for="cover">Cover Image</label>
           <div class="input-group">
             <div class="custom-file">
-              <input type="file" class="custom-file-input" name="cover" id="cover">
+              <input type="file" class="custom-file-input" name="cover" id="cover" required>
               <label class="custom-file-label" for="cover">Choose image</label>
             </div>
           </div>
         <div class="form-group">
           <label for="title">Title</label>
-          <input class="form-control" type="text" name="title" id="title">
+          <input class="form-control" type="text" name="title" id="title" required>
         </div>
         <div class="form-group">
           <label for="language">Language</label>
-          <select class="form-control select2" name="language" id="languages">
+          <select class="form-control select2" name="language" id="languages" required>
             <option value="">Select Language</option>
             {% for language in languages %}
               <option value="{{ language.id }}">{{ language.name }}</option>
@@ -180,7 +180,7 @@
           <label for="file">File</label>
           <div class="input-group">
             <div class="custom-file">
-              <input type="file" class="custom-file-input" name="file" id="file">
+              <input type="file" class="custom-file-input" name="file" id="file" required>
               <label class="custom-file-label" for="file">Choose file</label>
             </div>
           </div>
@@ -229,7 +229,8 @@
     $('#description').summernote()
 
     $("#books").DataTable({
-      "ordering": true
+      responsive: true,
+      autoWidth: false,
     });
   });
 </script>

@@ -1,5 +1,4 @@
-{% extends "admin/layouts/base.html" %}
-{% block title %} Authors {% endblock %}
+{% extends "admin/layouts/base.html" %} {% block title %} Authors {% endblock %}
 
 <!-- Element injected in the BODY element -->
 {% block body_class %} authors {% endblock body_class %}
@@ -27,13 +26,17 @@
   href="{{ url_for('static', filename='assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}?{{ cache_id }}"
 />
 
-<link rel="stylesheet" href="{{ url_for('static', filename='assets/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}?{{ cache_id }}">
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='assets/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}?{{ cache_id }}"
+/>
 <!-- Theme style -->
-<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/adminlte.min.css') }}?{{ cache_id }}" />
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='assets/css/adminlte.min.css') }}?{{ cache_id }}"
+/>
 
-{% endblock stylesheets %}
-
-{% block content %}
+{% endblock stylesheets %} {% block content %}
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -65,13 +68,18 @@
           <div class="card">
             <div class="card-header">
               <!-- <h3 class="card-title">Authors List</h3> -->
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create-author">
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-toggle="modal"
+                data-target="#create-author"
+              >
                 Create Author
               </button>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-              <table id="example1" class="table table-bordered table-striped">
+              <table id="authors" class="table table-bordered table-striped">
                 <thead>
                   <tr>
                     <th>Image</th>
@@ -85,20 +93,32 @@
                 </thead>
                 <tbody>
                   {% for author in authors %}
-                    <tr>
-                      <td>
-                        <img src="/static/uploads/authors/{{ author.image }}" width="60" height="80" alt="">
-                      </td>
-                      <td>{{ author.first_name }}</td>
-                      <td>{{ author.middle_name }}</td>
-                      <td>{{ author.last_name }}</td>
-                      <td>{{ author.created_at }}</td>
-                      <td>{{ author.updated_at }}</td>
-                      <td>
-                        <a href="#" class="btn btn-primary" id="edit-author">Edit</a>
-                        <a href="/admin/delete_author/{{ author.id }}" class="btn btn-danger" id="delete-author">Delete</a>
-                      </td>
-                    </tr>
+                  <tr>
+                    <td>
+                      <img
+                        src="/static/uploads/authors/{{ author.image }}"
+                        width="60"
+                        height="80"
+                        alt=""
+                      />
+                    </td>
+                    <td>{{ author.first_name }}</td>
+                    <td>{{ author.middle_name }}</td>
+                    <td>{{ author.last_name }}</td>
+                    <td>{{ author.created_at }}</td>
+                    <td>{{ author.updated_at }}</td>
+                    <td>
+                      <a href="#" class="btn btn-primary" id="edit-author"
+                        >Edit</a
+                      >
+                      <a
+                        href="/admin/delete_author/{{ author.id }}"
+                        class="btn btn-danger"
+                        id="delete-author"
+                        >Delete</a
+                      >
+                    </td>
+                  </tr>
                   {% endfor %}
                 </tbody>
                 <tfoot>
@@ -129,33 +149,65 @@
 
 <div class="modal fade" id="create-author">
   <div class="modal-dialog">
-    <form class="modal-content" enctype="multipart/form-data" action="{{ url_for('create_author') }}" method="post">
+    <form
+      class="modal-content"
+      enctype="multipart/form-data"
+      action="{{ url_for('create_author') }}"
+      method="post"
+    >
       <div class="modal-header">
         <h4 class="modal-title">Create Author</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <div class="form-group">
           <label for="file">Image</label>
-          <input class="form-control" type="file" name="file" id="image">
+          <input class="form-control" type="file" name="file" id="image" />
         </div>
         <div class="form-group">
           <label for="first_name">First Name</label>
-          <input type="text" class="form-control" name="first_name" id="first_name" placeholder="Enter First Name" required>
+          <input
+            type="text"
+            class="form-control"
+            name="first_name"
+            id="first_name"
+            placeholder="Enter First Name"
+            required
+          />
         </div>
         <div class="form-group">
           <label for="middle_name">Middle Name</label>
-          <input type="text" class="form-control" name="middle_name" id="middle_name" placeholder="Enter Middle Name">
+          <input
+            type="text"
+            class="form-control"
+            name="middle_name"
+            id="middle_name"
+            placeholder="Enter Middle Name"
+          />
         </div>
         <div class="form-group">
           <label for="last_name">Last Name</label>
-          <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Enter Last Name" required>
+          <input
+            type="text"
+            class="form-control"
+            name="last_name"
+            id="last_name"
+            placeholder="Enter Last Name"
+            required
+          />
         </div>
       </div>
       <div class="modal-footer justify-content-between">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+          Close
+        </button>
         <button type="submit" class="btn btn-primary">Submit</button>
       </div>
     </form>
@@ -184,25 +236,9 @@
 <!-- page script -->
 <script>
   $(function () {
-    $("#example1").DataTable({
+    $("#authors").DataTable({
       responsive: true,
       autoWidth: false,
-    });
-    $("#example2").DataTable({
-      paging: true,
-      lengthChange: false,
-      searching: false,
-      ordering: true,
-      info: true,
-      autoWidth: false,
-      responsive: true,
-    });
-
-    var Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000
     });
   });
 </script>

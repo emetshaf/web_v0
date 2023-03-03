@@ -1,5 +1,5 @@
-{% extends "admin/layouts/base.html" %}
-{% block title %} AudioBooks {% endblock %}
+{% extends "admin/layouts/base.html" %} {% block title %} AudioBooks {% endblock
+%}
 
 <!-- Element injected in the BODY element -->
 {% block body_class %} audiobooks {% endblock body_class %}
@@ -27,13 +27,17 @@
   href="{{ url_for('static', filename='assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}?{{ cache_id }}"
 />
 
-<link rel="stylesheet" href="{{ url_for('static', filename='assets/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}?{{ cache_id }}">
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='assets/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}?{{ cache_id }}"
+/>
 <!-- Theme style -->
-<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/adminlte.min.css') }}?{{ cache_id }}" />
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='assets/css/adminlte.min.css') }}?{{ cache_id }}"
+/>
 
-{% endblock stylesheets %}
-
-{% block content %}
+{% endblock stylesheets %} {% block content %}
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
@@ -64,13 +68,18 @@
           <div class="card">
             <div class="card-header">
               <!-- <h3 class="card-title">AudioBooks List</h3> -->
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create-audiobook">
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-toggle="modal"
+                data-target="#create-audiobook"
+              >
                 Create AudioBook
               </button>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-              <table id="example1" class="table table-bordered table-striped">
+              <table id="audiobooks" class="table table-bordered table-striped">
                 <thead>
                   <tr>
                     <th>File</th>
@@ -81,15 +90,19 @@
                 </thead>
                 <tbody>
                   {% for audiobook in audiobooks %}
-                    <tr>
-                      <td>{{ audiobook.file }}</td>
-                      <td>{{ audiobook.created_at }}</td>
-                      <td>{{ audiobook.updated_at }}</td>
-                      <td>
-                        <a href="#" class="btn btn-primary" id="edit-audiobook">Edit</a>
-                        <a href="#" class="btn btn-danger" id="delete-audiobook">Delete</a>
-                      </td>
-                    </tr>
+                  <tr>
+                    <td>{{ audiobook.file }}</td>
+                    <td>{{ audiobook.created_at }}</td>
+                    <td>{{ audiobook.updated_at }}</td>
+                    <td>
+                      <a href="#" class="btn btn-primary" id="edit-audiobook"
+                        >Edit</a
+                      >
+                      <a href="#" class="btn btn-danger" id="delete-audiobook"
+                        >Delete</a
+                      >
+                    </td>
+                  </tr>
                   {% endfor %}
                 </tbody>
                 <tfoot>
@@ -117,21 +130,40 @@
 
 <div class="modal fade" id="create-audiobook">
   <div class="modal-dialog">
-    <form class="modal-content" action="{{ url_for('create_audiobook') }}?{{ cache_id }}" method="post">
+    <form
+      class="modal-content"
+      action="{{ url_for('create_audiobook') }}?{{ cache_id }}"
+      method="post"
+    >
       <div class="modal-header">
         <h4 class="modal-title">Create AudioBook</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <div class="form-group">
           <label for="file">File</label>
-          <input type="text" class="form-control" value="{{ request.form['file'] }}" name="file" id="name" placeholder="Enter file" required>
+          <input
+            type="text"
+            class="form-control"
+            value="{{ request.form['file'] }}"
+            name="file"
+            id="name"
+            placeholder="Enter file"
+            required
+          />
         </div>
       </div>
       <div class="modal-footer justify-content-between">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+          Close
+        </button>
         <button type="submit" class="btn btn-primary">Submit</button>
       </div>
     </form>
@@ -160,7 +192,7 @@
 <!-- page script -->
 <script>
   $(function () {
-    $("#example1").DataTable({
+    $("#audiobooks").DataTable({
       responsive: true,
       autoWidth: false,
     });
