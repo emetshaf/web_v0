@@ -242,6 +242,34 @@ def admin_audiobooks():
         )
 
 
+@app.route('/admin/edit_audiobook/<audiobook_id>', methods=['GET', 'POST'], strict_slashes=False)
+def edit_audiobook(audiobook_id):
+    """Admin Edit AudioBooks Page
+    """
+    if api_status()['status'] == 'OK':
+        url = "http://localhost/api/v1/audiobooks/" + audiobook_id
+        audiobook = requests.get(url).json()
+        if request.method == 'POST':
+            url = "http://localhost/api/v1/audiobooks/" + audiobook_id
+            file = request.form['file']
+            payload = {
+                'file': file
+            }
+            requests.put(url, json=payload)
+            return redirect('/admin/audiobooks')
+        cache_id = uuid4()
+        return render_template(
+            'admin/edit_audiobooks.html',
+            audiobook=audiobook,
+            cache_id=cache_id,
+        )
+    else:
+        return render_template(
+            '500.html',
+            cache_id=cache_id,
+        )
+
+
 @ app.route('/admin/create_audiobook', methods=['POST'], strict_slashes=False)
 def create_audiobook():
     if request.method == 'POST':
@@ -270,6 +298,54 @@ def admin_authors():
         return render_template(
             'admin/authors.html',
             authors=authors,
+            cache_id=cache_id,
+        )
+    else:
+        return render_template(
+            '500.html',
+            cache_id=cache_id,
+        )
+
+
+@app.route('/admin/edit_author/<author_id>', methods=['GET', 'POST'], strict_slashes=False)
+def edit_author(author_id):
+    """Admin Edit Author Page
+    """
+    if api_status()['status'] == 'OK':
+        url = "http://localhost/api/v1/authors/" + author_id
+        author = requests.get(url).json()
+        if request.method == 'POST':
+            url = "http://localhost/api/v1/authors/" + author_id
+            filename = ''
+            if 'file' in request.files:
+                file = request.files['file']
+                if file and allowed_file(file.filename):
+                    extension = os.path.splitext(file.filename)[1]
+                    filename = str(uuid4()) + extension
+                    file.save(os.path.join(
+                        app.config['UPLOAD_FOLDER'] + '/authors', filename))
+            first_name = request.form['first_name']
+            middle_name = request.form['middle_name']
+            last_name = request.form['last_name']
+            if filename == '':
+                payload = {
+                    'first_name': first_name,
+                    'middle_name': middle_name,
+                    'last_name': last_name
+                }
+            else:
+                payload = {
+                    'first_name': first_name,
+                    'middle_name': middle_name,
+                    'last_name': last_name,
+                    'image': filename
+                }
+            requests.put(url, json=payload)
+            return redirect('/admin/authors')
+        cache_id = uuid4()
+        return render_template(
+            'admin/edit_author.html',
+            author=author,
             cache_id=cache_id,
         )
     else:
