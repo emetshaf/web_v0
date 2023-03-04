@@ -548,6 +548,37 @@ def admin_feedbacks():
         )
 
 
+@app.route('/admin/edit_feedback/<feedback_id>', methods=['GET', 'POST'], strict_slashes=False)
+def edit_feedback(feedback_id):
+    """Admin Edit Feedback Page
+    """
+    if api_status()['status'] == 'OK':
+        url = "http://localhost/api/v1/feedbacks/" + feedback_id
+        feedback = requests.get(url).json()
+        if request.method == 'POST':
+            full_name = request.form['full_name']
+            email = request.form['email']
+            message = request.form['message']
+            payload = {
+                'full_name': full_name,
+                'email': email,
+                'message': message
+            }
+            requests.put(url, json=payload)
+            return redirect('/admin/feedbacks')
+        cache_id = uuid4()
+        return render_template(
+            'admin/edit_feedback.html',
+            feedback=feedback,
+            cache_id=cache_id,
+        )
+    else:
+        return render_template(
+            '500.html',
+            cache_id=cache_id,
+        )
+
+
 @ app.route('/admin/create_feedback', methods=['POST'], strict_slashes=False)
 def create_feedback():
     if request.method == 'POST':

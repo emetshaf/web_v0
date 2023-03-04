@@ -1,0 +1,145 @@
+{% extends "admin/layouts/base.html" %} {% block title %} Feedbacks {% endblock
+    %}
+    
+    <!-- Element injected in the BODY element -->
+    {% block body_class %} feedbacks {% endblock body_class %}
+    
+    <!-- Specific Page CSS goes HERE  -->
+    {% block stylesheets %}
+    
+    <!-- Google Font: Source Sans Pro -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"
+    />
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/plugins/fontawesome-free/css/all.min.css') }}?{{ cache_id }}"
+    />
+    <!-- DataTables -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}?{{ cache_id }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}?{{ cache_id }}"
+    />
+    
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}?{{ cache_id }}"
+    />
+    <!-- Theme style -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/css/adminlte.min.css') }}?{{ cache_id }}"
+    />
+    
+    {% endblock stylesheets %} {% block content %}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1>Feedbacks</h1>
+            </div>
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item">
+                  <a href="{{ url_for('admin_dashboard') }}">Home</a>
+                </li>
+                <li class="breadcrumb-item active">Feedbacks</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        <!-- /.container-fluid -->
+      </section>
+    
+      <!-- Main content -->
+      <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Edit Feedback</h4>
+                    <button
+                      type="button"
+                      class="close"
+                      data-dismiss="modal"
+                      aria-label="Close"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                    <form enctype="multipart/form-data" action="/admin/edit_feedback/{{ feedback.id }}"
+                    method="post"
+                  >
+                    <div class="card-body">
+                          <div class="form-group">
+                            <label for="full_name">Full Name</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              name="full_name"
+                              value="{{ feedback.full_name }}"
+                              id="full_name"
+                              placeholder="Enter Full Name"
+                            />
+                          </div>
+                          <div class="form-group">
+                            <label for="email">Email</label>
+                            <input
+                              type="email"
+                              class="form-control"
+                              name="email"
+                              value="{{ feedback.email }}"
+                              id="email"
+                              placeholder="Enter Email"
+                              required
+                            />
+                          </div>
+                          <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea class="form-control" placeholder="Enter Message" name="message" id="message" cols="30" rows="10">
+                              {{ feedback.message }}
+                            </textarea>
+                          </div>
+                    </div>
+                    <div class="card-footer">
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                  </form>
+              </div>
+              <!-- /.card -->
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+      </section>
+      <!-- /.content -->
+    </div>
+    
+    {% endblock content %}
+    
+    <!-- Specific Page JS goes HERE  -->
+    {% block javascripts %}
+    
+    <!-- jQuery -->
+    <script src="{{ url_for('static', filename='assets/plugins/jquery/jquery.min.js') }}?{{ cache_id }}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{{ url_for('static', filename='assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}?{{ cache_id }}"></script>
+    <!-- AdminLTE App -->
+    <script src="{{ url_for('static', filename='assets/js/adminlte.min.js') }}?{{ cache_id }}"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="{{ url_for('static', filename='assets/js/demo.js') }}?{{ cache_id }}"></script>
+    <!-- page script -->
+    {% endblock javascripts %}
+    

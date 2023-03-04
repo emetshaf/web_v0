@@ -90,7 +90,7 @@
                       <td>{{ feedback.created_at }}</td>
                       <td>{{ feedback.updated_at }}</td>
                       <td>
-                        <a href="#" class="btn btn-primary" id="edit-feedback">Edit</a>
+                        <a href="/admin/edit_feedback/{{ feedback.id }}" class="btn btn-primary" id="edit-feedback">Edit</a>
                         <a href="/admin/delete_feedback/{{ feedback.id }}" class="btn btn-danger" id="delete-feedback">Delete</a>
                       </td>
                     </tr>
