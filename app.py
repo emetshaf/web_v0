@@ -481,6 +481,34 @@ def admin_categories():
         )
 
 
+@app.route('/admin/edit_category/<category_id>', methods=['GET', 'POST'], strict_slashes=False)
+def edit_category(category_id):
+    """Admin Edit Category Page
+    """
+    if api_status()['status'] == 'OK':
+        url = "http://localhost/api/v1/categories/" + category_id
+        category = requests.get(url).json()
+        if request.method == 'POST':
+            url = "http://localhost/api/v1/categories/" + category_id
+            name = request.form['name']
+            payload = {
+                'name': name
+            }
+            requests.put(url, json=payload)
+            return redirect('/admin/categories')
+        cache_id = uuid4()
+        return render_template(
+            'admin/edit_category.html',
+            category=category,
+            cache_id=cache_id,
+        )
+    else:
+        return render_template(
+            '500.html',
+            cache_id=cache_id,
+        )
+
+
 @ app.route('/admin/create_category', methods=['POST'], strict_slashes=False)
 def create_category():
     if request.method == 'POST':
