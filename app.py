@@ -563,6 +563,33 @@ def admin_languages():
         )
 
 
+@app.route('/admin/edit_language/<language_id>', methods=['GET', 'POST'], strict_slashes=False)
+def edit_language(language_id):
+    """Admin Edit Language Page
+    """
+    if api_status()['status'] == 'OK':
+        url = "http://localhost/api/v1/languages/" + language_id
+        language = requests.get(url).json()
+        if request.method == 'POST':
+            name = request.form['name']
+            payload = {
+                'name': name
+            }
+            requests.put(url, json=payload)
+            return redirect('/admin/languages')
+        cache_id = uuid4()
+        return render_template(
+            'admin/edit_language.html',
+            language=language,
+            cache_id=cache_id,
+        )
+    else:
+        return render_template(
+            '500.html',
+            cache_id=cache_id,
+        )
+
+
 @ app.route('/admin/create_language', methods=['POST'], strict_slashes=False)
 def create_language():
     if request.method == 'POST':
