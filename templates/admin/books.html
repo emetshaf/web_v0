@@ -164,6 +164,14 @@
           <input class="form-control" type="text" name="title" id="title" required>
         </div>
         <div class="form-group">
+          <label for="authors">Authors</label>
+          <select class="select2" multiple="multiple" data-placeholder="Select an author" name="authors" id="authors" style="width: 100%;">
+            {% for author in authors %}
+              <option value="{{ author.id }}">{{ author.first_name }} {{ author.middle_name }} {{ author.last_name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
           <label for="language">Language</label>
           <select class="form-control select2" name="language" id="languages" required>
             <option value="">Select Language</option>

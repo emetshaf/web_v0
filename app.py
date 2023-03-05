@@ -399,11 +399,13 @@ def admin_books():
     if api_status()['status'] == 'OK':
         url = "http://localhost/api/v1/books"
         books = requests.get(url).json()
+        authors = requests.get("http://localhost/api/v1/authors").json()
         languages = requests.get("http://localhost/api/v1/languages").json()
         cache_id = uuid4()
         return render_template(
             'admin/books.html',
             books=books,
+            authors=authors,
             languages=languages,
             cache_id=cache_id,
         )
@@ -450,7 +452,11 @@ def create_book():
             'language_id': language_id,
             'file': fold + '/' + filename,
         }
-        requests.post(url, json=payload)
+        book = requests.post(url, json=payload)
+        authors = request.form.getlist('authors')
+        book_id = book.json()['id']
+        for author in authors:
+            requests.post("http://localhost/api/v1/books/" + str(book_id) + '/authors/' + author)
         return redirect('/admin/books')
 
 
@@ -907,12 +913,15 @@ def signin():
         )
 
 
-@ app.route('/signup', strict_slashes=False)
+@ app.route('/signup', methods=['GET', 'POST'], strict_slashes=False)
 def signup():
     """Signup Page
     """
     if api_status()['status'] == 'OK':
         url = "http://localhost/auth/signup"
+        if request.method == 'POST':
+            username = request.form['username']
+            password = request.form['password']
         cache_id = uuid4()
         return render_template(
             'signup.html',
