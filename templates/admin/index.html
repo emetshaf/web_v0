@@ -1,244 +1,221 @@
-{% extends "admin/layouts/base.html" %}
+{% extends 'admin/layouts/base.html' %}
 
-{% block title %} Dashboard {% endblock %}
+{% block title %} Dashboard {% endblock title %}
 
-<!-- Element injected in the BODY element -->
-{% block body_class %} {% endblock body_class %} 
-
-<!-- Specific Page CSS goes HERE  -->
-{% block stylesheets %}
-
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='assets/plugins/fontawesome-free/css/all.min.css') }}?{{ cache_id }}">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- Tempusdominus Bootstrap 4 -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}?{{ cache_id }}">
-  <!-- iCheck -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}?{{ cache_id }}">
-  <!-- JQVMap -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='assets/plugins/jqvmap/jqvmap.min.css') }}?{{ cache_id }}">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/adminlte.min.css') }}?{{ cache_id }}">
-  <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}?{{ cache_id }}">
-  <!-- Daterange picker -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='assets/plugins/daterangepicker/daterangepicker.css') }}?{{ cache_id }}">
-  <!-- summernote -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='assets/plugins/summernote/summernote-bs4.min.css') }}?{{ cache_id }}">
-
-{% endblock stylesheets %}
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
-  
-  <div class="content-wrapper">
 
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-6">
-            <h1 class="m-0 text-dark">Dashboard</h1>
-          </div><!-- /.col -->
-          <div class="col-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="{{ url_for('admin_dashboard') }}">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard</li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
+    <div class="container-fluid py-4">
 
-    <!-- Main content -->
-    <section class="content">
-      <div class="container-fluid">
-        <!-- Small boxes (Stat box) -->
-        <div class="row">
-          <!-- ./col -->
-          <div class="col-lg-3 col-md-4 col-6">
-            <!-- small box -->
-            <div class="small-box bg-info">
-              <div class="inner">
-                <h3 class="">{{ audiobooks }}</h3>
-
-                <p>AudioBooks</p>
+      <div class="row">
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+            <div class="card-body p-3">
+              <div class="row">
+                <div class="col-8">
+                  <div class="numbers">
+                    <p class="text-sm mb-0 text-capitalize font-weight-bold">AudioBooks</p>
+                    <h5 class="font-weight-bolder mb-0">
+                      {{ audiobooks }}
+                    </h5>
+                  </div>
+                </div>
+                <div class="col-4 text-end">
+                  <div class="icon icon-shape bg-gradient-info shadow text-center border-radius-md">
+                    <i class="fa fa-file-audio text-lg opacity-10" aria-hidden="true"></i>
+                  </div>
+                </div>
               </div>
-              <div class="icon">
-                <i class="fas fa-file-audio"></i>
-              </div>
-              <a href="{{ url_for('admin_audiobooks') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-md-4 col-6">
-            <!-- small box -->
-            <div class="small-box bg-success">
-              <div class="inner">
-                <h3 class="authors">{{ authors }}</h3>
-
-                <p>Authors</p>
-              </div>
-              <div class="icon">
-                <i class="fas fa-users"></i>
-              </div>
-              <a href="{{ url_for('admin_authors') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-md-4 col-6">
-            <!-- small box -->
-            <div class="small-box bg-warning">
-              <div class="inner">
-                <h3 class="books">{{ books }}</h3>
-
-                <p>Books</p>
-              </div>
-              <div class="icon">
-                <i class="fas fa-book"></i>
-              </div>
-              <a href="{{ url_for('admin_books') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-md-4 col-6">
-            <!-- small box -->
-            <div class="small-box bg-danger">
-              <div class="inner">
-                <h3 class="categories">{{ categories }}</h3>
-
-                <p>Categories</p>
-              </div>
-              <div class="icon">
-                <i class="fas fa-tags"></i>
-              </div>
-              <a href="{{ url_for('admin_categories') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-md-4 col-6">
-            <!-- small box -->
-            <div class="small-box bg-info">
-              <div class="inner">
-                <h3 class="feedbacks">{{ feedbacks }}</h3>
-
-                <p>Feedbacks</p>
-              </div>
-              <div class="icon">
-                <i class="fas fa-comment-alt"></i>
-              </div>
-              <a href="{{ url_for('admin_feedbacks') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-md-4 col-6">
-            <!-- small box -->
-            <div class="small-box bg-success">
-              <div class="inner">
-                <h3 class="languages">{{ languages }}</h3>
-
-                <p>Languages</p>
-              </div>
-              <div class="icon">
-                <i class="fas fa-language"></i>
-              </div>
-              <a href="{{ url_for('admin_languages') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-md-4 col-6">
-            <!-- small box -->
-            <div class="small-box bg-warning">
-              <div class="inner">
-                <h3 class="narrators">{{ narrators }}</h3>
-
-                <p>Narrators</p>
-              </div>
-              <div class="icon">
-                <i class="fas fa-users"></i>
-              </div>
-              <a href="{{ url_for('admin_narrators') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-md-4 col-6">
-            <!-- small box -->
-            <div class="small-box bg-danger">
-              <div class="inner">
-                <h3 class="reviews">{{ reviews }}</h3>
-
-                <p>Reviews</p>
-              </div>
-              <div class="icon">
-                <i class="fas fa-comments"></i>
-              </div>
-              <a href="{{ url_for('admin_reviews') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-md-4 col-6">
-            <!-- small box -->
-            <div class="small-box bg-info">
-              <div class="inner">
-                <h3 class="users">{{ users }}</h3>
-
-                <p>Users</p>
-              </div>
-              <div class="icon">
-                <i class="fas fa-users"></i>
-              </div>
-              <a href="{{ url_for('admin_users') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
         </div>
-        <!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
 
-  </div>
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+            <div class="card-body p-3">
+              <div class="row">
+                <div class="col-8">
+                  <div class="numbers">
+                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Authors</p>
+                    <h5 class="font-weight-bolder mb-0">
+                      {{ authors }}
+                    </h5>
+                  </div>
+                </div>
+                <div class="col-4 text-end">
+                  <div class="icon icon-shape bg-gradient-info shadow text-center border-radius-md">
+                    <i class="fa fa-users text-lg opacity-10" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+            <div class="card-body p-3">
+              <div class="row">
+                <div class="col-8">
+                  <div class="numbers">
+                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Books</p>
+                    <h5 class="font-weight-bolder mb-0">
+                      {{ books }}
+                    </h5>
+                  </div>
+                </div>
+                <div class="col-4 text-end">
+                  <div class="icon icon-shape bg-gradient-info shadow text-center border-radius-md">
+                    <i class="fa fa-book text-lg opacity-10" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+            <div class="card-body p-3">
+              <div class="row">
+                <div class="col-8">
+                  <div class="numbers">
+                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Categories</p>
+                    <h5 class="font-weight-bolder mb-0">
+                      {{ categories }}
+                    </h5>
+                  </div>
+                </div>
+                <div class="col-4 text-end">
+                  <div class="icon icon-shape bg-gradient-info shadow text-center border-radius-md">
+                    <i class="fa fa-tags text-lg opacity-10" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+            <div class="card-body p-3">
+              <div class="row">
+                <div class="col-8">
+                  <div class="numbers">
+                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Feedbacks</p>
+                    <h5 class="font-weight-bolder mb-0">
+                      {{ feedbacks }}
+                    </h5>
+                  </div>
+                </div>
+                <div class="col-4 text-end">
+                  <div class="icon icon-shape bg-gradient-info shadow text-center border-radius-md">
+                    <i class="fa fa-comment-alt text-lg opacity-10" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+            <div class="card-body p-3">
+              <div class="row">
+                <div class="col-8">
+                  <div class="numbers">
+                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Languages</p>
+                    <h5 class="font-weight-bolder mb-0">
+                      {{ languages }}
+                    </h5>
+                  </div>
+                </div>
+                <div class="col-4 text-end">
+                  <div class="icon icon-shape bg-gradient-info shadow text-center border-radius-md">
+                    <i class="fa fa-language text-lg opacity-10" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+            <div class="card-body p-3">
+              <div class="row">
+                <div class="col-8">
+                  <div class="numbers">
+                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Narrators</p>
+                    <h5 class="font-weight-bolder mb-0">
+                      {{ narrators }}
+                    </h5>
+                  </div>
+                </div>
+                <div class="col-4 text-end">
+                  <div class="icon icon-shape bg-gradient-info shadow text-center border-radius-md">
+                    <i class="fa fa-users text-lg opacity-10" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+            <div class="card-body p-3">
+              <div class="row">
+                <div class="col-8">
+                  <div class="numbers">
+                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Reviews</p>
+                    <h5 class="font-weight-bolder mb-0">
+                      {{ reviews }}
+                    </h5>
+                  </div>
+                </div>
+                <div class="col-4 text-end">
+                  <div class="icon icon-shape bg-gradient-info shadow text-center border-radius-md">
+                    <i class="fa fa-comments text-lg opacity-10" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+            <div class="card-body p-3">
+              <div class="row">
+                <div class="col-8">
+                  <div class="numbers">
+                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Users</p>
+                    <h5 class="font-weight-bolder mb-0">
+                      {{ users }}
+                    </h5>
+                  </div>
+                </div>
+                <div class="col-4 text-end">
+                  <div class="icon icon-shape bg-gradient-info shadow text-center border-radius-md">
+                    <i class="fa fa-users text-lg opacity-10" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% include "admin/includes/footer.html" %}
+
+    </div>
 
 {% endblock content %}
 
-<!-- Specific Page JS goes HERE  -->
+<!-- Specific JS goes HERE --> 
 {% block javascripts %}
-
-  <!-- jQuery -->
-  <script src="{{ url_for('static', filename='assets/plugins/jquery/jquery.min.js') }}?{{ cache_id }}"></script>
-  <!-- jQuery UI 1.11.4 -->
-  <script src="{{ url_for('static', filename='assets/plugins/jquery-ui/jquery-ui.min.js') }}?{{ cache_id }}"></script>
-  <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-  <script>
-    $.widget.bridge('uibutton', $.ui.button)
-  </script>
-  <!-- Bootstrap 4 -->
-  <script src="{{ url_for('static', filename='assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}?{{ cache_id }}"></script>
-  <!-- ChartJS -->
-  <script src="{{ url_for('static', filename='assets/plugins/chart.js/Chart.min.js') }}?{{ cache_id }}"></script>
-  <!-- Sparkline -->
-  <script src="{{ url_for('static', filename='assets/plugins/sparklines/sparkline.js') }}?{{ cache_id }}"></script>
-  <!-- JQVMap -->
-  <script src="{{ url_for('static', filename='assets/plugins/jqvmap/jquery.vmap.min.js') }}?{{ cache_id }}"></script>
-  <script src="{{ url_for('static', filename='assets/plugins/jqvmap/maps/jquery.vmap.usa.js') }}?{{ cache_id }}"></script>
-  <!-- jQuery Knob Chart -->
-  <script src="{{ url_for('static', filename='assets/plugins/jquery-knob/jquery.knob.min.js') }}?{{ cache_id }}"></script>
-  <!-- daterangepicker -->
-  <script src="{{ url_for('static', filename='assets/plugins/moment/moment.min.js') }}?{{ cache_id }}"></script>
-  <script src="{{ url_for('static', filename='assets/plugins/daterangepicker/daterangepicker.js') }}?{{ cache_id }}"></script>
-  <!-- Tempusdominus Bootstrap 4 -->
-  <script src="{{ url_for('static', filename='assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}?{{ cache_id }}"></script>
-  <!-- Summernote -->
-  <script src="{{ url_for('static', filename='assets/plugins/summernote/summernote-bs4.min.js') }}?{{ cache_id }}"></script>
-  <!-- overlayScrollbars -->
-  <script src="{{ url_for('static', filename='assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}?{{ cache_id }}"></script>
-  <!-- AdminLTE App -->
-  <script src="{{ url_for('static', filename='assets/js/adminlte.js') }}?{{ cache_id }}"></script>
-  <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-  <script src="{{ url_for('static', filename='assets/js/pages/dashboard.js') }}?{{ cache_id }}"></script>
-  <!-- AdminLTE for demo purposes -->
-  <script src="{{ url_for('static', filename='assets/js/demo.js') }}?{{ cache_id }}"></script>
 {% endblock javascripts %}

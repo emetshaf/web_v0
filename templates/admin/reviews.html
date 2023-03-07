@@ -1,221 +1,152 @@
-{% extends "admin/layouts/base.html" %}
-{% block title %} Reviews {% endblock %}
+{% extends 'admin/layouts/base.html' %}
 
-<!-- Element injected in the BODY element -->
-{% block body_class %} {% endblock body_class %}
+{% block title %} Reviews {% endblock title %}
 
-<!-- Specific Page CSS goes HERE  -->
-{% block stylesheets %}
-
-<!-- Google Font: Source Sans Pro -->
-<link
-  rel="stylesheet"
-  href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"
-/>
-<!-- Font Awesome -->
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='assets/plugins/fontawesome-free/css/all.min.css') }}?{{ cache_id }}"
-/>
-<!-- DataTables -->
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}?{{ cache_id }}"
-/>
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}?{{ cache_id }}"
-/>
-
-<link rel="stylesheet" href="{{ url_for('static', filename='assets/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}?{{ cache_id }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='assets/plugins/select2/css/select2.min.css') }}?{{ cache_id }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}?{{ cache_id }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='assets/plugins/summernote/summernote-bs4.min.css') }}?{{ cache_id }}">
-<!-- Theme style -->
-<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/adminlte.min.css') }}?{{ cache_id }}" />
-
-{% endblock stylesheets %}
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
-<!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
-  <!-- Content Header (Page header) -->
-  <section class="content-header">
-    <div class="container-fluid">
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <h1>Reviews</h1>
-        </div>
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item">
-              <a href="{{ url_for('admin_dashboard') }}">Home</a>
-            </li>
-            <li class="breadcrumb-item active">Reviews</li>
-          </ol>
-        </div>
-      </div>
-    </div>
-    <!-- /.container-fluid -->
-  </section>
 
-  <!-- Main content -->
-  <section class="content">
-    <div class="container-fluid">
+    <div class="container-fluid py-4">
+
       <div class="row">
+        <div class="col-3">
+          <button type="button" class="btn bg-gradient-info" data-bs-toggle="modal" data-bs-target="#create-review">
+            Create Review
+          </button>
+        </div>
         <div class="col-12">
-          <div class="card">
-            <div class="card-header">
-              <!-- <h3 class="card-title">Reviews List</h3> -->
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create-review">
-                Create Review
-              </button>
+          <div class="card mb-4">
+            <div class="card-header pb-0">
+              <h6>Reviews</h6>
             </div>
-            <!-- /.card-header -->
-            <div class="card-body">
-              <table id="reviews" class="table table-bordered table-striped">
-                <thead>
-                  <tr>
-                    <th>Text</th>
-                    <th>Book</th>
-                    <th>User</th>
-                    <th>Created At</th>
-                    <th>Updated At</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for review in reviews %}
+            <div class="card-body px-0 pt-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0">
+                  <thead>
                     <tr>
-                      <td>{{ review.text }}</td>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Book</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">User</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Text</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Created At</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Updated At</th>
+                      <th class="text-secondary opacity-7">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for review in reviews %}
+                    <tr>
                       <td>
-                        {% for book in books %}
+                        <div class="d-flex px-2 py-1">
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">
+                                {% for book in books %}
                           {% if book.id == review.book_id %}
                             {{ book.title }}
                           {% endif %}
                         {% endfor %}
+                            </h6>
+                          </div>
+                        </div>
                       </td>
                       <td>
-                        {% for user in users %}
+                        <div class="d-flex px-2 py-1">
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">
+                                {% for user in users %}
                           {% if user.id == review.user_id %}
                             {{ user.username }}
                           {% endif %}
                         {% endfor %}
+                            </h6>
+                          </div>
+                        </div>
                       </td>
-                      <td>{{ review.created_at }}</td>
-                      <td>{{ review.updated_at }}</td>
                       <td>
-                        <a href="#" class="btn btn-primary" id="edit-review">Edit</a>
-                        <a href="/admin/delete_review/{{ review.id }}" class="btn btn-danger" id="delete-review">Delete</a>
+                        <div class="d-flex px-2 py-1">
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">{{ review.text }}</h6>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">{{ review.created_at }}</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">{{ review.updated_at }}</span>
+                      </td>
+                      <td class="align-middle">
+                        <div class="ms-auto">
+                          <a
+                            class="btn btn-link text-dark px-3 mb-0"
+                            href="/admin/edit_review/{{ review.id }}"
+                            ><i
+                              class="fas fa-pencil-alt text-dark me-2"
+                              aria-hidden="true"
+                            ></i
+                            >Edit</a
+                          >
+    
+                          <a
+                            class="btn btn-link text-danger text-gradient px-3 mb-0"
+                            href="/admin/delete_review/{{ review.id }}"
+                            ><i class="far fa-trash-alt me-2" aria-hidden="true"></i
+                            >Delete</a
+                          >
+                        </div>
                       </td>
                     </tr>
-                  {% endfor %}
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <th>Text</th>
-                    <th>Book</th>
-                    <th>User</th>
-                    <th>Created At</th>
-                    <th>Updated At</th>
-                    <th>Actions</th>
-                  </tr>
-                </tfoot>
-              </table>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
             </div>
-            <!-- /.card-body -->
           </div>
-          <!-- /.card -->
         </div>
-        <!-- /.col -->
       </div>
-      <!-- /.row -->
+      {% include "admin/includes/footer.html" %}
+
     </div>
-    <!-- /.container-fluid -->
-  </section>
-  <!-- /.content -->
-</div>
 
-<div class="modal fade" id="create-review">
-  <div class="modal-dialog">
-    <form class="modal-content" action="{{ url_for('create_review') }}?{{ cache_id }}" method="post">
-      <div class="modal-header">
-        <h4 class="modal-title">Create Review</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+    <div class="modal fade" id="create-review" tabindex="-1" aria-labelledby="create-reviewLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <form class="modal-content" action="/admin/create_review" method="post">
+          <div class="modal-header">
+            <h5 class="modal-title" id="create-reviewLabel">Create Review</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group input-group-dynamic m-2">
+                <!-- <label class="form-label" for="file">File</label> -->
+                <select class="form-control" name="book" id="book">
+                    <option value="">Select a book</option>
+                    {% for book in books %}
+                    <option value="{{ book.id }}">{{ book.title }}</option>
+                    {% endfor %}
+                </select>
+                
+              </div>
+              <div class="input-group input-group-dynamic m-2">
+                <select class="form-control" name="user" id="user">
+                    <option value="">Select a user</option>
+                    {% for user in users %}
+                    <option value="{{ user.id }}">{{ user.username }}</option>
+                    {% endfor %}
+                </select>
+              </div>
+              <div class="input-group input-group-dynamic m-2">
+                <!-- <label class="form-label" for="file">File</label> -->
+                <textarea class="form-control" name="text" id="text" cols="30" rows="10" placeholder="Enter Text"></textarea>
+              </div>
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn bg-gradient-info">Submit</button>
+          </div>
+        </form>
       </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label for="user">User</label>
-          <select class="form-control select2" name="user" id="users">
-            <option value="">Select User</option>
-            {% for user in users %}
-              <option value="{{ user.id }}">{{ user.username }}</option>
-            {% endfor %}
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="book">Book</label>
-          <select class="form-control select2" name="book" id="books">
-            <option value="">Select Book</option>
-            {% for book in books %}
-              <option value="{{ book.id }}">{{ book.title }}</option>
-            {% endfor %}
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="text">Text</label>
-          <textarea class="form-control" placeholder="Enter text" name="text" id="text" cols="30" rows="10"></textarea>
-        </div>
-      </div>
-      <div class="modal-footer justify-content-between">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </div>
-    </form>
-  </div>
-</div>
-
+    </div>
 {% endblock content %}
 
-<!-- Specific Page JS goes HERE  -->
-{% block javascripts %}
-
-<!-- jQuery -->
-<script src="{{ url_for('static', filename='assets/plugins/jquery/jquery.min.js') }}?{{ cache_id }}"></script>
-<!-- Bootstrap 4 -->
-<script src="{{ url_for('static', filename='assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}?{{ cache_id }}"></script>
-<script src="{{ url_for('static', filename='assets/plugins/select2/js/select2.full.min.js') }}?{{ cache_id }}"></script>
-<!-- DataTables -->
-<script src="{{ url_for('static', filename='assets/plugins/datatables/jquery.dataTables.min.js') }}?{{ cache_id }}"></script>
-<script src="{{ url_for('static', filename='assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}?{{ cache_id }}"></script>
-<script src="{{ url_for('static', filename='assets/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}?{{ cache_id }}"></script>
-<script src="{{ url_for('static', filename='assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}?{{ cache_id }}"></script>
-<script src="{{ url_for('static', filename='assets/plugins/sweetalert2/sweetalert2.min.js') }}?{{ cache_id }}"></script>
-<script src="{{ url_for('static', filename='assets/plugins/summernote/summernote-bs4.min.js') }}?{{ cache_id }}"></script>
-<!-- AdminLTE App -->
-<script src="{{ url_for('static', filename='assets/js/adminlte.min.js') }}?{{ cache_id }}"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="{{ url_for('static', filename='assets/js/demo.js') }}?{{ cache_id }}"></script>
-<!-- page script -->
-<script>
-  $(function () {
-    $("#reviews").DataTable({
-      responsive: true,
-      autoWidth: false,
-    });
-
-    //Initialize Select2 Elements
-    $('.select2').select2()
-
-    //Initialize Select2 Elements
-    $('.select2bs4').select2({
-      theme: 'bootstrap4'
-    })
-    // Summernote
-    $('#text').summernote()
-  });
-</script>
-
-{% endblock javascripts %}
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}{% endblock javascripts %}

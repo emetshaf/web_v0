@@ -1,129 +1,38 @@
-{% extends "admin/layouts/base.html" %} {% block title %} Languages {% endblock
-%}
+{% extends 'admin/layouts/base.html' %}
 
-<!-- Element injected in the BODY element -->
-{% block body_class %} languages {% endblock body_class %}
+{% block title %} Languages {% endblock title %}
 
-<!-- Specific Page CSS goes HERE  -->
-{% block stylesheets %}
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
 
-<!-- Google Font: Source Sans Pro -->
-<link
-  rel="stylesheet"
-  href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"
-/>
-<!-- Font Awesome -->
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='assets/plugins/fontawesome-free/css/all.min.css') }}?{{ cache_id }}"
-/>
-<!-- DataTables -->
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}?{{ cache_id }}"
-/>
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}?{{ cache_id }}"
-/>
+{% block content %}
 
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='assets/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}?{{ cache_id }}"
-/>
-<!-- Theme style -->
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='assets/css/adminlte.min.css') }}?{{ cache_id }}"
-/>
+    <div class="container-fluid py-4">
 
-{% endblock stylesheets %} {% block content %}
-<!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
-  <!-- Content Header (Page header) -->
-  <section class="content-header">
-    <div class="container-fluid">
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <h1>Languages</h1>
-        </div>
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item">
-              <a href="{{ url_for('admin_dashboard') }}">Home</a>
-            </li>
-            <li class="breadcrumb-item active">Languages</li>
-          </ol>
-        </div>
-      </div>
-    </div>
-    <!-- /.container-fluid -->
-  </section>
-
-  <!-- Main content -->
-  <section class="content">
-    <div class="container-fluid">
       <div class="row">
         <div class="col-12">
-          <div class="card">
-            <div class="card-header">
-              <h4 class="card-title">Edit Language</h4>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
+          <div class="card mb-4">
+            <form action="/admin/edit_language/{{ language.id }}" method="post">
+            <div class="card-header pb-0">
+              <h6>Edit Language</h6>
             </div>
-            <form
-              enctype="multipart/form-data"
-              action="/admin/edit_language/{{ language.id }}"
-              method="post"
-            >
-              <div class="card-body">
-                <div class="form-group">
-                  <label for="name">Name</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="name"
-                    value="{{ language.name }}"
-                    id="name"
-                    placeholder="Enter Name"
-                    required
-                  />
-                </div>
-              </div>
-              <div class="card-footer">
-                <button type="submit" class="btn btn-primary">Submit</button>
-              </div>
-            </form>
+            <div class="card-body">
+                <div class="input-group input-group-dynamic">
+                    <!-- <label class="form-label" for="file">File</label> -->
+                    <input type="text" name="name" id="name" class="form-control" value="{{ language.name }}"  placeholder="Enter Name">
+                  </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn bg-gradient-info">Submit</button>
+            </div>
+        </form>
           </div>
-          <!-- /.card -->
         </div>
-        <!-- /.col -->
       </div>
-      <!-- /.row -->
-    </div>
-    <!-- /.container-fluid -->
-  </section>
-  <!-- /.content -->
-</div>
+      {% include "admin/includes/footer.html" %}
 
+    </div>
 {% endblock content %}
 
-<!-- Specific Page JS goes HERE  -->
-{% block javascripts %}
-
-<!-- jQuery -->
-<script src="{{ url_for('static', filename='assets/plugins/jquery/jquery.min.js') }}?{{ cache_id }}"></script>
-<!-- Bootstrap 4 -->
-<script src="{{ url_for('static', filename='assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}?{{ cache_id }}"></script>
-<!-- AdminLTE App -->
-<script src="{{ url_for('static', filename='assets/js/adminlte.min.js') }}?{{ cache_id }}"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="{{ url_for('static', filename='assets/js/demo.js') }}?{{ cache_id }}"></script>
-<!-- page script -->
-{% endblock javascripts %}
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}{% endblock javascripts %}

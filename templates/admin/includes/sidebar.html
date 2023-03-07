@@ -1,95 +1,105 @@
-  <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo -->
-    <a href="/" class="brand-link">
-      <img src="{{ url_for('static', filename='assets/img/EMetshafLogo.png') }}?{{ cache_id }}" alt="EMetshaf Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">EMetshaf</span>
-    </a>
-
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="{{ url_for('static', filename='assets/img/default-150x150.png') }}?{{ cache_id }}" class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
-          <a href="#" class="d-block">
-            {{ username }} - Signout
-          </a>
-        </div>
-      </div>
-
-      <!-- Sidebar Menu -->
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-          <li class="nav-item">
-            <a href="{{ url_for('admin_dashboard') }}" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt text-info"></i>
-              <p>Home</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ url_for('admin_audiobooks') }}" class="nav-link">
-              <!-- <i class="nav-icon faf fa-file-audio text-info"></i> -->
-              <i class="nav-icon fas fa-file-audio text-info"></i>
-              <p>AudioBooks</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ url_for('admin_authors') }}" class="nav-link">
-              <i class="nav-icon fas fa-users text-info"></i>
-              <p>Authors</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ url_for('admin_books') }}" class="nav-link">
-              <i class="nav-icon fas fa-book text-info"></i>
-              <p>Books</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ url_for('admin_categories') }}" class="nav-link">
-              <i class="nav-icon fas fa-tags text-info"></i>
-              <p>Categories</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ url_for('admin_feedbacks') }}" class="nav-link">
-              <i class="nav-icon fas fa-comment-alt text-info"></i>
-              <p>Feedbacks</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ url_for('admin_languages') }}" class="nav-link">
-              <i class="nav-icon fas fa-language text-info"></i>
-              <p>Languages</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ url_for('admin_narrators') }}" class="nav-link">
-              <i class="nav-icon fas fa-users text-info"></i>
-              <p>Narrators</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ url_for('admin_reviews') }}" class="nav-link">
-              <i class="nav-icon fas fa-comments text-info"></i>
-              <p>Reviews</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ url_for('admin_users') }}" class="nav-link">
-              <i class="nav-icon fas fa-users text-info"></i>
-              <p>Users</p>
-            </a>
-          </li>
-        </ul>
-      </nav>
-      <!-- /.sidebar-menu -->
+<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 " id="sidenav-main">
+    <div class="sidenav-header">
+      <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+      <a class="navbar-brand m-0" href="/">
+        <img src="/static/assets/img/icon.png" class="navbar-brand-img h-100" alt="main_logo">
+        <span class="ms-1 font-weight-bold">EMetshaf</span>
+      </a>
     </div>
-    <!-- /.sidebar -->
+    <hr class="horizontal dark mt-0">
+    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link {% if 'dashboard' in segment %} active {% endif %}" href="/admin">
+            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="fa fa-home text-lg text-secondary opacity-10" aria-hidden="true"></i>
+            </div>
+            <span class="nav-link-text ms-1">Dashboard</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link {% if 'audioboks' in segment %} active {% endif %}" href="/admin/audiobooks">
+            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="fa fa-file-audio text-lg text-secondary opacity-10" aria-hidden="true"></i>
+            </div>
+            <span class="nav-link-text ms-1">AudioBooks</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link {% if 'authors' in segment %} active {% endif %}" href="/admin/authors">
+            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="fa fa-users text-lg text-secondary opacity-10" aria-hidden="true"></i>
+            </div>
+            <span class="nav-link-text ms-1">Authors</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link {% if 'books' in segment %} active {% endif %}" href="/admin/books">
+            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="fa fa-book text-lg text-secondary opacity-10" aria-hidden="true"></i>
+            </div>
+            <span class="nav-link-text ms-1">Books</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link {% if 'categories' in segment %} active {% endif %}" href="/admin/categories">
+            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="fa fa-tags text-lg text-secondary opacity-10" aria-hidden="true"></i>
+            </div>
+            <span class="nav-link-text ms-1">Categories</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link {% if 'feedbacks' in segment %} active {% endif %}" href="/admin/feedbacks">
+            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="fa fa-comment-alt text-lg text-secondary opacity-10" aria-hidden="true"></i>
+            </div>
+            <span class="nav-link-text ms-1">Feedbacks</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link {% if 'languages' in segment %} active {% endif %}" href="/admin/languages">
+            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="fa fa-language text-lg text-secondary opacity-10" aria-hidden="true"></i>
+            </div>
+            <span class="nav-link-text ms-1">Languages</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link {% if 'narrators' in segment %} active {% endif %}" href="/admin/narrators">
+            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="fa fa-users text-lg text-secondary opacity-10" aria-hidden="true"></i>
+            </div>
+            <span class="nav-link-text ms-1">Narrators</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link {% if 'reviews' in segment %} active {% endif %}" href="/admin/reviews">
+            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="fa fa-comments text-lg text-secondary opacity-10" aria-hidden="true"></i>
+            </div>
+            <span class="nav-link-text ms-1">Reviews</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link {% if 'users' in segment %} active {% endif %}" href="/admin/users">
+            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="fa fa-users text-lg text-secondary opacity-10" aria-hidden="true"></i>
+            </div>
+            <span class="nav-link-text ms-1">Users</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidenav-footer mx-3 ">
+    </div>
   </aside>
-  

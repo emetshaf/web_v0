@@ -1,201 +1,145 @@
-{% extends "admin/layouts/base.html" %} {% block title %} AudioBooks {% endblock
-%}
+{% extends 'admin/layouts/base.html' %} {% block title %} AudioBooks {% endblock
+title %}
 
-<!-- Element injected in the BODY element -->
-{% block body_class %} audiobooks {% endblock body_class %}
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %} {% block content %}
 
-<!-- Specific Page CSS goes HERE  -->
-{% block stylesheets %}
-
-<!-- Google Font: Source Sans Pro -->
-<link
-  rel="stylesheet"
-  href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"
-/>
-<!-- Font Awesome -->
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='assets/plugins/fontawesome-free/css/all.min.css') }}?{{ cache_id }}"
-/>
-<!-- DataTables -->
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}?{{ cache_id }}"
-/>
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}?{{ cache_id }}"
-/>
-
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='assets/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}?{{ cache_id }}"
-/>
-<!-- Theme style -->
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='assets/css/adminlte.min.css') }}?{{ cache_id }}"
-/>
-
-{% endblock stylesheets %} {% block content %}
-<!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
-  <!-- Content Header (Page header) -->
-  <section class="content-header">
-    <div class="container-fluid">
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <h1>AudioBooks</h1>
-        </div>
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item">
-              <a href="{{ url_for('admin_dashboard') }}">Home</a>
-            </li>
-            <li class="breadcrumb-item active">AudioBooks</li>
-          </ol>
-        </div>
-      </div>
+<div class="container-fluid py-4">
+  <div class="row">
+    <div class="col-3">
+      <button
+        type="button"
+        class="btn bg-gradient-info"
+        data-bs-toggle="modal"
+        data-bs-target="#create-AudioBook"
+      >
+        Create AudioBook
+      </button>
     </div>
-    <!-- /.container-fluid -->
-  </section>
-
-  <!-- Main content -->
-  <section class="content">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-12">
-          <div class="card">
-            <div class="card-header">
-              <!-- <h3 class="card-title">AudioBooks List</h3> -->
-              <button
-                type="button"
-                class="btn btn-primary"
-                data-toggle="modal"
-                data-target="#create-audiobook"
-              >
-                Create AudioBook
-              </button>
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body">
-              <table id="audiobooks" class="table table-bordered table-striped">
-                <thead>
-                  <tr>
-                    <th>File</th>
-                    <th>Created At</th>
-                    <th>Updated At</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for audiobook in audiobooks %}
-                  <tr>
-                    <td>{{ audiobook.file }}</td>
-                    <td>{{ audiobook.created_at }}</td>
-                    <td>{{ audiobook.updated_at }}</td>
-                    <td>
-                      <a href="/admin/edit_audiobook/{{ audiobook.id }}" class="btn btn-primary" id="edit-audiobook"
+    <div class="col-12">
+      <div class="card mb-4">
+        <div class="card-header pb-0">
+          <h6>AudioBooks</h6>
+        </div>
+        <div class="card-body px-0 pt-0 pb-2">
+          <div class="table-responsive p-0">
+            <table class="table align-items-center mb-0">
+              <thead>
+                <tr>
+                  <th
+                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+                  >
+                    File
+                  </th>
+                  <th
+                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
+                  >
+                    Created At
+                  </th>
+                  <th
+                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+                  >
+                    Updated At
+                  </th>
+                  <th class="text-secondary opacity-7">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for audiobook in audiobooks %}
+                <tr>
+                  <td>
+                    <div class="d-flex px-2 py-1">
+                      <div class="d-flex flex-column justify-content-center">
+                        <h6 class="mb-0 text-sm">{{ audiobook.file }}</h6>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold"
+                      >{{ audiobook.created_at }}</span
+                    >
+                  </td>
+                  <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold"
+                      >{{ audiobook.updated_at }}</span
+                    >
+                  </td>
+                  <td class="align-middle">
+                    <div class="ms-auto">
+                      <a
+                        class="btn btn-link text-dark px-3 mb-0"
+                        href="/admin/edit_audiobook/{{ audiobook.id }}"
+                        ><i
+                          class="fas fa-pencil-alt text-dark me-2"
+                          aria-hidden="true"
+                        ></i
                         >Edit</a
                       >
-                      <a href="#" class="btn btn-danger" id="delete-audiobook"
+
+                      <a
+                        class="btn btn-link text-danger text-gradient px-3 mb-0"
+                        href="/admin/delete_audiobook/{{ audiobook.id }}"
+                        ><i class="far fa-trash-alt me-2" aria-hidden="true"></i
                         >Delete</a
                       >
-                    </td>
-                  </tr>
-                  {% endfor %}
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <th>File</th>
-                    <th>Created At</th>
-                    <th>Updated At</th>
-                    <th>Actions</th>
-                  </tr>
-                </tfoot>
-              </table>
-            </div>
-            <!-- /.card-body -->
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
           </div>
-          <!-- /.card -->
         </div>
-        <!-- /.col -->
       </div>
-      <!-- /.row -->
     </div>
-    <!-- /.container-fluid -->
-  </section>
-  <!-- /.content -->
+  </div>
+  {% include "admin/includes/footer.html" %}
 </div>
 
-<div class="modal fade" id="create-audiobook">
+<div
+  class="modal fade"
+  id="create-AudioBook"
+  tabindex="-1"
+  aria-labelledby="create-AudioBookLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog">
-    <form
-      class="modal-content"
-      action="{{ url_for('create_audiobook') }}"
-      method="post"
-    >
+    <form class="modal-content" action="/admin/create_audiobook" method="post">
       <div class="modal-header">
-        <h4 class="modal-title">Create AudioBook</h4>
+        <h5 class="modal-title" id="create-AudioBookLabel">Create AudioBook</h5>
         <button
           type="button"
-          class="close"
-          data-dismiss="modal"
+          class="btn-close"
+          data-bs-dismiss="modal"
           aria-label="Close"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
+        ></button>
       </div>
       <div class="modal-body">
-        <div class="form-group">
-          <label for="file">File</label>
+        <div class="input-group input-group-dynamic">
+          <!-- <label class="form-label" for="file">File</label> -->
           <input
             type="text"
-            class="form-control"
             name="file"
-            id="name"
-            placeholder="Enter file"
-            required
+            id="file"
+            class="form-control"
+            placeholder="Enter File"
           />
         </div>
       </div>
       <div class="modal-footer justify-content-between">
-        <button type="button" class="btn btn-default" data-dismiss="modal">
+        <button
+          type="button"
+          class="btn bg-gradient-dark"
+          data-bs-dismiss="modal"
+        >
           Close
         </button>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn bg-gradient-info">Submit</button>
       </div>
     </form>
   </div>
 </div>
-
 {% endblock content %}
 
-<!-- Specific Page JS goes HERE  -->
-{% block javascripts %}
-
-<!-- jQuery -->
-<script src="{{ url_for('static', filename='assets/plugins/jquery/jquery.min.js') }}?{{ cache_id }}"></script>
-<!-- Bootstrap 4 -->
-<script src="{{ url_for('static', filename='assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}?{{ cache_id }}"></script>
-<!-- DataTables -->
-<script src="{{ url_for('static', filename='assets/plugins/datatables/jquery.dataTables.min.js') }}?{{ cache_id }}"></script>
-<script src="{{ url_for('static', filename='assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}?{{ cache_id }}"></script>
-<script src="{{ url_for('static', filename='assets/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}?{{ cache_id }}"></script>
-<script src="{{ url_for('static', filename='assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}?{{ cache_id }}"></script>
-<script src="{{ url_for('static', filename='assets/plugins/sweetalert2/sweetalert2.min.js') }}?{{ cache_id }}"></script>
-<!-- AdminLTE App -->
-<script src="{{ url_for('static', filename='assets/js/adminlte.min.js') }}?{{ cache_id }}"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="{{ url_for('static', filename='assets/js/demo.js') }}?{{ cache_id }}"></script>
-<!-- page script -->
-<script>
-  $(function () {
-    $("#audiobooks").DataTable({
-      responsive: true,
-      autoWidth: false,
-    });
-  });
-</script>
-
-{% endblock javascripts %}
+<!-- Specific JS goes HERE -->
+{% block javascripts %}{% endblock javascripts %}

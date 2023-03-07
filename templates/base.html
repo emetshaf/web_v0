@@ -40,7 +40,7 @@
     <header>
       <nav class="navbar navbar-expand-sm navbar-light bg-light py-3">
         <div class="container">
-          <a class="navbar-brand h1 text-info" href="{{ url_for('home') }}">EMetshaf</a>
+          <a class="navbar-brand h1 text-info" href="/">EMetshaf</a>
           <button
             class="navbar-toggler d-lg-none"
             type="button"
@@ -58,7 +58,7 @@
           >
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link {% block home_active %} {% endblock %}" href="{{ url_for('home') }}">
+                <a class="nav-link {% block home_active %} {% endblock %}" href="/">
                   <i class="fa fa-home" aria-hidden="true"></i>
                   Home
                 </a>
@@ -89,10 +89,10 @@
             </div>
             <div class="col-md-4 text-end">
               <button type="button" class="btn btn-outline-info me-2" value="">
-                <a class="nav-link" href="{{ url_for('signin') }}">Signin</a>
+                <a class="nav-link" href="/signin">Signin</a>
               </button>
               <button type="button" class="btn btn-info text-white">
-                <a class="nav-link" href="{{ url_for('signup') }}">Signup</a>
+                <a class="nav-link" href="/signup">Signup</a>
               </button>
             </div>
           </div>

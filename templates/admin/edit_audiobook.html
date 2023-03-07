@@ -1,0 +1,38 @@
+{% extends 'admin/layouts/base.html' %}
+
+{% block title %} AudioBooks {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <div class="container-fluid py-4">
+
+      <div class="row">
+        <div class="col-12">
+          <div class="card mb-4">
+            <form action="/admin/edit_audiobook/{{ audiobook.id }}" method="post">
+            <div class="card-header pb-0">
+              <h6>Edit AudioBook</h6>
+            </div>
+            <div class="card-body">
+                <div class="input-group input-group-dynamic">
+                    <!-- <label class="form-label" for="file">File</label> -->
+                    <input type="text" name="file" id="file" class="form-control" value="{{ audiobook.file }}"  placeholder="Enter File">
+                  </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn bg-gradient-info">Submit</button>
+            </div>
+        </form>
+          </div>
+        </div>
+      </div>
+      {% include "admin/includes/footer.html" %}
+
+    </div>
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}{% endblock javascripts %}

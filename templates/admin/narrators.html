@@ -1,245 +1,142 @@
-{% extends "admin/layouts/base.html" %} {% block title %} Narrators {% endblock
-%}
+{% extends 'admin/layouts/base.html' %}
 
-<!-- Element injected in the BODY element -->
-{% block body_class %} narrators {% endblock body_class %}
+{% block title %} Narrators {% endblock title %}
 
-<!-- Specific Page CSS goes HERE  -->
-{% block stylesheets %}
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
 
-<!-- Google Font: Source Sans Pro -->
-<link
-  rel="stylesheet"
-  href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"
-/>
-<!-- Font Awesome -->
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='assets/plugins/fontawesome-free/css/all.min.css') }}?{{ cache_id }}"
-/>
-<!-- DataTables -->
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}?{{ cache_id }}"
-/>
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}?{{ cache_id }}"
-/>
+{% block content %}
 
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='assets/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}?{{ cache_id }}"
-/>
-<!-- Theme style -->
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='assets/css/adminlte.min.css') }}?{{ cache_id }}"
-/>
+    <div class="container-fluid py-4">
 
-{% endblock stylesheets %} {% block content %}
-<!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
-  <!-- Content Header (Page header) -->
-  <section class="content-header">
-    <div class="container-fluid">
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <h1>Narrators</h1>
-        </div>
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item">
-              <a href="{{ url_for('admin_dashboard') }}">Home</a>
-            </li>
-            <li class="breadcrumb-item active">Narrators</li>
-          </ol>
-        </div>
-      </div>
-    </div>
-    <!-- /.container-fluid -->
-  </section>
-
-  <!-- Main content -->
-  <section class="content">
-    <div class="container-fluid">
       <div class="row">
+        <div class="col-3">
+          <button type="button" class="btn bg-gradient-info" data-bs-toggle="modal" data-bs-target="#create-narrator">
+            Create Narrator
+          </button>
+        </div>
         <div class="col-12">
-          <div class="card">
-            <div class="card-header">
-              <!-- <h3 class="card-title">Narrators List</h3> -->
-              <button
-                type="button"
-                class="btn btn-primary"
-                data-toggle="modal"
-                data-target="#create-narrator"
-              >
-                Create Narrator
-              </button>
+          <div class="card mb-4">
+            <div class="card-header pb-0">
+              <h6>Narrators</h6>
             </div>
-            <!-- /.card-header -->
-            <div class="card-body">
-              <table id="narrators" class="table table-bordered table-striped">
-                <thead>
-                  <tr>
-                    <th>Image</th>
-                    <th>First Name</th>
-                    <th>Middle Name</th>
-                    <th>Last Name</th>
-                    <th>Created At</th>
-                    <th>Updated At</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for narrator in narrators %}
-                  <tr>
-                    <td>
-                      <img
-                        src="/static/uploads/narrators/{{ narrator.image }}"
-                        width="60"
-                        height="80"
-                        alt=""
-                      />
-                    </td>
-                    <td>{{ narrator.first_name }}</td>
-                    <td>{{ narrator.middle_name }}</td>
-                    <td>{{ narrator.last_name }}</td>
-                    <td>{{ narrator.created_at }}</td>
-                    <td>{{ narrator.updated_at }}</td>
-                    <td>
-                      <a href="/admin/edit_narrator/{{ narrator.id }}" class="btn btn-primary" id="edit-narrator"
-                        >Edit</a
-                      >
-                      <a
-                        href="/admin/delete_narrator/{{ narrator.id }}"
-                        class="btn btn-danger"
-                        id="delete-narrator"
-                        >Delete</a
-                      >
-                    </td>
-                  </tr>
-                  {% endfor %}
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <th>Image</th>
-                    <th>First Name</th>
-                    <th>Middle Name</th>
-                    <th>Last Name</th>
-                    <th>Created At</th>
-                    <th>Updated At</th>
-                    <th>Actions</th>
-                  </tr>
-                </tfoot>
-              </table>
+            <div class="card-body px-0 pt-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Image</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">First Name</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Middle Name</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Last Name</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Created At</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Updated At</th>
+                      <th class="text-secondary opacity-7">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for narrator in narrators %}
+                    <tr>
+                        <td>
+                            <div class="d-flex px-2 py-1">
+                              <div>
+                                <img src="/static/uploads/narrators/{{ narrator.image }}" class="avatar avatar-sm me-3" alt="user1">
+                              </div>
+                            </div>
+                          </td>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">{{ narrator.first_name }}</h6>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">{{ narrator.middle_name }}</h6>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">{{ narrator.last_name }}</h6>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">{{ narrator.created_at }}</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">{{ narrator.updated_at }}</span>
+                      </td>
+                      <td class="align-middle">
+                        <div class="ms-auto">
+                          <a
+                            class="btn btn-link text-dark px-3 mb-0"
+                            href="/admin/edit_narrator/{{ narrator.id }}"
+                            ><i
+                              class="fas fa-pencil-alt text-dark me-2"
+                              aria-hidden="true"
+                            ></i
+                            >Edit</a
+                          >
+    
+                          <a
+                            class="btn btn-link text-danger text-gradient px-3 mb-0"
+                            href="/admin/delete_narrator/{{ narrator.id }}"
+                            ><i class="far fa-trash-alt me-2" aria-hidden="true"></i
+                            >Delete</a
+                          >
+                        </div>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
             </div>
-            <!-- /.card-body -->
           </div>
-          <!-- /.card -->
         </div>
-        <!-- /.col -->
       </div>
-      <!-- /.row -->
-    </div>
-    <!-- /.container-fluid -->
-  </section>
-  <!-- /.content -->
-</div>
+      {% include "admin/includes/footer.html" %}
 
-<div class="modal fade" id="create-narrator">
-  <div class="modal-dialog">
-    <form
-      class="modal-content"
-      enctype="multipart/form-data"
-      action="{{ url_for('create_narrator') }}"
-      method="post"
-    >
-      <div class="modal-header">
-        <h4 class="modal-title">Create Narrator</h4>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
+    </div>
+
+    <div class="modal fade" id="create-narrator" tabindex="-1" aria-labelledby="create-narratorLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <form class="modal-content" enctype="multipart/form-data" action="/admin/create_narrator" method="post">
+          <div class="modal-header">
+            <h5 class="modal-title" id="create-narratorLabel">Create Narrator</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group input-group-dynamic m-2">
+                <!-- <label class="form-label" for="file">File</label> -->
+                <input type="file" name="file" id="file" class="form-control" placeholder="Enter image Name" required>
+              </div>
+              <div class="input-group input-group-dynamic m-2">
+                <!-- <label class="form-label" for="file">File</label> -->
+                <input type="text" name="first_name" id="first_name" class="form-control" placeholder="Enter First Name" required>
+              </div>
+              <div class="input-group input-group-dynamic m-2">
+                <!-- <label class="form-label" for="file">File</label> -->
+                <input type="text" name="middle_name" id="middle_name" class="form-control" placeholder="Enter Middle Name">
+              </div>
+              <div class="input-group input-group-dynamic m-2">
+                <!-- <label class="form-label" for="file">File</label> -->
+                <input type="text" name="last_name" id="last_name" class="form-control" placeholder="Enter Last Name" required>
+              </div>
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn bg-gradient-info">Submit</button>
+          </div>
+        </form>
       </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label for="file">Image</label>
-          <input class="form-control" type="file" name="file" id="image" />
-        </div>
-        <div class="form-group">
-          <label for="first_name">First Name</label>
-          <input
-            type="text"
-            class="form-control"
-            name="first_name"
-            id="first_name"
-            placeholder="Enter First Name"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label for="middle_name">Middle Name</label>
-          <input
-            type="text"
-            class="form-control"
-            name="middle_name"
-            id="middle_name"
-            placeholder="Enter Middle Name"
-          />
-        </div>
-        <div class="form-group">
-          <label for="last_name">Last Name</label>
-          <input
-            type="text"
-            class="form-control"
-            name="last_name"
-            id="last_name"
-            placeholder="Enter Last Name"
-            required
-          />
-        </div>
-      </div>
-      <div class="modal-footer justify-content-between">
-        <button type="button" class="btn btn-default" data-dismiss="modal">
-          Close
-        </button>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </div>
-    </form>
-  </div>
-</div>
+    </div>
 {% endblock content %}
 
-<!-- Specific Page JS goes HERE  -->
-{% block javascripts %}
-
-<!-- jQuery -->
-<script src="{{ url_for('static', filename='assets/plugins/jquery/jquery.min.js') }}?{{ cache_id }}"></script>
-<!-- Bootstrap 4 -->
-<script src="{{ url_for('static', filename='assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}?{{ cache_id }}"></script>
-<!-- DataTables -->
-<script src="{{ url_for('static', filename='assets/plugins/datatables/jquery.dataTables.min.js') }}?{{ cache_id }}"></script>
-<script src="{{ url_for('static', filename='assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}?{{ cache_id }}"></script>
-<script src="{{ url_for('static', filename='assets/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}?{{ cache_id }}"></script>
-<script src="{{ url_for('static', filename='assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}?{{ cache_id }}"></script>
-<script src="{{ url_for('static', filename='assets/plugins/sweetalert2/sweetalert2.min.js') }}?{{ cache_id }}"></script>
-<!-- AdminLTE App -->
-<script src="{{ url_for('static', filename='assets/js/adminlte.min.js') }}?{{ cache_id }}"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="{{ url_for('static', filename='assets/js/demo.js') }}?{{ cache_id }}"></script>
-<!-- page script -->
-<script>
-  $(function () {
-    $("#narrators").DataTable({
-      responsive: true,
-      autoWidth: false,
-    });
-  });
-</script>
-
-{% endblock javascripts %}
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}{% endblock javascripts %}

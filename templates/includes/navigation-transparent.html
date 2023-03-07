@@ -1,50 +1,108 @@
-  <!-- Navbar Transparent -->
-  <nav class="navbar navbar-expand-lg position-absolute top-0 z-index-3 w-100 shadow-none my-3  navbar-transparent ">
-    <div class="container">
-      <a class="navbar-brand  text-white " href="/" rel="tooltip" title="Designed and Coded by Creative Tim" data-placement="bottom">
-        EMetshaf
-      </a>
-      <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon mt-2">
-          <span class="navbar-toggler-bar bar1"></span>
-          <span class="navbar-toggler-bar bar2"></span>
-          <span class="navbar-toggler-bar bar3"></span>
-        </span>
-      </button>
-      <div class="collapse navbar-collapse w-100 pt-3 pb-2 py-lg-0 ms-lg-12 ps-lg-5" id="navigation">
-        <ul class="navbar-nav navbar-nav-hover ms-auto">
+<!-- Navbar Transparent -->
+<nav
+  class="navbar navbar-expand-lg position-absolute top-0 z-index-3 w-100 shadow-none my-3 navbar-transparent"
+>
+  <div class="container">
+    <a
+      class="navbar-brand text-white"
+      href="/"
+      rel="tooltip"
+      title="Designed and Coded by Creative Tim"
+      data-placement="bottom"
+    >
+      EMetshaf
+    </a>
+    <button
+      class="navbar-toggler shadow-none ms-2"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navigation"
+      aria-controls="navigation"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon mt-2">
+        <span class="navbar-toggler-bar bar1"></span>
+        <span class="navbar-toggler-bar bar2"></span>
+        <span class="navbar-toggler-bar bar3"></span>
+      </span>
+    </button>
+    <div
+      class="collapse navbar-collapse w-100 pt-3 pb-2 py-lg-0 ms-lg-12 ps-lg-5"
+      id="navigation"
+    >
+      <ul class="navbar-nav navbar-nav-hover ms-auto">
+        <li class="nav-item ms-lg-auto">
+          <a class="nav-link nav-link-icon me-2" href="/">
+            <i class="fa fa-download me-1"></i>
+            <p
+              class="d-inline text-sm z-index-1 font-weight-bold"
+              data-bs-toggle="tooltip"
+              data-bs-placement="bottom"
+              title="Home"
+            >
+              Home
+            </p>
+          </a>
+        </li>
 
-          <li class="nav-item ms-lg-auto">
-            <a class="nav-link nav-link-icon me-2" href="{{ url_for('home') }}">
-              <i class="fa fa-download me-1"></i>
-              <p class="d-inline text-sm z-index-1 font-weight-bold" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Home">Home</p>
-            </a>
-          </li>
+        <li class="nav-item ms-lg-auto">
+          <a
+            class="nav-link nav-link-icon me-2"
+            href="/discover"
+          >
+            <i class="fa fa-download me-1"></i>
+            <p
+              class="d-inline text-sm z-index-1 font-weight-bold"
+              data-bs-toggle="tooltip"
+              data-bs-placement="bottom"
+              title="Discover"
+            >
+              Discover
+            </p>
+          </a>
+        </li>
 
-          <li class="nav-item ms-lg-auto">
-            <a class="nav-link nav-link-icon me-2" href="{{ url_for('discover') }}">
-              <i class="fa fa-download me-1"></i>
-              <p class="d-inline text-sm z-index-1 font-weight-bold" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Discover">Discover</p>
-            </a>
-          </li>
-
-          <li class="nav-item ms-lg-auto">
-            <a class="nav-link nav-link-icon me-2" href="{{ url_for('library') }}">
-              <i class="fa fa-download me-1"></i>
-              <p class="d-inline text-sm z-index-1 font-weight-bold" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Library">Library</p>
-            </a>
-          </li>
-          
-            <li class="nav-item ms-lg-auto">
-              <a class="nav-link nav-link-icon me-2" 
-                href="#" id="signout">
-                <i class="fa fa-sign-out me-1"></i>
-                <p class="d-inline text-sm z-index-1 font-weight-bold" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Sign OUT">Logout</p>
-              </a>
-            </li>
-
-        </ul>
-      </div>
+        {% if username != None or username %}
+              <li class="nav-item ms-lg-auto">
+                <a
+                  class="nav-link nav-link-icon me-2"
+                  href="/library"
+                >
+                  <i class="fa fa-bookmark me-1"></i>
+                  <p
+                    class="d-inline text-sm z-index-1 font-weight-bold"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="bottom"
+                    title="Library"
+                  >
+                    Library
+                  </p>
+                </a>
+              </li>
+              <li class="nav-item ms-lg-auto">
+                <a class="nav-link nav-link-icon me-2" href="/signout" id="signout">
+                  <i class="fa fa-sign-out me-1"></i>
+                  <p
+                    class="d-inline text-sm z-index-1 font-weight-bold"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="bottom"
+                    title="Sign OUT"
+                  >
+                  Signout
+                  </p>
+                </a>
+              </li>
+              {% else %}
+              <li class="nav-item ms-lg-auto">
+                <a href="/signin" class="nav-link me-2 text-info btn btn-outline-info">Signin</a>
+              </li>
+              <li class="nav-item">
+                <a href="/signup" class="nav-link me-2 text-white btn btn-info">Signup</a>
+              </li>
+              {% endif %}
+      </ul>
     </div>
-  </nav>
-  <!-- End Navbar -->
+  </div>
+</nav>
+<!-- End Navbar -->

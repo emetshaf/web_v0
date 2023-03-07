@@ -23,7 +23,7 @@
               </div>
             </div>
             <div class="card-body" id="signin">
-              <form role="form" class="text-start">
+              <form role="form" class="text-start" action="/signin" method="post">
                 <div class="input-group input-group-outline my-3">
                   <label class="form-label" for="username">Username</label>
                   <input type="text" class="form-control" id="username" name="username">
@@ -41,7 +41,7 @@
                 </div>
                 <p class="mt-4 text-sm text-center">
                   Don't have an account?
-                  <a href="{{ url_for('signup') }}" class="text-info text-gradient font-weight-bold">Sign UP</a>
+                  <a href="/signup" class="text-info text-gradient font-weight-bold">Sign UP</a>
                 </p>
               </form>
             </div>
@@ -58,34 +58,4 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-<script>
-
-  $(function () {
-    $('#signin').on('submit', function (e) {
-      e.preventDefault();
-      var username = $('#username').val();
-      var password = $('#password').val();
-      $.ajax({
-        url: 'http://localhost/auth/signin',
-        type: 'POST',
-        data: JSON.stringify({
-          username: username,
-          password: password,
-        }),
-        contentType: "application/json",
-        success: function (data) {
-          console.log(data);
-          if (data.status == 'success') {
-            window.location.href = '/';
-          } else {
-            alert(data.message);
-          }
-        },
-        error: function (data) {
-          console.log(data);
-        }
-      });
-    });
-  })
-</script>
 {% endblock javascripts %}

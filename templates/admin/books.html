@@ -1,246 +1,205 @@
-{% extends "admin/layouts/base.html" %} {% block title %} Books {% endblock %}
+{% extends 'admin/layouts/base.html' %}
 
-<!-- Element injected in the BODY element -->
-{% block body_class %} {% endblock body_class %}
+{% block title %} Books {% endblock title %}
 
-<!-- Specific Page CSS goes HERE  -->
+<!-- Specific CSS goes HERE -->
 {% block stylesheets %}
+<!-- DATATABLES -->
+<link href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.css">
+<!-- SELECT2 -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<!-- SUMMERNOTE -->
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+{% endblock stylesheets %}
 
-<!-- Google Font: Source Sans Pro -->
-<link
-  rel="stylesheet"
-  href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"
-/>
-<!-- Font Awesome -->
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='assets/plugins/fontawesome-free/css/all.min.css') }}?{{ cache_id }}"
-/>
-<!-- DataTables -->
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}?{{ cache_id }}"
-/>
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}?{{ cache_id }}"
-/>
-<link rel="stylesheet" href="{{ url_for('static', filename='assets/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}?{{ cache_id }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='assets/plugins/select2/css/select2.min.css') }}?{{ cache_id }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}?{{ cache_id }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='assets/plugins/summernote/summernote-bs4.min.css') }}?{{ cache_id }}">
-<!-- Theme style -->
-<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/adminlte.min.css') }}?{{ cache_id }}" />
+{% block content %}
 
-{% endblock stylesheets %} {% block content %}
+    <div class="container-fluid py-4">
 
-<!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
-  <!-- Content Header (Page header) -->
-  <section class="content-header">
-    <div class="container-fluid">
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <h1>Books</h1>
-        </div>
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item">
-              <a href="{{ url_for('admin_dashboard') }}">Home</a>
-            </li>
-            <li class="breadcrumb-item active">Books</li>
-          </ol>
-        </div>
-      </div>
-    </div>
-    <!-- /.container-fluid -->
-  </section>
-
-  <!-- Main content -->
-  <section class="content">
-    <div class="container-fluid">
       <div class="row">
+        <div class="col-3">
+          <button type="button" class="btn bg-gradient-info" data-bs-toggle="modal" data-bs-target="#create-book">
+            Create Book
+          </button>
+        </div>
         <div class="col-12">
-          <div class="card">
-            <div class="card-header">
-              <!-- <h3 class="card-title">Books List</h3> -->
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create-book">
-                Create Book
-              </button>
+          <div class="card mb-4">
+            <div class="card-header pb-0">
+              <h6>Books</h6>
             </div>
-            <!-- /.card-header -->
-            <div class="card-body">
-              <table id="books" class="table table-bordered table-striped">
-                <thead>
-                  <tr>
-                    <th>Cover Image</th>
-                    <th>Title</th>
-                    <th>Author</th>
-                    <th>Language</th>
-                    <th>File</th>
-                    <th>Created At</th>
-                    <th>Updated At</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for book in books %}
+            <div class="card-body px-0 pt-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0" id="books">
+                  <thead>
                     <tr>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cover Image</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Title</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Authors</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Language</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">File</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Created At</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Updated At</th>
+                      <th class="text-secondary opacity-7">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for book in books %}
+                    <tr>
+                        <td>
+                            <div class="d-flex px-2 py-1">
+                              <div>
+                                <img src="/static/uploads/books/{{ book.cover }}" class="avatar avatar-sm me-3" alt="user1">
+                              </div>
+                            </div>
+                          </td>
                       <td>
-                        <img src="/static/uploads/books/{{ book.cover }}" width="60" height="80" alt="">
+                        <div class="d-flex px-2 py-1">
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">{{ book.title|safe }}</h6>
+                          </div>
+                        </div>
                       </td>
-                      <td>{{ book.title|safe }}</td>
                       <td>
-                        {% for author in book.authors %}
+                        <div class="d-flex px-2 py-1">
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">
+                                {% for author in book.authors %}
                           {{ author.first_name }} {{ author.middle_name }} {{ author.last_name }}
                         {% endfor %}
+                            </h6>
+                          </div>
+                        </div>
                       </td>
                       <td>
-                        {% for language in languages %}
+                        <div class="d-flex px-2 py-1">
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">
+                                {% for language in languages %}
                           {% if language.id == book.language_id %}
                             {{ language.name }}
                           {% endif %}
                         {% endfor %}
+                            </h6>
+                          </div>
+                        </div>
                       </td>
                       <td>
-                        <a href="/static/uploads/books/{{ book.file }}">File</a>
+                        <div class="d-flex px-2 py-1">
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">
+                              <a href="/static/uploads/books/{{ book.file }}">File</a>
+                            </h6>
+                          </div>
+                        </div>
                       </td>
-                      <td>{{ book.created_at }}</td>
-                      <td>{{ book.updated_at }}</td>
-                      <td>
-                        <a href="#" class="btn btn-primary" id="edit-book">Edit</a>
-                        <a href="/admin/delete_book/{{ book.id }}" class="btn btn-danger" id="delete-book">Delete</a>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">{{ book.created_at }}</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">{{ book.updated_at }}</span>
+                      </td>
+                      <td class="align-middle">
+                        <div class="ms-auto">
+                          <a
+                            class="btn btn-link text-dark px-3 mb-0"
+                            href="/admin/edit_book/{{ book.id }}"
+                            ><i
+                              class="fas fa-pencil-alt text-dark me-2"
+                              aria-hidden="true"
+                            ></i
+                            >Edit</a
+                          >
+    
+                          <a
+                            class="btn btn-link text-danger text-gradient px-3 mb-0"
+                            href="/admin/delete_book/{{ book.id }}"
+                            ><i class="far fa-trash-alt me-2" aria-hidden="true"></i
+                            >Delete</a
+                          >
+                        </div>
                       </td>
                     </tr>
-                  {% endfor %}
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <th>Cover Image</th>
-                    <th>Title</th>
-                    <th>Author</th>
-                    <th>Language</th>
-                    <th>File</th>
-                    <th>Created At</th>
-                    <th>Updated At</th>
-                    <th>Actions</th>
-                  </tr>
-                </tfoot>
-              </table>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
             </div>
-            <!-- /.card-body -->
           </div>
-          <!-- /.card -->
         </div>
-        <!-- /.col -->
       </div>
-      <!-- /.row -->
+      {% include "admin/includes/footer.html" %}
+
     </div>
-    <!-- /.container-fluid -->
-  </section>
-  <!-- /.content -->
-</div>
 
-<div class="modal fade" id="create-book">
-  <div class="modal-dialog">
-    <form class="modal-content" enctype="multipart/form-data" action="{{ url_for('create_book') }}" method="post">
-      <div class="modal-header">
-        <h4 class="modal-title">Create Book</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label for="cover">Cover Image</label>
-          <div class="input-group">
-            <div class="custom-file">
-              <input type="file" class="custom-file-input" name="cover" id="cover" required>
-              <label class="custom-file-label" for="cover">Choose image</label>
-            </div>
+    <div class="modal fade" id="create-book" tabindex="-1" aria-labelledby="create-bookLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <form class="modal-content" enctype="multipart/form-data" action="/admin/create_book" method="post">
+          <div class="modal-header">
+            <h5 class="modal-title" id="create-bookLabel">Create Book</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-        <div class="form-group">
-          <label for="title">Title</label>
-          <input class="form-control" type="text" name="title" id="title" required>
-        </div>
-        <div class="form-group">
-          <label for="authors">Authors</label>
-          <select class="select2" multiple="multiple" data-placeholder="Select an author" name="authors" id="authors" style="width: 100%;">
-            {% for author in authors %}
-              <option value="{{ author.id }}">{{ author.first_name }} {{ author.middle_name }} {{ author.last_name }}</option>
-            {% endfor %}
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="language">Language</label>
-          <select class="form-control select2" name="language" id="languages" required>
-            <option value="">Select Language</option>
-            {% for language in languages %}
-              <option value="{{ language.id }}">{{ language.name }}</option>
-            {% endfor %}
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="description">Description</label>
-          <textarea class="form-control" placeholder="Enter description" name="description" id="description" cols="30" rows="10"></textarea>
-        </div>
-        <div class="form-group">
-          <label for="file">File</label>
-          <div class="input-group">
-            <div class="custom-file">
-              <input type="file" class="custom-file-input" name="file" id="file" required>
-              <label class="custom-file-label" for="file">Choose file</label>
-            </div>
+          <div class="modal-body">
+            <div class="input-group input-group-dynamic m-2">
+                <!-- <label class="form-label" for="file">File</label> -->
+                <input type="file" name="cover" id="cover" class="form-control" placeholder="Enter Cover image Name" required>
+              </div>
+              <div class="input-group input-group-dynamic m-2">
+                <!-- <label class="form-label" for="file">File</label> -->
+                <input type="text" name="title" id="title" class="form-control" placeholder="Enter Title" required>
+              </div>
+              <div class="input-group input-group-dynamic m-2">
+                <select class="form-control select2" multiple="multiple" name="authors" id="authors" style="width: 100%;">
+                  {% for author in authors %}
+                    <option value="{{ author.id }}">{{ author.first_name }} {{ author.middle_name }} {{ author.last_name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="input-group input-group-dynamic m-2">
+                <!-- <label class="form-label" for="file">File</label> -->
+                <select class="form-control select2" name="language" id="language">
+                  <option value="">Select a language</option>
+                  {% for language in languages %}
+                    <option value="{{ language.id }}">{{ language.name }}</option>
+                  {% endfor %}
+              </select>
+              </div>
+              <div class="input-group input-group-dynamic m-2">
+                <!-- <label class="form-label" for="file">File</label> -->
+                <input type="file" name="file" id="file" class="form-control" placeholder="Enter Cover image Name" required>
+              </div>
+              <div class="input-group input-group-dynamic m-2">
+                <!-- <label class="form-label" for="file">File</label> -->
+                <textarea class="form-control"  name="description" id="description" cols="30" rows="10" placeholder="Enter Description"></textarea>
+              </div>
           </div>
-        </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn bg-gradient-info">Submit</button>
+          </div>
+        </form>
       </div>
-      <div class="modal-footer justify-content-between">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </div>
-    </form>
-  </div>
-</div>
-
+    </div>
 {% endblock content %}
-
-<!-- Specific Page JS goes HERE  -->
+<!-- JQUERY -->
+<!-- Specific JS goes HERE --> 
 {% block javascripts %}
-
-<!-- jQuery -->
-<script src="{{ url_for('static', filename='assets/plugins/jquery/jquery.min.js') }}?{{ cache_id }}"></script>
-<!-- Bootstrap 4 -->
-<script src="{{ url_for('static', filename='assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}?{{ cache_id }}"></script>
-<script src="{{ url_for('static', filename='assets/plugins/select2/js/select2.full.min.js') }}?{{ cache_id }}"></script>
-<!-- DataTables -->
-<script src="{{ url_for('static', filename='assets/plugins/datatables/jquery.dataTables.min.js') }}?{{ cache_id }}"></script>
-<script src="{{ url_for('static', filename='assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}?{{ cache_id }}"></script>
-<script src="{{ url_for('static', filename='assets/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}?{{ cache_id }}"></script>
-<script src="{{ url_for('static', filename='assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}?{{ cache_id }}"></script>
-<script src="{{ url_for('static', filename='assets/plugins/sweetalert2/sweetalert2.min.js') }}?{{ cache_id }}"></script>
-<script src="{{ url_for('static', filename='assets/plugins/summernote/summernote-bs4.min.js') }}?{{ cache_id }}"></script>
-<!-- AdminLTE App -->
-<script src="{{ url_for('static', filename='assets/js/adminlte.min.js') }}?{{ cache_id }}"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="{{ url_for('static', filename='assets/js/demo.js') }}?{{ cache_id }}"></script>
-<!-- page script -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<!-- DTATABLES -->
+<script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.js"></script>
+<!-- SELECT2 -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<!-- SUMMERNOTE -->
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+<!-- Page Scripts -->
 <script>
   $(function () {
-    //Initialize Select2 Elements
-    $('.select2').select2()
-
-    //Initialize Select2 Elements
-    $('.select2bs4').select2({
-      theme: 'bootstrap4'
-    })
-    // Summernote
-    $('#description').summernote()
-
     $("#books").DataTable({
       responsive: true,
       autoWidth: false,
     });
-  });
-</script>
 
+    $('.select2').select2()
+    $('#description').summernote()
+});
+</script>
 {% endblock javascripts %}
