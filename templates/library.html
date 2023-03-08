@@ -31,14 +31,36 @@
     </div>
   </header>
 
-  <section>
-    <div class="page-header min-vh-100">
-      <div class="container">
-        <div class="row">
+  <div class="container">
+  <div class="card card-body shadow-xl mx-3 mx-md-4 mt-n6">
+    <section>
+      <div class="page-header min-vh-100">
+        <div class="container">
+          <div class="row">
+            <div class="container">
+              <div class="row books">
+                {% for book in books %}
+          
+                <div class="col-x2-1 col-lg-2 col-md-3 col-sm-4 col-6 mt-md-0">
+                  <a href="/book/{{ book.id }}">
+                    <div class="card shadow-lg move-on-hover min-height-100 min-height-100">
+                      <img class="w-100 my-auto" src="/static/uploads/books/{{ book.cover }}" alt="hero">
+                    </div>
+                    <div class="mt-2 ms-2">
+                      <h6 class="mb-0">{{ book.title|safe }}</h6>
+                    </div>
+                  </a>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+      
+    </section>
         </div>
       </div>
-    </div>
-  </section>
 
 {% endblock content %}
 

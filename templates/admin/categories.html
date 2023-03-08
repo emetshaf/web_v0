@@ -15,6 +15,11 @@
             Create Category
           </button>
         </div>
+        <div class="col-3">
+          <button type="button" class="btn bg-gradient-info" data-bs-toggle="modal" data-bs-target="#create-subcategory">
+            Create SubCategory
+          </button>
+        </div>
         <div class="col-12">
           <div class="card mb-4">
             <div class="card-header pb-0">
@@ -75,6 +80,81 @@
             </div>
           </div>
         </div>
+
+        <div class="col-12">
+          <div class="card mb-4">
+            <div class="card-header pb-0">
+              <h6>SubCategories</h6>
+            </div>
+            <div class="card-body px-0 pt-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SubCategory Name</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Category Name</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Created At</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Updated At</th>
+                      <th class="text-secondary opacity-7">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for subcategory in subcategories %}
+                    <tr>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">{{ subcategory.name }}</h6>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">
+                              {% for category in categories %}
+                                {% if category.id == subcategory.category_id %}
+                                  {{ category.name }}
+                                {% endif %}
+                              {% endfor %}
+                            </h6>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">{{ subcategory.created_at }}</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">{{ subcategory.updated_at }}</span>
+                      </td>
+                      <td class="align-middle">
+                        <div class="ms-auto">
+                          <a
+                            class="btn btn-link text-dark px-3 mb-0"
+                            href="/admin/edit_category/{{ subcategory.id }}"
+                            ><i
+                              class="fas fa-pencil-alt text-dark me-2"
+                              aria-hidden="true"
+                            ></i
+                            >Edit</a
+                          >
+    
+                          <a
+                            class="btn btn-link text-danger text-gradient px-3 mb-0"
+                            href="/admin/delete_category/{{ subcategory.id }}"
+                            ><i class="far fa-trash-alt me-2" aria-hidden="true"></i
+                            >Delete</a
+                          >
+                        </div>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       {% include "admin/includes/footer.html" %}
 
@@ -88,6 +168,36 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
+              <div class="input-group input-group-dynamic">
+                <!-- <label class="form-label" for="file">File</label> -->
+                <input type="text" name="name" id="name" class="form-control" placeholder="Enter Name">
+              </div>
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn bg-gradient-info">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="modal fade" id="create-subcategory" tabindex="-1" aria-labelledby="create-subcategoryLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <form class="modal-content" action="/admin/create_subcategory" method="post">
+          <div class="modal-header">
+            <h5 class="modal-title" id="create-subcategoryLabel">Create SubCategory</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group input-group-dynamic mb-2">
+              <!-- <label class="form-label" for="file">File</label> -->
+              <select class="form-control" name="category_id" id="category_id">
+                <option value="">Select a Category</option>
+                {% for category in categories %}
+                <option value="{{ category.id }}">{{ category.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
               <div class="input-group input-group-dynamic">
                 <!-- <label class="form-label" for="file">File</label> -->
                 <input type="text" name="name" id="name" class="form-control" placeholder="Enter Name">

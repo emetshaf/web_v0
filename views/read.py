@@ -10,6 +10,8 @@ def read(book_id):
     """Read Page
     """
     if api_status()['status'] == 'OK':
+        if get_username() is None:
+            return redirect('/signin')
         cache_id = uuid4()
         url = "http://localhost/api/v1/books/" + book_id
         book = requests.get(url).json()

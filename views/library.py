@@ -26,9 +26,11 @@ def library():
                 return response
             data = res_data.get('data')
             username = data['username']
+            books = data['libraries']
             response = make_response(render_template(
                 'library.html',
                 username=username,
+                books=books,
                 cache_id=cache_id,
             ))
             return response

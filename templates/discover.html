@@ -29,7 +29,8 @@
     </div>
   </header>
 
-  <div class="card card-body shadow-xl mx-3 mx-md-4 mt-n6">
+  <div class="container">
+  <div class="card container card-body shadow-xl mx-3 mx-md-4 mt-n6">
   <section>
     <div class="page-header min-vh-100">
       <div class="container">
@@ -38,7 +39,7 @@
             <div class="row books">
               {% for book in books %}
         
-              <div class="col-lg-2 col-md-3 col-sm-3 col-xs-2 mt-md-0">
+              <div class="col-xl-2 col-lg-2 col-md-3 col-sm-4 col-6 mt-md-0">
                 <a href="/book/{{ book.id }}">
                   <div class="card shadow-lg move-on-hover min-height-100 min-height-100">
                     <img class="w-100 my-auto" src="/static/uploads/books/{{ book.cover }}" alt="hero">
@@ -61,11 +62,11 @@
             </div>
           </div>
         </div>
-        </div>
       </div>
     </div>
   </section>
-      </div>
+  </div>
+</div>
 {% endblock %}
 
 <!-- Specific Page JS goes HERE  -->

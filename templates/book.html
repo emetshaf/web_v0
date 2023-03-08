@@ -32,7 +32,9 @@ include 'includes/navigation.html' %}
             </div>
           </a>
           {% endfor %}
+          {% if username != None %}
           <a href="/read/{{ book.id }}" class="btn btn-info">Read</a>
+          {% endif %}
         </div>
       </div>
     </div>

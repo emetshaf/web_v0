@@ -10,3 +10,4 @@ from web.views.library import *
 from web.views.book import *
 from web.views.author import *
 from web.views.read import *
+from web.views.language import *

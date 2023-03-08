@@ -16,10 +16,13 @@ def admin_categories():
             return redirect('/admin/signin')
         url = "http://localhost/api/v1/categories"
         categories = requests.get(url).json()
+        subcategories = requests.get(
+            "http://localhost/api/v1/subcategories").json()
         cache_id = uuid4()
         return render_template(
             'admin/categories.html',
             categories=categories,
+            subcategories=subcategories,
             segment='categories',
             cache_id=cache_id,
         )
@@ -65,6 +68,20 @@ def create_category():
         name = request.form['name']
         payload = {
             'name': name
+        }
+        requests.post(url, json=payload)
+        return redirect('/admin/categories')
+
+
+@admin_views.route('/create_subcategory', methods=['POST'], strict_slashes=False)
+def create_subcategory():
+    if request.method == 'POST':
+        url = "http://localhost/api/v1/subcategories/"
+        name = request.form['name']
+        category_id = request.form['category_id']
+        payload = {
+            'name': name,
+            'category_id': category_id
         }
         requests.post(url, json=payload)
         return redirect('/admin/categories')

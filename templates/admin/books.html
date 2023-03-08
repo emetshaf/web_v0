@@ -5,7 +5,7 @@
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}
 <!-- DATATABLES -->
-<link href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.css">
+<link href="https://cdn.datatables.net/v/bs5/dt-1.13.3/datatables.min.css" rel="stylesheet"/>
 <!-- SELECT2 -->
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <!-- SUMMERNOTE -->
@@ -55,7 +55,9 @@
                       <td>
                         <div class="d-flex px-2 py-1">
                           <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">{{ book.title|safe }}</h6>
+                            <h6 class="mb-0 text-sm">
+                              <a href="/book/{{ book.id }}">{{ book.title|safe }}</a>
+                              </h6>
                           </div>
                         </div>
                       </td>
@@ -64,7 +66,9 @@
                           <div class="d-flex flex-column justify-content-center">
                             <h6 class="mb-0 text-sm">
                                 {% for author in book.authors %}
-                          {{ author.first_name }} {{ author.middle_name }} {{ author.last_name }}
+                                <a href="/author/{{ author.id }}">
+                                  {{ author.first_name }} {{ author.middle_name }} {{ author.last_name }}
+                                </a>
                         {% endfor %}
                             </h6>
                           </div>
@@ -76,7 +80,10 @@
                             <h6 class="mb-0 text-sm">
                                 {% for language in languages %}
                           {% if language.id == book.language_id %}
+                          <a href="/language/{{ language.id }}">
                             {{ language.name }}
+                          </a>
+                            
                           {% endif %}
                         {% endfor %}
                             </h6>
@@ -87,7 +94,10 @@
                         <div class="d-flex px-2 py-1">
                           <div class="d-flex flex-column justify-content-center">
                             <h6 class="mb-0 text-sm">
-                              <a href="/static/uploads/books/{{ book.file }}">File</a>
+                              <a href="/read/{{ book.id }}">
+                                <i class="fa fa-file"></i>
+                                File
+                              </a>
                             </h6>
                           </div>
                         </div>
@@ -121,6 +131,18 @@
                     </tr>
                     {% endfor %}
                   </tbody>
+                  <tfoot>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cover Image</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Title</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Authors</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Language</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">File</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Created At</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Updated At</th>
+                    <th class="text-secondary opacity-7">Actions</th>
+                  </tr>
+                  </tfoot>
                 </table>
               </div>
             </div>
@@ -185,7 +207,7 @@
 {% block javascripts %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <!-- DTATABLES -->
-<script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.js"></script>
+<script src="https://cdn.datatables.net/v/bs5/dt-1.13.3/datatables.min.js"></script>
 <!-- SELECT2 -->
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <!-- SUMMERNOTE -->
