@@ -3,13 +3,14 @@ import json
 import requests
 from uuid import uuid4
 from web.views.admin import admin_views
-from web.views.common import api_status
+from web.config import api_status
 
 
 @admin_views.route('/signup', methods=['GET', 'POST'], strict_slashes=False)
 def admin_signup():
     """Admin Signup Page
     """
+    cache_id = uuid4()
     if api_status()['status'] == 'OK':
         access_token = request.cookies.get('access_token')
         if access_token != None:
@@ -24,28 +25,23 @@ def admin_signup():
             }
             requests.post(url, json=payload)
             return redirect('/admin/signin')
-        cache_id = uuid4()
         return render_template(
             'admin/sign-up.html',
             cache_id=cache_id,
         )
-    else:
-        return render_template(
-            '500.html',
-            cache_id=cache_id,
-        )
+    return render_template('error.html', error_code='500', message='Internal Server Error', cache_id=cache_id)
 
 
 @ admin_views.route('/signin', methods=['GET', 'POST'], strict_slashes=False)
 def admin_signin():
     """Admin Signin Page
     """
+    cache_id = uuid4()
     if api_status()['status'] == 'OK':
         access_token = request.cookies.get('access_token')
         if access_token != None:
             return redirect('/admin')
         url = "http://localhost/auth/signin"
-        cache_id = uuid4()
         if request.method == 'POST':
             username = request.form['username']
             password = request.form['password']
@@ -65,11 +61,7 @@ def admin_signin():
             'admin/sign-in.html',
             cache_id=cache_id,
         )
-    else:
-        return render_template(
-            '500.html',
-            cache_id=cache_id,
-        )
+    return render_template('error.html', error_code='500', message='Internal Server Error', cache_id=cache_id)
 
 
 @admin_views.route('/signout', methods=['GET'], strict_slashes=False)

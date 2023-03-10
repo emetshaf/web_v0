@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, make_response
 import requests
 from uuid import uuid4
-from web.views.common import api_status
+from web.config import api_status
 from web.views import app_views
 
 
@@ -13,7 +13,6 @@ def library():
     if api_status()['status'] == 'OK':
         access_token = request.cookies.get('access_token')
         if access_token != None:
-            url = 'http://localhost/auth/status'
             headers = {'Authorization': 'access_token {}'.format(
                 access_token)}
             res = requests.get(

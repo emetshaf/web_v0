@@ -4,36 +4,33 @@ import os
 import requests
 from uuid import uuid4
 from web.views.admin import admin_views
-from web.views.common import api_status, allowed_file, UPLOAD_FOLDER, get_username
+from web.config import api_status, allowed_file, UPLOAD_FOLDER, get_username
 
 
 @ admin_views.route('/languages', strict_slashes=False)
 def admin_languages():
     """Admin Languages Management Page
     """
+    cache_id = uuid4()
     if api_status()['status'] == 'OK':
         if get_username() is None:
             return redirect('/admin/signin')
         url = "http://localhost/api/v1/languages"
         languages = requests.get(url).json()
-        cache_id = uuid4()
         return render_template(
             'admin/languages.html',
             languages=languages,
             segment='languages',
             cache_id=cache_id,
         )
-    else:
-        return render_template(
-            '500.html',
-            cache_id=cache_id,
-        )
+    return render_template('error.html', error_code='500', message='Internal Server Error', cache_id=cache_id)
 
 
 @admin_views.route('/edit_language/<language_id>', methods=['GET', 'POST'], strict_slashes=False)
 def edit_language(language_id):
     """Admin Edit Language Page
     """
+    cache_id = uuid4()
     if api_status()['status'] == 'OK':
         url = "http://localhost/api/v1/languages/" + language_id
         language = requests.get(url).json()
@@ -44,17 +41,12 @@ def edit_language(language_id):
             }
             requests.put(url, json=payload)
             return redirect('/admin/languages')
-        cache_id = uuid4()
         return render_template(
             'admin/edit_language.html',
             language=language,
             cache_id=cache_id,
         )
-    else:
-        return render_template(
-            '500.html',
-            cache_id=cache_id,
-        )
+    return render_template('error.html', error_code='500', message='Internal Server Error', cache_id=cache_id)
 
 
 @ admin_views.route('/create_language', methods=['POST'], strict_slashes=False)

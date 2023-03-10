@@ -32,6 +32,16 @@ title %}
                     File
                   </th>
                   <th
+                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+                  >
+                    Book
+                  </th>
+                  <th
+                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+                  >
+                    Narrator
+                  </th>
+                  <th
                     class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
                   >
                     Created At
@@ -50,7 +60,37 @@ title %}
                   <td>
                     <div class="d-flex px-2 py-1">
                       <div class="d-flex flex-column justify-content-center">
-                        <h6 class="mb-0 text-sm">{{ audiobook.file }}</h6>
+                        <h6 class="mb-0 text-sm"><i
+                          class="fas fa-file-audio text-dark me-2"
+                          aria-hidden="true"
+                        ></i
+                        ><a href="/static/uploads/audiobooks/{{ audiobook.file }}">file</a></h6>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="d-flex px-2 py-1">
+                      <div class="d-flex flex-column justify-content-center">
+                        <h6 class="mb-0 text-sm">
+                          {% for book in books %}
+                            {% if book.id == audiobook.book_id %}
+                              {{ book.title }}
+                            {% endif %}
+                          {% endfor %}
+                        </h6>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="d-flex px-2 py-1">
+                      <div class="d-flex flex-column justify-content-center">
+                        <h6 class="mb-0 text-sm">
+                          {% for narrator in narrators %}
+                            {% if narrator.id == audiobook.narrator_id %}
+                              {{ narrator.first_name }} {{ narrator.middle_name }} {{ narrator.last_name }}
+                            {% endif %}
+                          {% endfor %}
+                        </h6>
                       </div>
                     </div>
                   </td>
@@ -104,7 +144,7 @@ title %}
   aria-hidden="true"
 >
   <div class="modal-dialog">
-    <form class="modal-content" action="/admin/create_audiobook" method="post">
+    <form class="modal-content" enctype="multipart/form-data" action="/admin/create_audiobook" method="post">
       <div class="modal-header">
         <h5 class="modal-title" id="create-AudioBookLabel">Create AudioBook</h5>
         <button
@@ -117,13 +157,25 @@ title %}
       <div class="modal-body">
         <div class="input-group input-group-dynamic">
           <!-- <label class="form-label" for="file">File</label> -->
-          <input
-            type="text"
-            name="file"
-            id="file"
-            class="form-control"
-            placeholder="Enter File"
-          />
+          <input type="file" name="file" id="file" class="form-control" placeholder="Enter Cover image Name" required>
+        </div>
+        <div class="input-group input-group-dynamic m-2">
+          <!-- <label class="form-label" for="file">File</label> -->
+          <select class="form-control select2" name="book_id" id="book_id">
+            <option value="">Select a Book</option>
+            {% for book in books %}
+              <option value="{{ book.id }}">{{ book.title }}</option>
+            {% endfor %}
+        </select>
+        </div>
+        <div class="input-group input-group-dynamic m-2">
+          <!-- <label class="form-label" for="file">File</label> -->
+          <select class="form-control select2" name="narrator_id" id="narrator_id">
+            <option value="">Select a narrator</option>
+            {% for narrator in narrators %}
+              <option value="{{ narrator.id }}">{{ narrator.first_name }} {{ narrator.middle_name }} {{ narrator.last_name }}</option>
+            {% endfor %}
+        </select>
         </div>
       </div>
       <div class="modal-footer justify-content-between">

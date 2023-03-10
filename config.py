@@ -5,7 +5,7 @@ import requests
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-UPLOAD_FOLDER = '/home/mubareksd/Development/projects/mubareksd/emetshaf/emetshaf/web' + '/static/uploads'
+UPLOAD_FOLDER = APP_ROOT + '/static/uploads'
 
 ALLOWED_EXTENSIONS = set(
     ['txt', 'webp', 'epub', 'png', 'jpg', 'jpeg', 'gif', 'mp3', 'mp4', 'oog', 'wma'])
@@ -14,7 +14,6 @@ ALLOWED_EXTENSIONS = set(
 def get_username():
     access_token = request.cookies.get('access_token')
     if access_token != None:
-        url = 'http://localhost/auth/status'
         headers = {'Authorization': 'access_token {}'.format(
             access_token)}
         res = requests.get(

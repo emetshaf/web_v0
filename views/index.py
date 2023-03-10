@@ -1,4 +1,4 @@
-from web.views.common import api_status, get_username
+from web.config import api_status, get_username
 from flask import render_template, request, redirect, make_response
 import requests
 from uuid import uuid4

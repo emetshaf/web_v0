@@ -4,36 +4,33 @@ import os
 import requests
 from uuid import uuid4
 from web.views.admin import admin_views
-from web.views.common import api_status, allowed_file, UPLOAD_FOLDER, get_username
+from web.config import api_status, allowed_file, UPLOAD_FOLDER, get_username
 
 
 @ admin_views.route('/authors', strict_slashes=False)
 def admin_authors():
     """Admin Authors Management Page
     """
+    cache_id = uuid4()
     if api_status()['status'] == 'OK':
         if get_username() is None:
             return redirect('/admin/signin')
         url = "http://localhost/api/v1/authors"
         authors = requests.get(url).json()
-        cache_id = uuid4()
         return render_template(
             'admin/authors.html',
             authors=authors,
             segment='authors',
             cache_id=cache_id,
         )
-    else:
-        return render_template(
-            '500.html',
-            cache_id=cache_id,
-        )
+    return render_template('error.html', error_code='500', message='Internal Server Error', cache_id=cache_id)
 
 
 @admin_views.route('/edit_author/<author_id>', methods=['GET', 'POST'], strict_slashes=False)
 def edit_author(author_id):
     """Admin Edit Author Page
     """
+    cache_id = uuid4()
     if api_status()['status'] == 'OK':
         url = "http://localhost/api/v1/authors/" + author_id
         author = requests.get(url).json()
@@ -65,17 +62,12 @@ def edit_author(author_id):
                 }
             requests.put(url, json=payload)
             return redirect('/admin/authors')
-        cache_id = uuid4()
         return render_template(
             'admin/edit_author.html',
             author=author,
             cache_id=cache_id,
         )
-    else:
-        return render_template(
-            '500.html',
-            cache_id=cache_id,
-        )
+    return render_template('error.html', error_code='500', message='Internal Server Error', cache_id=cache_id)
 
 
 @ admin_views.route('/create_author', methods=['POST'], strict_slashes=False)

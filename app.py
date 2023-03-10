@@ -5,18 +5,11 @@ import os
 import requests
 from uuid import uuid4
 import logging
+from web.config import APP_ROOT, UPLOAD_FOLDER, ALLOWED_EXTENSIONS
 
 
 logging.basicConfig(level=logging.DEBUG, filename='web.log', filemode='w',
                     format='%(name)s - %(levelname)s - %(message)s')
-
-
-APP_ROOT = os.path.dirname(os.path.abspath(__file__))
-UPLOAD_FOLDER = APP_ROOT + '/static/uploads'
-ALLOWED_EXTENSIONS = set(
-    ['txt', 'webp', 'epub', 'png',
-     'jpg', 'jpeg', 'gif', 'mp3', 'mp4', 'oog', 'wma'])
-
 
 app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
@@ -30,15 +23,17 @@ app.register_blueprint(admin_views)
 @app.errorhandler(404)
 def not_found(error):
     cache_id = uuid4()
-    return render_template('error.html', error_code='404',
-                           message='Page Not Found', cache_id=cache_id)
+    error.message = 'Page not found'
+    return render_template('error.html', error_code=error.code,
+                           message=error.message, cache_id=cache_id)
 
 
 @app.errorhandler(500)
 def internal_error(error):
     cache_id = uuid4()
-    return render_template('error.html', error_code='500',
-                           message='Internal Server Error', cache_id=cache_id)
+    error.message = 'Internal Server Error'
+    return render_template('error.html', error_code=error.code,
+                           message=error.message, cache_id=cache_id)
 
 
 if __name__ == '__main__':

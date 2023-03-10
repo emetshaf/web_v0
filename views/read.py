@@ -1,7 +1,7 @@
 from flask import render_template, redirect
 import requests
 from uuid import uuid4
-from web.views.common import api_status, get_username
+from web.config import api_status, get_username
 from web.views import app_views
 
 
@@ -24,8 +24,4 @@ def read(book_id):
             username=get_username(),
             cache_id=cache_id,
         )
-    else:
-        return render_template(
-            '500.html',
-            cache_id=cache_id,
-        )
+    return render_template('error.html', error_code='500', message='Internal Server Error', cache_id=cache_id)
